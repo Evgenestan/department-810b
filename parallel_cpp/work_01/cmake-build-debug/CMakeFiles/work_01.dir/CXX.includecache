@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/vasil/magistracy_810b/semestr_01/parallel_cpp/work_01/main.cpp
+iostream
+-
+vector.h
+/home/vasil/magistracy_810b/semestr_01/parallel_cpp/work_01/vector.h
+
+/home/vasil/magistracy_810b/semestr_01/parallel_cpp/work_01/vector.cpp
+vector.h
+/home/vasil/magistracy_810b/semestr_01/parallel_cpp/work_01/vector.h
+cmath
+-
+
+/home/vasil/magistracy_810b/semestr_01/parallel_cpp/work_01/vector.h
+cmath
+-
+ostream
+-
+
