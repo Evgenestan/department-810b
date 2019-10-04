@@ -1,32 +1,32 @@
---1.Âûáðàòü âñå çàêàçû (SALES_ORDER)
+--1.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã¢Ã±Ã¥ Ã§Ã ÃªÃ Ã§Ã» (SALES_ORDER)
 SELECT * FROM sales_order;
---2.Âûáðàòü âñå çàêàçû, ââåäåííûå ïîñëå 1 ÿíâàðÿ 2016 ãîäà
+--2.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã¢Ã±Ã¥ Ã§Ã ÃªÃ Ã§Ã», Ã¢Ã¢Ã¥Ã¤Ã¥Ã­Ã­Ã»Ã¥ Ã¯Ã®Ã±Ã«Ã¥ 1 Ã¿Ã­Ã¢Ã Ã°Ã¿ 2016 Ã£Ã®Ã¤Ã 
 SELECT * FROM sales_order WHERE ORDER_DATE > to_date('01-01-2016','DD-MM-YYYY');
---3.Âûáðàòü âñå çàêàçû, ââåäåííûå ïîñëå 1 ÿíâàðÿ 2016 ãîäà è äî 15 èþëÿ 2016 ãîäà
+--3.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã¢Ã±Ã¥ Ã§Ã ÃªÃ Ã§Ã», Ã¢Ã¢Ã¥Ã¤Ã¥Ã­Ã­Ã»Ã¥ Ã¯Ã®Ã±Ã«Ã¥ 1 Ã¿Ã­Ã¢Ã Ã°Ã¿ 2016 Ã£Ã®Ã¤Ã  Ã¨ Ã¤Ã® 15 Ã¨Ã¾Ã«Ã¿ 2016 Ã£Ã®Ã¤Ã 
 SELECT * FROM sales_order WHERE ORDER_DATE > to_date('01-01-2016','DD-MM-YYYY')
                             AND ORDER_DATE < to_date('15-07-2016','DD-MM-YYYY');
---4.Íàéòè ìåíåäæåðîâ ñ èìåíåì 'Henry' 
+--4.ÃÃ Ã©Ã²Ã¨ Ã¬Ã¥Ã­Ã¥Ã¤Ã¦Ã¥Ã°Ã®Ã¢ Ã± Ã¨Ã¬Ã¥Ã­Ã¥Ã¬ 'Henry' 
 SELECT * FROM manager WHERE MANAGER_FIRST_NAME = 'Henry';
---5.Âûáðàòü âñå çàêàçû ìåíåäæåðîâ ñ èìåíåì Henry
+--5.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã¢Ã±Ã¥ Ã§Ã ÃªÃ Ã§Ã» Ã¬Ã¥Ã­Ã¥Ã¤Ã¦Ã¥Ã°Ã®Ã¢ Ã± Ã¨Ã¬Ã¥Ã­Ã¥Ã¬ Henry
 SELECT * FROM manager, sales_order 
     WHERE manager.manager_id = sales_order.manager_id 
     AND MANAGER_FIRST_NAME = 'Henry';
 
---6.Âûáðàòü âñå óíèêàëüíûå ñòðàíû èç òàáëèöû CITY
+--6.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã¢Ã±Ã¥ Ã³Ã­Ã¨ÃªÃ Ã«Ã¼Ã­Ã»Ã¥ Ã±Ã²Ã°Ã Ã­Ã» Ã¨Ã§ Ã²Ã Ã¡Ã«Ã¨Ã¶Ã» CITY
 SELECT DISTINCT country
     FROM CITY;
---7.Âûáðàòü âñå óíèêàëüíûå êîìáèíàöèè ñòðàíû è ðåãèîíà èç òàáëèöû CITY
+--7.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã¢Ã±Ã¥ Ã³Ã­Ã¨ÃªÃ Ã«Ã¼Ã­Ã»Ã¥ ÃªÃ®Ã¬Ã¡Ã¨Ã­Ã Ã¶Ã¨Ã¨ Ã±Ã²Ã°Ã Ã­Ã» Ã¨ Ã°Ã¥Ã£Ã¨Ã®Ã­Ã  Ã¨Ã§ Ã²Ã Ã¡Ã«Ã¨Ã¶Ã» CITY
 SELECT DISTINCT country, region
     FROM CITY;
---8.Âûáðàòü âñå ñòðàíû èç òàáëèöû CITY ñ êîëè÷åñòâîì ãîðîäîâ â íèõ.
+--8.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã¢Ã±Ã¥ Ã±Ã²Ã°Ã Ã­Ã» Ã¨Ã§ Ã²Ã Ã¡Ã«Ã¨Ã¶Ã» CITY Ã± ÃªÃ®Ã«Ã¨Ã·Ã¥Ã±Ã²Ã¢Ã®Ã¬ Ã£Ã®Ã°Ã®Ã¤Ã®Ã¢ Ã¢ Ã­Ã¨Ãµ.
 SELECT COUNT(region), country
     FROM CITY
     GROUP BY country;
---9.Âûáðàòü êîëè÷åñòâî òîâàðîâ (QTY), ïðîäàííîå ñ 1 ïî 30 ÿíâàðÿ 2016 ãîäà.
+--9.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ ÃªÃ®Ã«Ã¨Ã·Ã¥Ã±Ã²Ã¢Ã® Ã²Ã®Ã¢Ã Ã°Ã®Ã¢ (QTY), Ã¯Ã°Ã®Ã¤Ã Ã­Ã­Ã®Ã¥ Ã± 1 Ã¯Ã® 30 Ã¿Ã­Ã¢Ã Ã°Ã¿ 2016 Ã£Ã®Ã¤Ã .
 SELECT sale_qty 
     FROM mv_fact_sale 
     WHERE sale_date BETWEEN to_date('01-01-2016','DD-MM-YYYY') AND to_date('30-01-2016','DD-MM-YYYY');
---10.Âûáðàòü âñå óíèêàëüíûå íàçâàíèÿ ãîðîäîâ, ðåãèîíîâ è ñòðàí â îäíîé êîëîíêå
+--10.Ã‚Ã»Ã¡Ã°Ã Ã²Ã¼ Ã¢Ã±Ã¥ Ã³Ã­Ã¨ÃªÃ Ã«Ã¼Ã­Ã»Ã¥ Ã­Ã Ã§Ã¢Ã Ã­Ã¨Ã¿ Ã£Ã®Ã°Ã®Ã¤Ã®Ã¢, Ã°Ã¥Ã£Ã¨Ã®Ã­Ã®Ã¢ Ã¨ Ã±Ã²Ã°Ã Ã­ Ã¢ Ã®Ã¤Ã­Ã®Ã© ÃªÃ®Ã«Ã®Ã­ÃªÃ¥
 SELECT region FROM CITY
 	UNION SELECT country FROM CITY
     UNION SELECT city_name FROM CITY;
@@ -36,6 +36,13 @@ SELECT * FROM manager;        --===
 SELECT * FROM mv_fact_sale;   --===
 --=================================
 
---11.Âûâåñòè èìåíà è ôàìèëèè ìåíåäæåð(îâ), ïðîäàâøåãî òîâàðîâ â ÿíâàðå 2016 ãîäà íà íàèáîëüøóþ ñóììó.
-SELECT manager_first_name, manager_last_name FROM manager;
-    where 
+--11.Ã‚Ã»Ã¢Ã¥Ã±Ã²Ã¨ Ã¨Ã¬Ã¥Ã­Ã  Ã¨ Ã´Ã Ã¬Ã¨Ã«Ã¨Ã¨ Ã¬Ã¥Ã­Ã¥Ã¤Ã¦Ã¥Ã°(Ã®Ã¢), Ã¯Ã°Ã®Ã¤Ã Ã¢Ã¸Ã¥Ã£Ã® Ã²Ã®Ã¢Ã Ã°Ã®Ã¢ Ã¢ Ã¿Ã­Ã¢Ã Ã°Ã¥ 2016 Ã£Ã®Ã¤Ã  Ã­Ã  Ã­Ã Ã¨Ã¡Ã®Ã«Ã¼Ã¸Ã³Ã¾ Ã±Ã³Ã¬Ã¬Ã³.
+with
+(select manager_first_name,manager_last_name ,sum(product_price*product_qty) price
+ from manager man join sales_order sale on man.manager_id = sale.manager_id
+ join sales_order_line orderline on sale.sales_order_id = orderline.sales_order_id
+ where order_date > '01/01/2016' AND order_date <'30/01/2016'
+ group by manager_first_name,manager_last_name) as managers
+select manager_first_name,manager_last_name
+from (select max(price) from managers) maximum, managers
+where managers.price = maximum.price
