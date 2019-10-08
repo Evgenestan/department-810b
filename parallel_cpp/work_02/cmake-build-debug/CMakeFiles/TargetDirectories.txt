@@ -1,0 +1,3 @@
+/home/vasil/magistracy_810b/semestr_01/parallel_cpp/work_02/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/vasil/magistracy_810b/semestr_01/parallel_cpp/work_02/cmake-build-debug/CMakeFiles/task_02.dir
+/home/vasil/magistracy_810b/semestr_01/parallel_cpp/work_02/cmake-build-debug/CMakeFiles/edit_cache.dir
