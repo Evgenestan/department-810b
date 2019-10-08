@@ -15,6 +15,9 @@ public class ThreadPoolExecutor {
             results[i] = service.submit(c);
         }
 
+
+
+
         for(int i = 0; i < results.length; i++) {
             Future<Integer> f = (Future<Integer>)results[i];
             System.out.println("Future result in "+i+" is "+f.get());
