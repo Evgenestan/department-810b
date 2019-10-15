@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8a393707-6024-49d5-b07b-ada66220f265" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/CurrencyExchange.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/out/production/CurrencyExchange/org/mai/dep810/cer/CurrencyExchangeRate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/out/production/CurrencyExchange/org/mai/dep810/cer/DifferentCurrenciesException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/out/production/CurrencyExchange/org/mai/dep810/cer/IncorrectExchangeRateException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/out/production/CurrencyExchange/org/mai/dep810/cer/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/out/production/CurrencyExchange/org/mai/dep810/cer/Money.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/src/org/mai/dep810/cer/CurrencyExchangeRate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/src/org/mai/dep810/cer/DifferentCurrenciesException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/src/org/mai/dep810/cer/IncorrectExchangeRateException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/src/org/mai/dep810/cer/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CurrencyExchange/src/org/mai/dep810/cer/Money.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/.idea/$PRODUCT_WORKSPACE_FILE$" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/.idea/lession4_examples (1).iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/generate.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/.idea/$PRODUCT_WORKSPACE_FILE$" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/.idea/libraries/Maven__junit_junit_3_8_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/lession4.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/src/main/java/org/mai/dep110/threads/FileExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/src/main/java/org/mai/dep110/threads/InnerClassExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/src/main/java/org/mai/dep110/threads/RunnableExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/src/main/java/org/mai/dep110/threads/SyncExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/src/main/java/org/mai/dep110/threads/ThreadPoolExecutor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/src/main/java/org/mai/dep110/threads/YieldExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/src/test/java/org/mai/dep110/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/src/test/java/org/mai/dep110/Visits.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/FileExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/IncrementThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/Incrementor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/InnerClassExample$1MethodLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/InnerClassExample$ClassLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/InnerClassExample$StaticLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/InnerClassExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/IntegerCallable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/MyThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/RunnableExample$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/RunnableExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/SyncExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/ThreadPoolExecutor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession4_examples (1)/lession4/target/classes/org/mai/dep110/threads/YieldExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/$PRODUCT_WORKSPACE_FILE$" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/libraries/Maven__org_hamcrest_hamcrest_all_1_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/employees.data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/iris.data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/lenses.data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/lession5.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/names.data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/CalculatePi.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/employees/Employee.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/employees/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/iris/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/iris/Iris.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/iris/IrisDataSetHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/lenses/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/main/java/org/mai/dep110/stream/lenses/LenseData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/src/test/java/org/mai/dep110/stream/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lession5/lession5/target/test-classes/org/mai/dep110/stream/AppTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/FileExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/IncrementThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/Incrementor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/InnerClassExample$1MethodLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/InnerClassExample$ClassLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/InnerClassExample$StaticLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/InnerClassExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/IntegerCallable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/MyThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/RunnableExample$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/RunnableExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/SyncExample.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/ThreadPoolExecutor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../production/lession4_examples (1)/org/mai/dep110/threads/YieldExample.class" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ErrorTreeViewConfiguration">
+    <option name="autoscrollToSource" value="true" />
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="1RuYRCxDyzVAMHk9l6sVbw1QhHx" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.mai.dep110.stream.iris.App" />
+      <module name="lession5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.mai.dep110.stream.iris.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.mai.dep110.stream.example.Main" />
+      <module name="lession5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.mai.dep110.stream.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8a393707-6024-49d5-b07b-ada66220f265" name="Default Changelist" comment="" />
+      <created>1570518437705</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1570518437705</updated>
+    </task>
+    <task id="LOCAL-00001" summary="1 lab - is working&#10;&#10;3 - troubles&#10;&#10;4 - completed because Vasya is cool">
+      <created>1570533967698</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1570533967698</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1 lab - is working&#10;&#10;3 - troubles&#10;&#10;4 - completed because Vasya is cool" />
+    <option name="LAST_COMMIT_MESSAGE" value="1 lab - is working&#10;&#10;3 - troubles&#10;&#10;4 - completed because Vasya is cool" />
+  </component>
+</project>
