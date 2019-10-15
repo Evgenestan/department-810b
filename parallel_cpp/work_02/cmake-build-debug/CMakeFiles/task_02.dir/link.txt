@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/task_02.dir/main.cpp.o CMakeFiles/task_02.dir/SystemConfiguration.cpp.o  -o task_02 
