@@ -27,7 +27,7 @@ public class RunnableExample
             }
         });
 
-        th.setName("Our test threadоооо");
+        th.setName("Our test thread");
         th.start();
 
         //witing while thread is working
