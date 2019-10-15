@@ -31,12 +31,25 @@ b.order_date <to_date('30-01-2016','DD-MM-YYYY');
 SELECT region FROM CITY UNION SELECT country FROM CITY UNION SELECT city_name FROM CITY;
 
 11)
---
-SELECT f.manager_first_name, f.manager_last_name , f.income FROM
-(SELECT  sss.manager_first_name, sss.manager_last_name,  count(sss.product_price*sss.product_qty) as income  FROM (SELECT * FROM  MANAGER a  LEFT OUTER JOIN SALES_ORDER b ON a.manager_id = b.manager_id
-LEFT OUTER JOIN SALES_ORDER_LINE c ON b.sales_order_id = b.sales_order_id) sss
-where sss.ORDER_DATE > to_date('01-01-2016','DD-MM-YYYY')
-and sss.ORDER_DATE < to_date('30-01-2016','DD-MM-YYYY') group by sss.manager_first_name, sss.manager_last_name) f; --where f.income = (SELECT MAX(income) from f);
+
+SELECT * from manager,
+(SELECT  sss.manager_id as unid ,
+         sum(sss.product_price*sss.product_qty) as income
+         FROM (
+        SELECT a.manager_id, c.product_price, c.product_qty, b.order_date FROM  MANAGER a  LEFT OUTER JOIN SALES_ORDER b ON a.manager_id = b.manager_id
+        LEFT OUTER JOIN SALES_ORDER_LINE c ON b.sales_order_id = c.sales_order_id
+        ) sss
+        where sss.ORDER_DATE >= to_date('01-01-2016','DD-MM-YYYY')
+            and sss.ORDER_DATE <= to_date('31-01-2016','DD-MM-YYYY') group by sss.manager_id
+) j where j.income = (
+        select
+         max(sum(c.product_price*c.product_qty)) as income
+         FROM  MANAGER a  LEFT OUTER JOIN SALES_ORDER b ON a.manager_id = b.manager_id
+        LEFT OUTER JOIN SALES_ORDER_LINE c ON b.sales_order_id = c.sales_order_id
+        where b.ORDER_DATE >= to_date('01-01-2016','DD-MM-YYYY')
+            and b.ORDER_DATE <= to_date('31-01-2016','DD-MM-YYYY') group by a.manager_id
+) and manager.manager_id = j.unid;
+
 
 
 
