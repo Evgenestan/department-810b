@@ -72,23 +72,51 @@ public class Money
         var monies = new Money[n];
 
         var number = this.devide(ration);
-        var checking = number.multiply(ration);
+        var checking = number.multiply(ration).amount;
 
-        for (int i = 0; i < n - 1; i++)
+
+        if(!checking.equals(this.amount))
         {
-            monies[i] = number;
-        }
+            var reminder = amount.subtract(checking, new MathContext(4, RoundingMode.HALF_UP));
 
-        if(!checking.getAmount().equals(this.amount))
-        {
-             var reminder = amount.subtract(checking.amount,new MathContext(4,RoundingMode.HALF_UP));
-             reminder = reminder.add(number.amount,new MathContext(4));
+            BigDecimal rem;
 
-             monies[n-1] = new Money(currency,reminder);
+            for (int i = 2; i < n; i++)
+            {
+                var divider = new BigDecimal(i);
+                rem = reminder.divide(divider, 2,RoundingMode.HALF_UP);
+                var checkDevide = rem.multiply(divider);
+                if(reminder.equals(checkDevide))
+                {
+                    rem = rem.add(number.amount,new MathContext(4));
+                    for (int j = 0; j < n - i; j++)
+                    {
+                        monies[j] = new Money(currency,number.amount);
+                    }
+                    for (int j = n - i; j < n; j++)
+                    {
+                        monies[j] = new Money(currency,rem);
+                    }
+                    break;
+                }
+            }
+            if(monies[0] == null)
+            {
+                for (int i = 0; i < n - 1; i++)
+                {
+                    monies[i] = number;
+                }
+
+                var value = number.amount.add(reminder, new MathContext(4));
+                monies[n-1] =  new Money(currency,value);
+            }
         }
         else
         {
-            monies[n-1] = number;
+            for (int i = 0; i < n ; i++)
+            {
+                monies[i] = number;
+            }
         }
 
         return monies;

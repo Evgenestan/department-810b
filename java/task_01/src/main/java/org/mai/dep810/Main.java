@@ -11,10 +11,10 @@ public class Main
         var gbp = Currency.getInstance("GBP");
 
         var usdMoney = new Money(usd, new BigDecimal(100));
-        var number = new BigDecimal(11.23);
+        var number = new BigDecimal(100);
         var amount = new Money(usd, number);
 
-        var num = new BigDecimal(7);
+        var num = new BigDecimal(13);
 
         var monies = amount.devideOn(num);
 

@@ -1,9 +1,36 @@
-package org.mai.dep810.task_03;
-
-import java.util.HashMap;
-import java.util.Map;
+package mai.dep810.task_03;
 
 public class WebSite
+{
+    private String _page;
+    private int _counter;
+
+    public WebSite(String page)
+    {
+        _page = page;
+        _counter = 0;
+    }
+
+    synchronized public void visit()
+    {
+        _counter++;
+    }
+
+    @Override
+    public String toString()
+    {
+        var res = new StringBuffer();
+
+        res.append("WebSite - ");
+        res.append(_page);
+        res.append(" Count visits - ");
+        res.append(_counter);
+
+        return res.toString();
+    }
+}
+
+/*public class WebSite
 {
     private Map<String,Integer> visits;
 
@@ -42,4 +69,4 @@ public class WebSite
 
         return result.toString();
     }
-}
+}*/
