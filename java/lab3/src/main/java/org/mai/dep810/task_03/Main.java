@@ -1,34 +1,40 @@
 package mai.dep810.task_03;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.*;
 
 public class Main
 {
     public static void main(String[] args) throws InterruptedException
     {
-        var webSitesVisits = new WebSite();
+        Page wArr[] = new Page[5];
+        wArr[0] = new Page("Vk.com");
+        wArr[1] = new Page("mail.com");
+        wArr[2] = new Page("google.com");
+        wArr[3] = new Page("foot.com");
+        wArr[4] = new Page("ball.com");
 
-        var executor = Executors.newFixedThreadPool(50);
 
-        var googleVisiter = new WebSiteVisiter(webSitesVisits,"www.google.com");
-        var twitterVisiter = new WebSiteVisiter(webSitesVisits,"www.twitter.com");
-        var yandexVisiter = new WebSiteVisiter(webSitesVisits,"www.yandex.ru");
-        var vkVisiter = new WebSiteVisiter(webSitesVisits,"www.vkonakte.com");
+        var threads = new Thread[10];
 
-        var listVisitsCall = new ArrayList<WebSiteVisiter>();
+        for (int i = 0; i< 10; ++i){
+            threads[i] = new Thread(()->{
+                var temp = Math.random()*wArr.length;
+                wArr[(int)temp].Visit();
+            });
 
-        for (int i = 0; i < 10; i++)
-        {
-            listVisitsCall.add(googleVisiter);
-            listVisitsCall.add(twitterVisiter);
-            listVisitsCall.add(yandexVisiter);
-            listVisitsCall.add(vkVisiter);
+        }
+        for(int i = 0; i<10; ++i){
+            for(int j = 0; j<50; ++j){
+                threads[i].run();
+            }
         }
 
-        executor.invokeAll(listVisitsCall);
-        executor.shutdown();
+        for (int i =0 ; i < wArr.length; ++i){
+            System.out.println(wArr[i]);
+        }
 
-        System.out.println(webSitesVisits);
     }
 }

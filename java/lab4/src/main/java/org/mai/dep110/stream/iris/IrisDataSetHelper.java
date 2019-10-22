@@ -30,12 +30,12 @@ public class IrisDataSetHelper {
         return dataSet.stream().filter(filter).mapToDouble(mapFunction).average().getAsDouble();
     }
 
-    public Map groupBy(Function<Iris,Petal> groupFunction) {
+    public Map groupBy(Function<Iris,?> groupFunction) {
 
         return dataSet.stream().collect(Collectors.groupingBy(groupFunction));
     }
 
-    public Map maxFromGroupedBy(Function<Iris,Petal> groupFunction, ToDoubleFunction<Iris> obtainMaximisationValueFunction) {
+    public Map maxFromGroupedBy(Function<Iris,?> groupFunction, ToDoubleFunction<Iris> obtainMaximisationValueFunction) {
         return  dataSet
                 .stream()
                 .collect(Collectors.groupingBy(groupFunction,Collectors.maxBy (Comparator.comparingDouble(obtainMaximisationValueFunction))));

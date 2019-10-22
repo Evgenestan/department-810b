@@ -34,10 +34,12 @@ public class Main {
         System.out.println(usdMoney.getAmount());
         System.out.println(new BigDecimal(95).setScale(2));
         System.out.println(tenDollars.getAmount());
-        System.out.println("DDD");
         Money u = tenDollars.devide(new BigDecimal(11));
         System.out.println(u.getAmount());
         System.out.println(u.getAmount().multiply(new BigDecimal(5.3)));
+
+
+
 
 
     }

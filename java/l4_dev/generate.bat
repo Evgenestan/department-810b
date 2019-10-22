@@ -1,1 +1,0 @@
-mvn archetype:generate -DgroupId=org.mai.dep1010 -DartifactId=lession4 -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
