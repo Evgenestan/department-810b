@@ -34,9 +34,22 @@ public class Main {
         System.out.println(usdMoney.getAmount());
         System.out.println(new BigDecimal(95).setScale(2));
         System.out.println(tenDollars.getAmount());
-        Money u = tenDollars.devide(new BigDecimal(11));
+        Money u = usdMoney.devide(new BigDecimal(13));
+        System.out.println("Devision");
         System.out.println(u.getAmount());
-        System.out.println(u.getAmount().multiply(new BigDecimal(5.3)));
+        System.out.println(u.getAmount().multiply(new BigDecimal(13)));
+        Money rusdMoney = new Money(usd, new BigDecimal(100));
+        Money [] qur = rusdMoney.devideOn(new BigDecimal(13));
+        System.out.println();
+        System.out.println(Money.sum(qur));
+        for ( var i : qur){
+            System.out.println(i);
+        }
+
+
+
+
+
 
 
 

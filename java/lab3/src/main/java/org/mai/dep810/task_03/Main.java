@@ -1,4 +1,4 @@
-package mai.dep810.task_03;
+package org.mai.dep810.task_03;
 
 import java.util.ArrayList;
 import java.util.HashMap;

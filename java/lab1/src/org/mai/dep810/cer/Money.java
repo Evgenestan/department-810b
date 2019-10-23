@@ -64,7 +64,7 @@ public class Money {
 
         if(!checking.equals(this.amount))
         {
-            var reminder = amount.subtract(checking, new MathContext(4, RoundingMode.HALF_UP));
+            var reminder = this.amount.subtract(checking, new MathContext(4, RoundingMode.HALF_UP));
 
             BigDecimal rem;
 
