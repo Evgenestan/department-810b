@@ -30,7 +30,7 @@ where t3.final_sum = t3.total_sum and t3.month_order>=4;
 Выведите год, office_id, city_name, country, относительный объем продаж за текущий год
 Офисы, которые демонстрируют наименьший относительной объем в течение двух лет скорее всего будут закрыты.*/
 
-select * from V_FACT_SALE;
+--select * from V_FACT_SALE;
 
 
 
@@ -41,7 +41,7 @@ extract(YEAR from sale_date) year,
 country,
 sum(sale_amount) office_sales
 from V_FACT_SALE
-where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2013','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2014','DD.MM.YY')
+where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2013','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')
 group by office_id,extract(YEAR from sale_date), country, city_name),
 t2 as(
 select t1.office_id, 
@@ -49,10 +49,11 @@ t1.city_name,
 t1.year, 
 t1.country, 
 t1.office_sales,
-sum(t1.office_sales) over () total_sum
+sum(t1.office_sales) over (partition by year) total_sum
 from t1)
 select office_id, city_name, year, country, office_sales/total_sum relative_amount from t2
 order by relative_amount desc;
+--отсортировать среднее relative amount за два года
 
 /*3. Для планирования закупок, компанию оценивает динамику роста продаж по товарам.
 Динамика оценивается как отношение объема продаж в текущем месяце к предыдущему.
@@ -62,7 +63,7 @@ order by relative_amount desc;
 
 with t1 as 
 (
-select product_id, product_name, sum(sale_qty) month_prod_qty,  trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) month_order
+select product_id, product_name, sum(sale_amount) month_prod_qty,  trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) month_order
 from V_FACT_SALE
 where to_date(sale_date,'DD.MM.YY') >= to_date('01.12.2013','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.07.2014','DD.MM.YY')
 group by product_id,  trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))), product_name
@@ -78,6 +79,17 @@ where prev_qty is not  null
 group by product_name, product_id
 order by speed_size desc
 ;
+
+
+
+/*4. Напишите запрос, который выводит отчет о прибыли компании за 2014 год: помесячно и поквартально.
+Отчет включает сумму прибыли за период и накопительную сумму прибыли с начала года по текущий период.
+*/
+
+--union по месяца и по кварталам.
+
+
+
 
 /*  5. Найдите вклад в общую прибыль за 2014 год 10% наиболее дорогих товаров и 10% наиболее дешевых товаров.
 Выведите product_id, product_name, total_sale_amount, percent*/
@@ -117,6 +129,8 @@ from t3
 where top_sal <= round(0.1*count_num) or top_sal >= round(0.9*count_num);
 --where rownum <= round(count(*)*0.1) or rownum >= round(count(*)*0.9)
 
+-- percentile
+
   
 
  
@@ -154,7 +168,7 @@ where rank_id = 1 or rank_id = 2 or rank_id = 3;
 /*7. Выведите самый дешевый и самый дорогой товар, проданный за каждый месяц в течение 2014 года.
 cheapest_product_id, cheapest_product_name, expensive_product_id, expensive_product_name, month, cheapest_price, expensive_price*/
 
-
+-- two joins
 select * from V_FACT_SALE;
 
 with t0 as (
@@ -185,6 +199,12 @@ rank() over (partition by month_order order by sale_price desc) rank_id
 from t1
 where max_cost_prod = sale_price or min_cost_prod = sale_price;
 
+
+
+--lesson
+
+select dbms_random.random() from dual
+connect by level<=12;                   -- для деревьев и грфов очень полезно.
 
 
  
