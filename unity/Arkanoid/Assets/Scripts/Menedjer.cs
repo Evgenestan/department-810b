@@ -1,5 +1,4 @@
-﻿// NULLcode Studio © 2015
-// null-code.ru
+﻿
 
 using UnityEngine;
 using System.Collections;
@@ -23,6 +22,7 @@ public class Menedjer : MonoBehaviour {
 		lose = false;
 		win = false;
 		if(Application.loadedLevel == 0) playerLife = 3;
+
 	}
 
 	void Update () 

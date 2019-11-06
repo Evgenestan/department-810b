@@ -1,5 +1,4 @@
-﻿// NULLcode Studio © 2015
-// null-code.ru
+﻿
 
 using UnityEngine;
 using System.Collections;
@@ -20,6 +19,10 @@ public class PlatformControl : MonoBehaviour {
 
 	void Start () 
 	{
+		ballClone = Instantiate (ball, respawnPoint.position, Quaternion.identity) as GameObject;
+		ballClone.GetComponent<Ball> ().speed = ballSpeed;
+		//		ballClone.GetComponent<Ball> ().isAlive = true;
+		ballClone.GetComponent<Rigidbody2D> ().AddForce (new Vector2(Random.Range(-ballSpeed, ballSpeed), ballSpeed));
 	}
 
 	void Respawn ()
@@ -37,6 +40,9 @@ public class PlatformControl : MonoBehaviour {
 	void Update () 
 	{
 		// Управление платформаой A - влево, D - вправо
+
+
+
 
 		if (Input.GetKey (KeyCode.I) && previous == KeyCode.A) 
 		{
@@ -73,22 +79,17 @@ public class PlatformControl : MonoBehaviour {
 
 			if(Input.GetKeyDown(KeyCode.Space)) 
 			{
+				Destroy(ballClone);
+				// Прежде чем создать новый, уничтожаем старый
+				Respawn();
+			}
+
+			/*if(Input.GetKeyDown(KeyCode.Space)) 
+			{
 			//	Destroy(ballClone); // Прежде чем создать новый, уничтожаем старый
 				for(int i =0; i < 20;i++)
 				Respawn();
-			}
-		}
-
-
-
-
-		// Пробел - создать шарик
-
-		bool isBallAlive = ballClone.GetComponent<Ball> ().isAlive; 
-		if (!isBallAlive) 
-		{
-			Destroy(ballClone); // Прежде чем создать новый, уничтожаем старый
-			Respawn();
+			}*/
 		}
 	}
 }
