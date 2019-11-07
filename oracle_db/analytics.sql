@@ -86,6 +86,20 @@ order by speed_size desc
 ќтчет включает сумму прибыли за период и накопительную сумму прибыли с начала года по текущий период.
 */
 
+with t1 as (
+select office_name, office_id, sum(sale_amount) total_sum, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) time_q  from V_FACT_SALE
+where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2014','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')
+group by office_name, office_id, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY')))
+order by office_id) 
+select office_name, office_id, sum(total_sum) over (partition by office_id order by time_q) funded_part,total_sum, time_q || ' month' from t1
+union
+select office_name, office_id, sum(total_sum) over (partition by office_id order by time_q) funded_part, total_sum,time_q from ( 
+select office_name, office_id, sum(sale_amount) total_sum , TO_CHAR(sale_date, 'Q')|| ' qtr' time_q from V_FACT_SALE
+where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2014','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')
+group by office_name, office_id, TO_CHAR(sale_date, 'Q')|| ' qtr'
+order by office_id );
+
+
 --union по мес€ца и по кварталам.
 
 select * from V_FACT_SALE;
@@ -170,7 +184,7 @@ where rank_id = 1 or rank_id = 2 or rank_id = 3;
 cheapest_product_id, cheapest_product_name, expensive_product_id, expensive_product_name, month, cheapest_price, expensive_price*/
 
 -- two joins
-select * from V_FACT_SALE;
+
 
 with t0 as (
 select product_name,
@@ -211,6 +225,12 @@ connect by level<=12;                   -- дл€ деревьев и грфов очень полезно.
  
  
 
+/*8. ћенеджер получает оклад в 30 000 + 5% от суммы своих продаж в мес€ц. —редн€€ наценка стоимости товара - 10%
+ѕосчитайте прибыль предпри€ти€ за 2014 год по мес€цам (сумма продаж - (исходна€ стоимость товаров + зарплата))
+month, sales_amount, salary_amount, profit_amount*/
+
+
+select * from V_FACT_SALE;
 
 
 
