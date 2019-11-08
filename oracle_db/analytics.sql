@@ -1,4 +1,4 @@
-/*  !!+!!  1)  аждый мес€ц компани€ выдает премию в размере 5% от суммы продаж менеджеру, который за предыдущие 3 мес€ца продал товаров на самую большую сумму
+ /*  !!+!!  1)  аждый мес€ц компани€ выдает премию в размере 5% от суммы продаж менеджеру, который за предыдущие 3 мес€ца продал товаров на самую большую сумму
 ¬ыведите мес€ц, manager_id, manager_first_name, manager_last_name, премию за период с €нвар€ по декабрь 2014 года*/
 
 ---сумма по менджеру и мес€цу. 
@@ -87,17 +87,16 @@ order by speed_size desc
 */
 
 with t1 as (
-select office_name, office_id, sum(sale_amount) total_sum, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) time_q  from V_FACT_SALE
+select  sum(sale_amount) total_sum, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) time_q  from V_FACT_SALE
 where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2014','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')
-group by office_name, office_id, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY')))
-order by office_id) 
-select office_name, office_id, sum(total_sum) over (partition by office_id order by time_q) funded_part,total_sum, time_q || ' month' from t1
+group by trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY')))
+) 
+select sum(total_sum) over (order by time_q) funded_part,total_sum, time_q || ' month'  time_f from t1
 union
-select office_name, office_id, sum(total_sum) over (partition by office_id order by time_q) funded_part, total_sum,time_q from ( 
-select office_name, office_id, sum(sale_amount) total_sum , TO_CHAR(sale_date, 'Q')|| ' qtr' time_q from V_FACT_SALE
+select sum(total_sum) over ( order by time_f) funded_part, total_sum,time_f from ( 
+select sum(sale_amount) total_sum , TO_CHAR(sale_date, 'Q')|| ' qtr'  time_f from V_FACT_SALE
 where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2014','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')
-group by office_name, office_id, TO_CHAR(sale_date, 'Q')|| ' qtr'
-order by office_id );
+group by TO_CHAR(sale_date, 'Q')|| ' qtr'); 
 
 
 --union по мес€ца и по кварталам.
@@ -193,26 +192,18 @@ sale_price,
 trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) month_order
 from V_FACT_SALE
 where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2014','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')
- ),
- t1 as(
-select 
-product_id,
-product_name,
+ )
+select distinct
 month_order,
-sale_price,
 max (sale_price) over (partition by month_order) max_cost_prod,
-min (sale_price) over (partition by month_order) min_cost_prod
-from t0 )
-select 
-product_id,
-product_name,
-month_order,
-sale_price,
-max_cost_prod,
-min_cost_prod,
-rank() over (partition by month_order order by sale_price desc) rank_id
-from t1
-where max_cost_prod = sale_price or min_cost_prod = sale_price;
+min (sale_price) over (partition by month_order) min_cost_prod,
+first_value(product_name) over (partition by month_order order by sale_price) expensive_product_name,
+first_value(product_name) over (partition by month_order order by sale_price desc) cheapest_product_name,
+first_value(product_id) over (partition by month_order order by sale_price) expensive_product_id,
+first_value(product_id) over (partition by month_order order by sale_price desc) cheapest_product_id
+from t0
+order by month_order;
+
 
 
 
@@ -231,6 +222,26 @@ month, sales_amount, salary_amount, profit_amount*/
 
 
 select * from V_FACT_SALE;
+
+with t1 as (
+select 
+sum(sale_amount) over (partition by trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY')))) total_sales,
+manager_id,
+trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) month_order,
+(round(sum(sale_amount) over (partition by manager_id, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))))/1.1,2)) first_price,
+30000+0.05*sum(sale_amount) over (partition by manager_id, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) ) manager_income
+from V_FACT_SALE
+where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2014','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')),
+t2 as (
+select distinct
+total_sales,
+sum(first_price) first_price_total,
+month_order,
+sum(manager_income) salary_amount
+from t1
+group by month_order,total_sales
+order by month_order)
+select  first_price_total, salary_amount, month_order, total_sales - (first_price_total +salary_amount) profit from t2;
 
 
 
