@@ -10,15 +10,15 @@ public class BasketShop implements Basket
 
     public BasketShop()
     {
-        products = new HashMap<String, Integer>();
+        products = new HashMap();
     }
 
     @Override
     public void addProduct(String product, int quantity)
     {
-        if(products.containsKey(product))
+        if(quantity <= 0)
         {
-            throw new IllegalArgumentException("Такой ключ уже есть");
+            throw new IllegalArgumentException("Количество товара должно быть числом, больлшим нуля");
         }
         else
         {
@@ -31,7 +31,11 @@ public class BasketShop implements Basket
     {
         if(!products.containsKey(product))
         {
-            throw new IllegalArgumentException("Такого ключа нет");
+            var errorMessage = new StringBuilder();
+            errorMessage.append("Продукта ")
+                    .append(product)
+                    .append("  корзине нет");
+            throw new ProductNotFoundException(errorMessage.toString());
         }
         else
         {
@@ -42,9 +46,17 @@ public class BasketShop implements Basket
     @Override
     public void updateProductQuantity(String product, int quantity)
     {
-        if(!products.containsKey(product))
+        if(quantity <= 0)
         {
-            throw new IllegalArgumentException("Такого ключа нет");
+            throw new IllegalArgumentException("Количество товара должно быть числом, больлшим нуля");
+        }
+        else if(!products.containsKey(product))
+        {
+            var errorMessage = new StringBuilder();
+            errorMessage.append("Продукта ")
+                    .append(product)
+                    .append("  корзине нет");
+            throw new ProductNotFoundException(errorMessage.toString());
         }
         else
         {
@@ -56,7 +68,11 @@ public class BasketShop implements Basket
     {
         if(!products.containsKey(product))
         {
-            throw new IllegalArgumentException("Такого ключа нет");
+            var errorMessage = new StringBuilder();
+            errorMessage.append("Продукта ")
+                    .append(product)
+                    .append("  корзине нет");
+            throw new ProductNotFoundException(errorMessage.toString());
         }
         else
         {
