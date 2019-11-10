@@ -28,7 +28,7 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
         saveBooks();
-        deleteBook();
+   //     deleteBook();
     }
 
     private static void deleteBook() throws IOException {
