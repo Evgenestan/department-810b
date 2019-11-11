@@ -35,7 +35,7 @@ public class LibraryImpl implements Library
                 stmt.setInt(1,book.getId());
                 stmt.setString(2,book.getTitle());
 
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e)
             {
@@ -46,9 +46,18 @@ public class LibraryImpl implements Library
         {
             e.printStackTrace();
         }
+    }
 
+    public void truncate() throws SQLException
+    {
+        try (Statement statement = getConnection().createStatement())
+        {
+            var truncateBooks = "truncate table books";
+            var truncateAbonents = "truncate table abonents";
 
-
+            statement.execute(truncateAbonents);
+            statement.execute(truncateAbonents);
+        }
     }
 
     @Override
@@ -63,7 +72,7 @@ public class LibraryImpl implements Library
                 stmt.setInt(1,student.getId());
                 stmt.setString(2,student.getName());
 
-                stmt.executeQuery();
+                stmt.executeUpdate();
             }
             catch (SQLException e)
             {
@@ -99,6 +108,7 @@ public class LibraryImpl implements Library
         String updateSql = "update books set student_id = -1 where student_id = ? and book_id = ?";
         try (CallableStatement stmt = getConnection().prepareCall(updateSql))
         {
+            //stmt.setNull("student_id");
             stmt.setInt(1, student.getId());
             stmt.setInt(2, book.getId());
             stmt.executeUpdate();
@@ -110,42 +120,11 @@ public class LibraryImpl implements Library
         }
     }
 
-    public Book getBook(Book book)
-    {
-        Book resultBook = new Book();
-        String selectSql = "select book_id, book_title, student_id from books where book_id = ?" ;
-        try (PreparedStatement stmt = getConnection().prepareCall(selectSql))
-        {
-            stmt.setInt(1,book.getId());
-
-            try(ResultSet rs = stmt.executeQuery())
-            {
-                rs.next();
-
-                int book_id = 0;
-                int student_id;
-                String book_title;
-                book_id = rs.getInt("book_id");
-                book_title = rs.getString("book_title");
-                student_id = rs.getInt("student_id");
-                resultBook = new Book(book_id,book_title);
-            }
-
-
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return resultBook;
-    }
-
     @Override
     public List<Book> findAvailableBooks()
     {
         List<Book> result = new ArrayList<Book>();
-        String sql = "select book_id,book_title from books where student_id is null";
+        String sql = "select book_id,book_title from books where student_id = -1";
         try (Statement stmt = getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(sql);)
         {

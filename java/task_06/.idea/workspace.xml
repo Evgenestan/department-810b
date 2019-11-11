@@ -2,12 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f4b31e1-dd6a-4ea2-823e-2a72fb588dfb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_02/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_02/src/main/java/org/mai/dep810/basket/BasketShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/src/main/java/org/mai/dep810/basket/BasketShop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_02/task_02.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_02/test/org/mai/dep810/BasketShopTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/src/test/java/org/mai/dep810/BasketShopTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/LibraryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/LibraryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/mai/dep810/library/LibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/mai/dep810/library/LibraryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep110/basket/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep110/basket/Basket.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep110/basket/BasketImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep110/library/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep110/library/Book.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep110/library/Library.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep110/library/LibraryImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep110/library/Student.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/mai/dep110/jdbc/AppTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/mai/dep110/library/LibraryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/src/main/scala/org/mai/dep810/scala/iris/IrisExample.scala" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/src/main/scala/org/mai/dep810/scala/iris/IrisExample.scala" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +45,10 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../task_02" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../task_05" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -61,21 +73,6 @@
     <configuration name="Library" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.mai.dep810.library.App" />
       <module name="lession7" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AppTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="lession7" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.mai.dep810.jdbc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.mai.dep810.jdbc" />
-      <option name="MAIN_CLASS_NAME" value="org.mai.dep810.jdbc.AppTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -111,6 +108,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LibraryTest.findAvailableBooks" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="lession7" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.mai.dep810.library.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.mai.dep810.library" />
+      <option name="MAIN_CLASS_NAME" value="org.mai.dep810.library.LibraryTest" />
+      <option name="METHOD_NAME" value="findAvailableBooks" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LibraryTest.getAllStudents" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="lession7" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.mai.dep810.library.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.mai.dep810.library" />
+      <option name="MAIN_CLASS_NAME" value="org.mai.dep810.library.LibraryTest" />
+      <option name="METHOD_NAME" value="getAllStudents" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="LibraryTest.returnBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="lession7" />
       <extension name="coverage">
@@ -131,16 +160,18 @@
       <item itemvalue="Application.Basket" />
       <item itemvalue="Application.Library" />
       <item itemvalue="JUnit.LibraryTest" />
-      <item itemvalue="JUnit.AppTest" />
       <item itemvalue="JUnit.LibraryTest.borrowBook" />
       <item itemvalue="JUnit.LibraryTest.returnBook" />
+      <item itemvalue="JUnit.LibraryTest.findAvailableBooks" />
+      <item itemvalue="JUnit.LibraryTest.getAllStudents" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.LibraryTest" />
+        <item itemvalue="JUnit.LibraryTest.getAllStudents" />
+        <item itemvalue="JUnit.LibraryTest.findAvailableBooks" />
         <item itemvalue="JUnit.LibraryTest.returnBook" />
         <item itemvalue="JUnit.LibraryTest.borrowBook" />
-        <item itemvalue="JUnit.AppTest" />
       </list>
     </recent_temporary>
   </component>
@@ -159,6 +190,7 @@
       <workItem from="1572280190920" duration="2801000" />
       <workItem from="1572283114992" duration="2946000" />
       <workItem from="1573313838932" duration="2330000" />
+      <workItem from="1573487238592" duration="6122000" />
     </task>
     <servers />
   </component>
@@ -170,7 +202,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

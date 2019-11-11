@@ -1,6 +1,5 @@
 package org.mai.dep810.library;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,10 +10,10 @@ import java.sql.*;
 public class LibraryTest
 {
 
-    private Book book_1;
-    private Book book_2;
-    private Student student_1;
-    private Student student_2;
+    private static Book book_1;
+    private static Book book_2;
+    private static Student student_1;
+    private static Student student_2;
     public static LibraryImpl library;
     public static  Connection connection;
 
@@ -22,9 +21,8 @@ public class LibraryTest
     public static void setupClass() throws SQLException
     {
         library = new LibraryImpl("jdbc:h2:mem:library", "", "");
-
         connection = library.getConnection();
-        //Connection connection = DriverManager.getConnection("jdbc:derby:memory:basket;create=true");
+
         try(Statement stmt = connection.createStatement();)
         {
             String tableSql = "create table abonents(student_id int, student_name varchar(255))";
@@ -33,30 +31,23 @@ public class LibraryTest
             stmt.execute(tableBooksSql);
         }
 
-    }
-
-    @Before
-    public void setUp() throws Exception
-    {
         book_1 = new Book(0,"Война и мир");
         book_2 = new Book(1,"Дубровский");
 
         student_1 = new Student(0,"Иван");
         student_2 = new Student(1,"Петр");
-
     }
 
-    @After
-    public void tearDown() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
-
+        library.truncate();
     }
 
     @Test
     public void addNewBook() throws Exception
     {
         library.addNewBook(book_1);
-        library.addNewBook(book_2);
 
          Book book = new Book();
 
@@ -87,7 +78,6 @@ public class LibraryTest
     public void addAbonent() throws Exception
     {
         library.addAbonent(student_1);
-        library.addAbonent(student_2);
 
         Student student = new Student();
 
@@ -138,7 +128,7 @@ public class LibraryTest
         assertEquals(student_id,student_1.getId());
     }
 
-    @Test(expected =  java.lang.AssertionError.class)
+    @Test
     public void returnBook() throws Exception
     {
         library.returnBook(book_1,student_1);
@@ -162,12 +152,15 @@ public class LibraryTest
         assertEquals(student_id,-1);
     }
 
-    @Test(expected =  java.lang.AssertionError.class)
+
+    @Test
     public void findAvailableBooks() throws Exception
     {
         var booksOrigin = new Book[2];
         booksOrigin[0] = book_1;
         booksOrigin[1] = book_2;
+        library.addNewBook(book_1);
+        library.addNewBook(book_2);
         var books = library.findAvailableBooks().toArray();
 
         assertArrayEquals(books,booksOrigin);
@@ -177,13 +170,16 @@ public class LibraryTest
     public void getAllStudents() throws Exception
     {
         var studentsOrigin = new Student[2];
+
         studentsOrigin [0] = student_1;
         studentsOrigin [1] = student_2;
+
+        library.addAbonent(student_1);
+        library.addAbonent(student_2);
+
         var students = library.getAllStudents().toArray();
 
         assertArrayEquals(students,studentsOrigin);
-
-        //assertArrayEquals(students,studentsOrigin);
     }
 
 }
