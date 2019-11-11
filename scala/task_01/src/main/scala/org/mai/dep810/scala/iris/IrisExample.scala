@@ -13,20 +13,29 @@ object IrisExample
     println(flowers)
 
     //get average sepal width
-    val avgSepalLength = flowers.map(iris => iris.sepalWidth).sum/flowers.length
+    val avgSepalLength = flowers.map(iris => iris.sepalWidth).sum/flowers.size
     println(avgSepalLength)
 
     //get average petal square - petal width multiplied on petal length
-    val avgPetalLength = flowers.map(iris => iris.petalWidth*iris.petalLength).sum/flowers.length
+    val avgPetalLength = flowers.map(iris => iris.petalWidth*iris.petalLength).sum/flowers.size
     println(avgPetalLength)
 
     //get average petal square for flowers with sepal width > 4
-    val avgPetalSquare = flowers
+    val avg2PetalSquare = flowers
         .filter(iris => iris.sepalWidth >4)
-        .map(iris => iris.petalLength*iris.sepalWidth)
+        .map(iris => iris.petalLength*iris.petalWidth)
         .sum / flowers.count(iris => iris.sepalWidth >4)
 
-    println(avgPetalSquare)
+    val tuple = flowers
+        .filter(iris => iris.sepalWidth > 4)
+        .foldLeft(Tuple2[Double,Double](0,0))
+    {
+      (accumulator,flower) =>
+        (accumulator._1 + flower.petalWidth * flower.petalLength,accumulator._2 + 1)
+    }
+
+    println(tuple._1/tuple._2)
+    println(avg2PetalSquare)
 
     //get flowers grouped by Petal size (PetalSize.Small, etc.) with function getPetalSize
     val groupsByPetalSize = flowers.groupBy(iris=>getPetalSize(iris))
