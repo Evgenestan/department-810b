@@ -60,8 +60,13 @@ cache-control: no-cache,no-store,max-age=0,must-revalidate
 
         try (var printerStream = new PrintStream(output))
         {
+            printerStream.println("HTTP/1.1 200");
+
+            //headers
+
+            //space
+            printerStream.print("status: ");
             printerStream.println(status);
-            printerStream.println(body);
 
             for(var header : headers.entrySet())
             {
@@ -71,9 +76,16 @@ cache-control: no-cache,no-store,max-age=0,must-revalidate
                 line.append(header.getValue());
                 printerStream.println(line.toString());
             }
-        }
 
-        throw new UnsupportedOperationException();
+            printerStream.println();
+
+
+
+//            printerStream.println();
+
+            printerStream.println(body);
+            printerStream.flush();
+        }
     }
 
     public static void write404(OutputStream output) throws IOException

@@ -94,6 +94,8 @@ public class RequestHandler implements Runnable
                 else if(request.getMethod() == HttpMethod.DELETE )
                 {
                     log.info("Remove book");
+                    log.info(relativePath);
+
 
                     File bookFile = new File(relativePath);
                     if(bookFile.delete())

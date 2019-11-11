@@ -27,8 +27,9 @@ public class Client {
     private static Logger log = Logger.getLogger(Client.class);
 
     public static void main(String[] args) throws IOException {
-        saveBooks();
-   //     deleteBook();
+       //saveBooks();
+        deleteBook();
+        //deleteBook();
     }
 
     private static void deleteBook() throws IOException {
@@ -38,7 +39,9 @@ public class Client {
         Socket socket = new Socket(address, port);
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-        writer.write("DELETE /books/1449358624 HTTP/1.1");
+
+
+        writer.write("DELETE /books/1491927925 HTTP/1.1");
         writer.newLine();
         writer.write("cache-control: no-cache");
         writer.newLine();

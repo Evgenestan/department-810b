@@ -38,6 +38,10 @@ public class SerializationHelper<T extends Serializable>
             }
             jsonString.append(reader.readLine());
         }
+        catch (FileNotFoundException ioex)
+        {
+            log.error(ioex.getMessage());
+        }
 
         return parseJson(jsonString.toString());
     }
@@ -51,6 +55,10 @@ public class SerializationHelper<T extends Serializable>
         {
             writeJsonToStream(os,toSave);
             return true;
+        }
+        catch (FileNotFoundException fileNotFindException)
+        {
+            return  false;
         }
         catch (IOException ioException)
         {
