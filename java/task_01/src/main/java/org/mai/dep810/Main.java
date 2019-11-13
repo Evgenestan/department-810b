@@ -1,6 +1,8 @@
 package org.mai.dep810;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Currency;
 
 public class Main
@@ -12,12 +14,18 @@ public class Main
         var gbp = Currency.getInstance("GBP");
 
         var usdMoney = new Money(usd, new BigDecimal(100));
-        var number = new BigDecimal(100);
+        var number = new BigDecimal(103);
         var amount = new Money(usd, number);
 
-        var num = new BigDecimal(7);
+        var num = new BigDecimal(28);
+        //System.out.println(number.divide(num).setScale(2).toPlainString());
 
-        var monies = amount.devideOn(num);
+        System.out.println(number.divide(num, 2,RoundingMode.FLOOR));
+
+
+
+        System.out.println("Then");
+        var monies = amount.devideOnNew(num);
         for (var money : monies)
         {
             System.out.println(money);

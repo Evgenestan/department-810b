@@ -66,6 +66,30 @@ public class Money
         return result;
     }
 
+
+    public BigDecimal[] devideOnNew (BigDecimal ration){
+        int n = ration.intValue();
+        BigDecimal[] result = new BigDecimal[n];
+        BigDecimal a = amount.divide(ration, 2,RoundingMode.FLOOR);
+        BigDecimal r = amount.subtract(a.multiply(ration));
+
+        for(int i = 0 ; i < n; ++i){
+            result[i] = a;
+        }
+
+        for(int i = 0; i< new BigDecimal(100).multiply(r).intValue();++i){
+            result[i]=result[i].add(new BigDecimal(0.01)).setScale(2, RoundingMode.FLOOR);
+        }
+        System.out.println("Ostatok");
+        System.out.println(r);
+
+
+
+        return result;
+
+    }
+
+
     public BigDecimal[] devideOn (BigDecimal ration)
     {
         int n = ration.intValue();
