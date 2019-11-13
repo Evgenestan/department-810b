@@ -9,10 +9,11 @@ struct vector{
     double x,y,z;
     vector& operator+=(const vector&);
     vector& operator*=(double);
-
-    vector(){}
-    vector(double _x, double _y, double _z):x(_x),y(_y),z(_z){}
+    double operator[](const int i);
+    vector(){};
+    vector(double _x, double _y, double _z):x(_x),y(_y),z(_z){};
     vector(const vector & cp): x(cp.x),y(cp.y),z(cp.z){}
+    
 
     
 

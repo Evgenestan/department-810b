@@ -8,19 +8,19 @@
 #include <math.h>
 
 struct Config{
-    double m;
+
     vector vec;
-    double a;
+    double A;
     double eps;
     double p;
     double q;
-    Config(vector _vec, double _a, double _eps, double _q, double _p) :vec(_vec),a(_a), eps(_eps), q(_q), p(_p) {}
+    Config(vector _vec, double _A, double _eps, double _q, double _p) :vec(_vec),A(_A), eps(_eps), q(_q), p(_p) {}
 
     
 };
 
 bool operator == ( const Config & left, const Config & right ){
-        if (left.vec == right.vec &&  left.a == right.a && left.eps == right.eps && left.p == right.p && left.q == right.q)
+        if (left.vec == right.vec &&  left.A == right.A && left.eps == right.eps && left.p == right.p && left.q == right.q)
             return true;
         else return false;
     }
@@ -54,7 +54,7 @@ double E_r(Config & elem  ,std::vector <Config> &field,double &min_len){
             
         else{
 
-            energy+= i.a*exp(-2*i.p*(distance(elem.vec, i.vec)/min_len-1));
+            energy+= i.A*exp(-2*i.p*(distance(elem.vec, i.vec)/min_len-1));
 
         }
          
@@ -76,7 +76,7 @@ double E_c(std::vector <Config> &field,double &min_len){
 
 }
 
-double potential(std::vector <Config> &field){
+/*double potential(std::vector <Config> &field){
 
     const double G = 6.67430e-11;
 
@@ -101,6 +101,35 @@ double potential(std::vector <Config> &field){
 
     return RezE;
 
+}*/
+
+
+void generate_edge(std::vector<Config> &Field,const nlohmann::json &file_read){
+
+     std::vector<vector> Pool;
+     double a = file_read["a"]; 
+     for(int i = 0; i<file_read["size"]["x"]; ++i){
+         for(int j = 0; j<file_read["size"]["y"];++j){
+             for(int k = 0; k<file_read["size"]["z"];++k){
+                 std::vector<double> temp;
+                 Pool.push_back((Field[0].vec*(i+j+k+1)*a));
+                 Pool.push_back((Field[1].vec*(i+j+k+1)*a));
+                 Pool.push_back((Field[2].vec*(i+j+k+1)*a));
+                 Pool.push_back((Field[3].vec*(i+j+k+1)*a));
+                // Pool.push_back((Field[1].vec*(k)+Field[1].vec*(j)+Field[1].vec*(i))*a);
+                 //Pool.push_back((Field[2].vec*(k)+Field[2].vec*(j)+Field[2].vec*(i))*a);
+                 //Pool.push_back((Field[3].vec*(k)+Field[3].vec*(j)+Field[3].vec*(i))*a);
+
+             }
+         }
+     }
+
+    std::cout<<"len "<<Pool.size()<<std::endl;
+    for(auto i : Pool)
+        //for(int j = 0; j <3; j++)
+    std::cout<<"  x:"<<i[0]<<"  y:"<<i[1]<<"  z:"<<i[2]<<std::endl;
+
+
 }
 
 int main(int argc, char * argv[]){
@@ -109,33 +138,42 @@ int main(int argc, char * argv[]){
         throw std::logic_error("Error, need two params");
         }
 
-    std::cout<<"Start"<<std::endl;
+
     std::vector<Config> Field;
     
     nlohmann::json file_read;
-   
-    //Read file
-    //std::cin >> file_read;
     std::ifstream h(argv[1]);
-    //std::cout<<argv[1]<<std::endl;
+
+    std::cout<<"File "<<argv[1]<<" was successfully read."<<std::endl;
+
 
     h>>file_read;
-    std::cout<<file_read["n"]<<std::endl;
-    for(int i = 0;i<file_read["n"]; ++i){
+    
+    int multy = file_read["a"];
+    int x_arrow = file_read["size"]["x"]; 
+    int y_arrow = file_read["size"]["y"];
+    int z_arrow = file_read["size"]["z"];
+    
+    for(int i = 0;i<file_read["edge"]["n"]; ++i){
         Field.push_back(Config(vector(
             vector(
-            file_read[std::to_string(i)]["x"],
-            file_read[std::to_string(i)]["y"],
-            file_read[std::to_string(i)]["z"]
-        )),file_read[std::to_string(i)]["a"],2,3,4));
+            file_read["edge"][std::to_string(i)]["x"],
+            file_read["edge"][std::to_string(i)]["y"],
+            file_read["edge"][std::to_string(i)]["z"]
+        )),file_read["A"],
+        file_read["eps"],
+        file_read["p"],
+        file_read["q"]));
     }
 
+    double Min_len = double(multy)/2;
 
-    //max_len find
+    generate_edge(Field, file_read);    // edges are inside Field vector
 
-    double Min_len = LONG_MAX;
 
-    for(int i = 0; i<Field.size();++i){
+
+
+    /*for(int i = 0; i<Field.size();++i){
         for (int j = i+1; j< Field.size();++j){
             double len = distance(Field[i].vec, Field[j].vec);
             if(Min_len>len && i!=j){
@@ -147,15 +185,16 @@ int main(int argc, char * argv[]){
                 continue;
             }
         }
-    }
+    }*/
 
     std::cout<<"Min len :  "<<Min_len<<std::endl;
     
     nlohmann::json file_write;
-    file_write["G"] = potential(Field);
+    //file_write["G"] = potential(Field);
     std::ofstream o(argv[2]);
+    file_write["E_c"] = E_c(Field, Min_len);
     o << file_write; 
-    std::cout<<"Well done"<<std::endl;
+    std::cout<<"Data was written to file "<<argv[2]<<std::endl;
     std::cout<<E_c(Field,Min_len)<<std::endl;
     
     return 0;

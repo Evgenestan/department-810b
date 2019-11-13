@@ -13,6 +13,22 @@ vector& vector::operator+=(const vector & vec){
     return *this;
 }
 
+double vector::operator[](const int i){
+    if(i == 0){
+        return this->x;
+    }
+    else if (i == 1){
+        return this->y;
+    }
+    else if(i == 2){
+        return this->z;
+    }
+    else{
+        throw std::logic_error("There is no such a parameter");
+    }
+
+}
+
 bool operator==(const vector & vec1, const vector & vec2){
     if(vec1.x == vec2.x && vec1.y == vec2.y && vec1.z == vec2.z)
         return true;
