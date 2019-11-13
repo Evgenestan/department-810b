@@ -130,18 +130,26 @@ int main(int argc, char * argv[]){
         )),file_read[std::to_string(i)]["a"],2,3,4));
     }
 
+
+    //max_len find
+
     double Min_len = LONG_MAX;
-    for(auto i : Field){
-        if(Min_len <= length(i.vec)){
-            Min_len = length(i.vec);
-        }
-        else{
-            continue;
+
+    for(int i = 0; i<Field.size();++i){
+        for (int j = i+1; j< Field.size();++j){
+            double len = distance(Field[i].vec, Field[j].vec);
+            if(Min_len>len && i!=j){
+                Min_len =len; 
+                
+                std::cout<<"Find:"<<len<<std::endl;
+            }
+            else{
+                continue;
+            }
         }
     }
 
-
-    
+    std::cout<<"Min len :  "<<Min_len<<std::endl;
     
     nlohmann::json file_write;
     file_write["G"] = potential(Field);

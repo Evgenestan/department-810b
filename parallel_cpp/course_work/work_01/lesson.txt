@@ -83,3 +83,67 @@ int main(){
 	
 }
 
+
+
+#include <thread>
+
+int main(){
+
+	int x = 1;
+	std::thread thread1([&x// [=] - все переменные которые есть, [&] - по ссылке] (просто параметры){
+	for(int i = 0;i<100;++i)
+		std::cout<< i << std::endl;
+});
+
+thread1.join();
+
+std::threadhardware_concurrency() - количество потоков
+
+
+
+	
+}
+
+
+g++ -O3 main.cpp - lpthread
+./a.out
+O3 - оптимизация 
+
+std::atomic<bool> flag = false; - атомарная функция. - говорим компилятору что переменная будет использоваться во многих потоках...
+
+
+
+
+time ./.cpp - время.
+
+#include mutex
+
+std::mutex mutex;
+
+mutex.lock();
+mutex.unlock();
+
+
+std::lock_guard<std::mutex> guard(mutex) - захват mutex в случае выхода из области видимости guard. 
+
+
+Обработка массива паралельная
+
+#include <iostream>
+#include <thread>
+#include <vector> 
+#include <chrono>
+const int n = 100000;
+
+int main(){
+	std::vecotr<std::thread> threads;
+	std::vector<double> numbers(n);
+	auto start = std::chrono::high_resolution_clock
+
+}
+
+
+
+
+
+
