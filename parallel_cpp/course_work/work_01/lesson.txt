@@ -1,0 +1,85 @@
+expm1 - не будет терять точки из-за вычислений внутри (lib -  cmath)
+
+коэффициент 1.6 умножить на 10 ** 3 примерно - нужно
+
+vector.emplace_back() - создание объекта а не копирование как при push_back()
+
+###lesson2 ###
+
+std::valarray<double> a = {1,2,3};
+
+
+
+#include <random>
+
+double loss(const std::valarray<double> & x ,
+	const std::valarray<double> & properties){
+
+	return sqr(f(x)-properties[0])/properties[0]) + sqr((g(x)-properties[1])/properties[1]);
+
+}
+
+
+double g(const std:valarray<double>& x){
+	return sqr(x[0]-x[1]*(x[1]+x[0]))
+
+}
+
+
+template<class Loss>
+std::valarray optimized(const std::valarray<double> & lower,
+	const std::valarray<double>& upper, int sample_count  ,Loss loss)
+{
+	std::mt19937 gen{1};
+	std:valarray<double> best_point = (lower+upper)/2;
+	double best_result = loss(best_point);
+	std::valarray<double> cur_point = best_point;
+	const int dims = lower.size();
+	for(int smaple = 0; sample < sample_count;++sample){
+	  for(int id = 0; id<dims; ++id){
+		std::uniform_real_distribution<double> uniform(lower(id), upper(id));
+		cur_point[id] = uniform(gen);
+	}
+	
+	double cur_result = loss(cur_point);
+	if(cur_result< best_result){
+		best_point = cur_result;
+		best_point = cur_point;
+	}
+   }
+
+return best_point;
+
+}
+
+
+
+struct Loss(){
+	Loss(const std::valarray<double>& properties_ (propertirs)())
+	double operator() (const std::valarray& x) const{
+	return ...x[0]...
+}
+
+
+
+
+
+int main(){
+	std::valarray <double> v = {1,2};
+	Loss loss(v);
+	std::valarray<double> lower = {1,1};
+
+	std::valarray<double>result = optimized(lower, upper, 10000, loss));
+	
+	
+}
+
+}
+
+
+
+// функция потерь - структурой!!!
+int main(){
+	
+}
+
