@@ -26,7 +26,7 @@ bool operator == ( const Config & left, const Config & right ){
     }
 
 
-double E_b(Config & elem ,std::vector <Config> &field,double &min_len){
+double E_b(Config const  &elem ,std::vector <Config> const &field,double const &min_len){
 
     double energy = 0;
     for(auto i : field){
@@ -44,7 +44,7 @@ double E_b(Config & elem ,std::vector <Config> &field,double &min_len){
     return -pow(energy,0.5);
 }
 
-double E_r(Config & elem  ,std::vector <Config> &field,double &min_len){
+double E_r(Config const & elem  ,std::vector <Config> const  &field,double const  &min_len){
 
 
     double energy = 0;
@@ -60,11 +60,11 @@ double E_r(Config & elem  ,std::vector <Config> &field,double &min_len){
          
     }
 
-    return energy,0.5;
+    return energy;
 }
 
 
-double E_c(std::vector <Config> &field,double &min_len){
+double E_c(std::vector <Config> const &field,double const &min_len){
 
     double Result_energy = 0;
     for(auto i: field){
@@ -104,30 +104,84 @@ double E_c(std::vector <Config> &field,double &min_len){
 }*/
 
 
-void generate_edge(std::vector<Config> &Field,const nlohmann::json &file_read){
+void generate_edge(std::vector<Config>  &Field,const nlohmann::json &file_read, std::string const & path_to){
 
-     std::vector<vector> Pool;
-     double a = file_read["a"]; 
-     for(int i = 0; i<file_read["size"]["x"]; ++i){
-         for(int j = 0; j<file_read["size"]["y"];++j){
-             for(int k = 0; k<file_read["size"]["z"];++k){
-                 std::vector<double> temp;
-                 Pool.push_back((Field[0].vec*(i+j+k+1)*a));
-                 Pool.push_back((Field[1].vec*(i+j+k+1)*a));
-                 Pool.push_back((Field[2].vec*(i+j+k+1)*a));
-                 Pool.push_back((Field[3].vec*(i+j+k+1)*a));
-                // Pool.push_back((Field[1].vec*(k)+Field[1].vec*(j)+Field[1].vec*(i))*a);
-                 //Pool.push_back((Field[2].vec*(k)+Field[2].vec*(j)+Field[2].vec*(i))*a);
-                 //Pool.push_back((Field[3].vec*(k)+Field[3].vec*(j)+Field[3].vec*(i))*a);
+    std::vector<vector> Pool;
+    double a = file_read["a"]; 
+    int x_ar =file_read["size"]["x"];
+    int y_ar = file_read["size"]["y"];
+    int z_ar = file_read["size"]["z"];
 
-             }
-         }
-     }
+    for(auto i: Field){    // OY
+        for(int j = 1; j<=y_ar; ++j){
+            if(i.vec.y+a*j<=3*a){
+            Field.push_back(Config(vector(i.vec.x, i.vec.y+a*j, i.vec.z),
+            file_read["A"],
+            file_read["eps"],
+            file_read["p"],
+            file_read["q"]));
+            }
+            else{
+                continue;
+            }
+        }
+    }
 
-    std::cout<<"len "<<Pool.size()<<std::endl;
-    for(auto i : Pool)
-        //for(int j = 0; j <3; j++)
-    std::cout<<"  x:"<<i[0]<<"  y:"<<i[1]<<"  z:"<<i[2]<<std::endl;
+    for(auto i: Field){    // OX
+        for(int j = 1; j<=x_ar; ++j){
+            if(i.vec.x+a*j<=3*a){
+            Field.push_back(Config(vector(i.vec.x+a*j, i.vec.y, i.vec.z),
+            file_read["A"],
+            file_read["eps"],
+            file_read["p"],
+            file_read["q"]));
+            }
+            else{
+                continue;
+            }
+        }
+    }
+
+    for(auto i: Field){    // OZ
+        for(int j = 1; j<=z_ar; ++j){
+            if(i.vec.z+a*j<=3*a){
+            Field.push_back(Config(vector(i.vec.x, i.vec.y, i.vec.z+a*j),
+            file_read["A"],
+            file_read["eps"],
+            file_read["p"],
+            file_read["q"]));
+            }
+            else{
+                continue;
+            }
+        }
+    }
+
+
+    std::cout<<"Nodes amount: "<<Field.size()<<std::endl<<std::endl;
+
+
+    //Write to file
+
+    for(auto i : Field){
+
+        std::cout<<"  x:"<<i.vec[0]<<"  y:"<<i.vec[1]<<"  z:"<<i.vec[2]<<std::endl;
+        
+
+    }
+
+    std::ofstream fout(path_to,std::ios_base::out);
+
+    fout<<Field.size()<<std::endl<<std::endl;
+    for(auto i:Field){
+        fout<<"V "<<i.vec[0]<<" "<<i.vec[1]<<" "<<i.vec[2]<<std::endl;
+    }
+    fout.close();
+    
+
+
+
+
 
 
 }
@@ -166,26 +220,9 @@ int main(int argc, char * argv[]){
         file_read["q"]));
     }
 
-    double Min_len = double(multy)/2;
-
-    generate_edge(Field, file_read);    // edges are inside Field vector
-
-
-
-
-    /*for(int i = 0; i<Field.size();++i){
-        for (int j = i+1; j< Field.size();++j){
-            double len = distance(Field[i].vec, Field[j].vec);
-            if(Min_len>len && i!=j){
-                Min_len =len; 
-                
-                std::cout<<"Find:"<<len<<std::endl;
-            }
-            else{
-                continue;
-            }
-        }
-    }*/
+    double Min_len = double(multy)/2;   /*/pow(2.0,0.5);*/
+    std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
+    generate_edge(Field, file_read,path_to);    // edges are inside Field vector
 
     std::cout<<"Min len :  "<<Min_len<<std::endl;
     
@@ -195,7 +232,7 @@ int main(int argc, char * argv[]){
     file_write["E_c"] = E_c(Field, Min_len);
     o << file_write; 
     std::cout<<"Data was written to file "<<argv[2]<<std::endl;
-    std::cout<<E_c(Field,Min_len)<<std::endl;
+    std::cout<<"E_c = "<<E_c(Field,Min_len)/*/Field.size()*/<<std::endl;
     
     return 0;
 }
