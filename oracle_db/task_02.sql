@@ -29,7 +29,7 @@ with sum_officies as
 (
     select office_id, city_name, extract(YEAR from sale_date) year,country, sum(sale_amount) sum_sales
     from V_FACT_SALE
-    where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2013','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')
+    where sale_date between to_date('01.01.2013','DD.MM.YY') and to_date('01.01.2015','DD.MM.YY')
     group by office_id,extract(YEAR from sale_date), country, city_name
 ),
     sum_officies_by_year as
@@ -57,7 +57,7 @@ with months as
     from months
     order by product_id, month_order
 )
-    select product_id, product_name, max(month_prod_qty/prev_qty) as speed_size
+    select product_id, product_name, avg(month_prod_qty/prev_qty) as speed_size
     from products
     where prev_qty is not  null
     group by product_name, product_id
@@ -85,9 +85,7 @@ with sales_in_selected_period as
     select every_mounth.month_number,every_mounth.month_sale,
     sum(every_mounth.month_sale) over (order by every_mounth.month_number) sum_over_months,
     every_quartal.total_sum,
-    sum(every_quartal.total_sum) over (order by every_quartal.month_number)
+    sum(every_quartal.total_sum) over (order by  every_quartal.month_number nulls first)
     from sales_by_months every_mounth left join sales_by_quartals every_quartal
     on every_mounth.month_number = every_quartal.month_number
     order by every_mounth.month_number;
-
---query_05
