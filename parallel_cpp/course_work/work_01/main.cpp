@@ -36,11 +36,12 @@ double E_b(Config const  &elem ,std::vector <Config> const &field,double const &
         else{
 
             energy+= i.eps*exp(-2*i.q*(distance(elem.vec, i.vec)/min_len-1));
+           // std::cout<<energy<<std::endl;
 
         }
          
     }
-
+    //std::cout<<"E_b "<<-pow(energy,0.5)<<std::endl;
     return -pow(energy,0.5);
 }
 
@@ -59,6 +60,7 @@ double E_r(Config const & elem  ,std::vector <Config> const  &field,double const
         }
          
     }
+    //std::cout<<"E_r "<<energy<<std::endl;
 
     return energy;
 }
@@ -211,9 +213,9 @@ int main(int argc, char * argv[]){
     for(int i = 0;i<file_read["edge"]["n"]; ++i){
         Field.push_back(Config(vector(
             vector(
-            file_read["edge"][std::to_string(i)]["x"],
-            file_read["edge"][std::to_string(i)]["y"],
-            file_read["edge"][std::to_string(i)]["z"]
+            double(file_read["edge"][std::to_string(i)]["x"]),//*0.000000001,
+            double(file_read["edge"][std::to_string(i)]["y"]),//0.000000001,
+            double(file_read["edge"][std::to_string(i)]["z"])//0.000000001
         )),file_read["A"],
         file_read["eps"],
         file_read["p"],
