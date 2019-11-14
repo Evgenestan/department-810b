@@ -35,7 +35,7 @@ double E_b(Config const  &elem ,std::vector <Config> const &field,double const &
             
         else{
 
-            energy+= i.eps*exp(-2*i.q*(distance(elem.vec, i.vec)/min_len-1));
+            energy+= pow(i.eps,2)*exp(-2*i.q*(distance(elem.vec, i.vec)/min_len-1));
            // std::cout<<energy<<std::endl;
 
         }
@@ -55,7 +55,7 @@ double E_r(Config const & elem  ,std::vector <Config> const  &field,double const
             
         else{
 
-            energy+= i.A*exp(-2*i.p*(distance(elem.vec, i.vec)/min_len-1));
+            energy+= i.A*exp(-1*i.p*(distance(elem.vec, i.vec)/min_len-1));
 
         }
          
@@ -116,7 +116,7 @@ void generate_edge(std::vector<Config>  &Field,const nlohmann::json &file_read, 
 
     for(auto i: Field){    // OY
         for(int j = 1; j<=y_ar; ++j){
-            if(i.vec.y+a*j<=3*a){
+            if(i.vec.y+a*j<=y_ar*a){
             Field.push_back(Config(vector(i.vec.x, i.vec.y+a*j, i.vec.z),
             file_read["A"],
             file_read["eps"],
@@ -131,7 +131,7 @@ void generate_edge(std::vector<Config>  &Field,const nlohmann::json &file_read, 
 
     for(auto i: Field){    // OX
         for(int j = 1; j<=x_ar; ++j){
-            if(i.vec.x+a*j<=3*a){
+            if(i.vec.x+a*j<=x_ar*a){
             Field.push_back(Config(vector(i.vec.x+a*j, i.vec.y, i.vec.z),
             file_read["A"],
             file_read["eps"],
@@ -146,7 +146,7 @@ void generate_edge(std::vector<Config>  &Field,const nlohmann::json &file_read, 
 
     for(auto i: Field){    // OZ
         for(int j = 1; j<=z_ar; ++j){
-            if(i.vec.z+a*j<=3*a){
+            if(i.vec.z+a*j<=z_ar*a){
             Field.push_back(Config(vector(i.vec.x, i.vec.y, i.vec.z+a*j),
             file_read["A"],
             file_read["eps"],
@@ -222,10 +222,7 @@ int main(int argc, char * argv[]){
         file_read["q"]));
     }
 
-    std::cout<<"Check"<<std::endl;
-    for(auto i: Field){
-        std::cout<<i.vec[0]<<i.vec[1]<<i.vec[2]<<std::endl;
-    }
+    
     double Min_len = double(multy)/pow(2.0,0.5);
     std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
     generate_edge(Field, file_read,path_to);    // edges are inside Field vector
