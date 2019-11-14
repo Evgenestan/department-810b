@@ -69,6 +69,7 @@ double E_r(Config const & elem  ,std::vector <Config> const  &field,double const
 double E_c(std::vector <Config> const &field,double const &min_len){
 
     double Result_energy = 0;
+    
     for(auto i: field){
         Result_energy = E_b(i,field,min_len) + E_r(i,field,min_len);
     }
@@ -223,7 +224,7 @@ int main(int argc, char * argv[]){
     }
 
     
-    double Min_len = double(multy)/pow(2.0,0.5);
+    double Min_len = multy/pow(2.0,0.5);
     std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
     generate_edge(Field, file_read,path_to);    // edges are inside Field vector
 
@@ -232,10 +233,11 @@ int main(int argc, char * argv[]){
     nlohmann::json file_write;
     //file_write["G"] = potential(Field);
     std::ofstream o(argv[2]);
+    //std::cout<<"check: "<<Field.size()<<std::endl;
     file_write["E_c"] = E_c(Field, Min_len);
     o << file_write; 
     std::cout<<"Data was written to file "<<argv[2]<<std::endl;
-    std::cout<<"E_c = "<<E_c(Field,Min_len)/*/Field.size()*/<<std::endl;
+    std::cout<<"E_c = "<<E_c(Field,Min_len)/Field.size()<<std::endl;
     
     return 0;
 }
