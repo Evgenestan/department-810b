@@ -205,7 +205,7 @@ int main(int argc, char * argv[]){
 
     h>>file_read;
     
-    int multy = file_read["a"];
+    double multy = file_read["a"];
     int x_arrow = file_read["size"]["x"]; 
     int y_arrow = file_read["size"]["y"];
     int z_arrow = file_read["size"]["z"];
@@ -213,15 +213,19 @@ int main(int argc, char * argv[]){
     for(int i = 0;i<file_read["edge"]["n"]; ++i){
         Field.push_back(Config(vector(
             vector(
-            double(file_read["edge"][std::to_string(i)]["x"]),//*0.000000001,
-            double(file_read["edge"][std::to_string(i)]["y"]),//0.000000001,
-            double(file_read["edge"][std::to_string(i)]["z"])//0.000000001
+            multy*double(file_read["edge"][std::to_string(i)]["x"]),//*0.000000001,
+            multy*double(file_read["edge"][std::to_string(i)]["y"]),//0.000000001,
+            multy*double(file_read["edge"][std::to_string(i)]["z"])//0.000000001
         )),file_read["A"],
         file_read["eps"],
         file_read["p"],
         file_read["q"]));
     }
 
+    std::cout<<"Check"<<std::endl;
+    for(auto i: Field){
+        std::cout<<i.vec[0]<<i.vec[1]<<i.vec[2]<<std::endl;
+    }
     double Min_len = double(multy)/pow(2.0,0.5);
     std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
     generate_edge(Field, file_read,path_to);    // edges are inside Field vector
@@ -234,10 +238,13 @@ int main(int argc, char * argv[]){
     file_write["E_c"] = E_c(Field, Min_len);
     o << file_write; 
     std::cout<<"Data was written to file "<<argv[2]<<std::endl;
-    std::cout<<"E_c = "<<E_c(Field,Min_len)/Field.size()<<std::endl;
+    std::cout<<"E_c = "<<E_c(Field,Min_len)/*/Field.size()*/<<std::endl;
     
     return 0;
 }
+
+
+//-2.48131
 
 
 
