@@ -220,7 +220,7 @@ int main(int argc, char * argv[]){
         file_read["q"]));
     }
 
-    double Min_len = double(multy)/2;   /*/pow(2.0,0.5);*/
+    double Min_len = double(multy)/pow(2.0,0.5);
     std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
     generate_edge(Field, file_read,path_to);    // edges are inside Field vector
 
@@ -232,7 +232,7 @@ int main(int argc, char * argv[]){
     file_write["E_c"] = E_c(Field, Min_len);
     o << file_write; 
     std::cout<<"Data was written to file "<<argv[2]<<std::endl;
-    std::cout<<"E_c = "<<E_c(Field,Min_len)/*/Field.size()*/<<std::endl;
+    std::cout<<"E_c = "<<E_c(Field,Min_len)/Field.size()<<std::endl;
     
     return 0;
 }
