@@ -11,16 +11,19 @@ import java.sql.*;
 public class LibraryTest
 {
 
-    private Book book_1;
-    private Book book_2;
-    private Student student_1;
-    private Student student_2;
+    private static Book book_1;
+    private static Book book_2;
+    private static Book book_3;
+    private static Student student_1;
+    private static Student student_2;
     public static LibraryImpl library;
     public static  Connection connection;
 
     @BeforeClass
     public static void setupClass() throws SQLException
     {
+
+
         library = new LibraryImpl("jdbc:h2:mem:library", "", "");
 
         connection = library.getConnection();
@@ -33,30 +36,33 @@ public class LibraryTest
             stmt.execute(tableBooksSql);
         }
 
+        book_1 = new Book(0,"Book1");
+        book_2 = new Book(1,"Book2");
+        book_3 = new Book(3,"Book3");
+
+        student_1 = new Student(0,"Student1");
+        student_2 = new Student(1,"Student2");
+
     }
 
     @Before
     public void setUp() throws Exception
     {
-        book_1 = new Book(0,"Война и мир");
-        book_2 = new Book(1,"Дубровский");
-
-        student_1 = new Student(0,"Иван");
-        student_2 = new Student(1,"Петр");
+        library.delete_all();
 
     }
 
-    @After
+    /*@After
     public void tearDown() throws Exception
     {
 
-    }
+    }*/
 
     @Test
     public void addNewBook() throws Exception
     {
         library.addNewBook(book_1);
-        library.addNewBook(book_2);
+        //library.addNewBook(book_2);
 
          Book book = new Book();
 
@@ -87,7 +93,7 @@ public class LibraryTest
     public void addAbonent() throws Exception
     {
         library.addAbonent(student_1);
-        library.addAbonent(student_2);
+        //library.addAbonent(student_2);
 
         Student student = new Student();
 
@@ -135,12 +141,20 @@ public class LibraryTest
             e.printStackTrace();
         }
 
+
         assertEquals(student_id,student_1.getId());
     }
 
     @Test//(expected =  java.lang.AssertionError.class)
     public void returnBook() throws Exception
     {
+
+        library.addNewBook(book_1);
+        library.addNewBook(book_2);
+        library.addAbonent(student_1);
+        library.addAbonent(student_2);
+
+
         library.returnBook(book_1,student_1);
         int student_id = 0;
 
@@ -159,23 +173,38 @@ public class LibraryTest
             e.printStackTrace();
         }
 
+        //System.out.println("Id:");
+        //System.out.println(student_id);
         assertEquals(student_id,-1);
     }
 
-    @Test(expected =  java.lang.AssertionError.class)
+    @Test//(expected =  java.lang.AssertionError.class)
     public void findAvailableBooks() throws Exception
     {
         var booksOrigin = new Book[2];
-        booksOrigin[0] = book_1;
-        booksOrigin[1] = book_2;
+        library.addNewBook(book_1);
+        library.addNewBook(book_2);
+        library.addNewBook(book_3);
+        library.addAbonent(student_1);
+        library.borrowBook(book_1,student_1);
+        //booksOrigin[0] = book_1;
+        booksOrigin[0] = book_2;
+        booksOrigin[1] = book_3;
         var books = library.findAvailableBooks().toArray();
+
+        //System.out.println(books.length);
+        //System.out.println(booksOrigin.length);
+
 
         assertArrayEquals(books,booksOrigin);
     }
 
-    @Test
+    @Test//(expected =  java.lang.AssertionError.class)
     public void getAllStudents() throws Exception
     {
+        library.addAbonent(student_1);
+        library.addAbonent(student_2);
+
         var studentsOrigin = new Student[2];
         studentsOrigin [0] = student_1;
         studentsOrigin [1] = student_2;

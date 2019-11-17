@@ -29,11 +29,11 @@ public class App
         var students = new ArrayList<Student>();
         var books = new ArrayList<Book>();
 
-        students.add(new Student(0,"Александр"));
-        students.add(new Student(1, "Егор"));
+        students.add(new Student(0,"St1"));
+        students.add(new Student(1, "St2"));
 
-        books.add(new Book(0,"Thinking JAVA"));
-        books.add(new Book(1,"Learning Python"));
+        books.add(new Book(0,"B1"));
+        books.add(new Book(1,"B2"));
 
         for (var book : books)
         {

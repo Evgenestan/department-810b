@@ -22,9 +22,9 @@ public class BasketImpl implements Basket {
 
     public void addProduct(String product, int quantity) {
         String addSql = "insert into basket values('"+product+"', "+quantity+")";
-        try (Connection c = getConnection();) {
+        try (Connection c = getConnection()) {     // initialize a connection to db
 
-            c.setAutoCommit(false);
+            c.setAutoCommit(false); //
 
             try(Statement stmt = getConnection().createStatement();) {
                 stmt.execute(addSql);

@@ -11,12 +11,27 @@ public class LibraryImpl implements Library
     private String user;
     private String password;
 
+
+
     public LibraryImpl(String jdbcUrl, String user, String password)
     {
         this.jdbcUrl = jdbcUrl;
         this.user = user;
         this.password = password;
     }
+
+
+    public void delete_all() throws SQLException
+        {
+            try (Statement statement = getConnection().createStatement())
+            {
+                var delBooks = "truncate table books";
+                var delAbonents = "truncate table abonents";
+
+                statement.execute(delAbonents);
+                statement.execute(delBooks);
+            }
+        }
 
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcUrl, user, password);
@@ -29,7 +44,6 @@ public class LibraryImpl implements Library
 
         try (Connection c = getConnection())
         {
-
             try(PreparedStatement stmt = getConnection().prepareStatement(insertSql))
             {
                 stmt.setInt(1,book.getId());
@@ -55,8 +69,7 @@ public class LibraryImpl implements Library
     public void addAbonent(Student student)
     {
         String insertSql = "insert into abonents values(?,?)";
-        try (Connection c = getConnection())
-        {
+
 
             try(PreparedStatement stmt = getConnection().prepareStatement(insertSql))
             {
@@ -70,22 +83,20 @@ public class LibraryImpl implements Library
                 e.printStackTrace();
             }
         }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
+
+
 
     @Override
     public void borrowBook(Book book, Student student)
     {
         String updateSql = "update books set student_id = ? where book_id = ?";
-        try (CallableStatement stmt = getConnection().prepareCall(updateSql))
+        try ( var stmt = getConnection().prepareStatement(updateSql);)
         {
             stmt.setInt(1, student.getId());
             stmt.setInt(2, book.getId());
             stmt.executeUpdate();
             //getConnection().commit();
+
         }
         catch (SQLException e)
         {
@@ -97,10 +108,12 @@ public class LibraryImpl implements Library
     public void returnBook(Book book, Student student)
     {
         String updateSql = "update books set student_id = -1 where student_id = ? and book_id = ?";
-        try (CallableStatement stmt = getConnection().prepareCall(updateSql))
+        //String updateSql = "update books set student_id = NULL where student_id = ? and book_id = ?";
+        try (var stmt = getConnection().prepareStatement(updateSql))
         {
-            stmt.setInt(1, student.getId());
-            stmt.setInt(2, book.getId());
+
+            stmt.setInt(1, book.getId());
+            stmt.setInt(2, student.getId());
             stmt.executeUpdate();
             //getConnection().commit();
         }
@@ -110,11 +123,11 @@ public class LibraryImpl implements Library
         }
     }
 
-    public Book getBook(Book book)
+    /*public Book getBook(Book book)
     {
         Book resultBook = new Book();
         String selectSql = "select book_id, book_title, student_id from books where book_id = ?" ;
-        try (PreparedStatement stmt = getConnection().prepareCall(selectSql))
+        try (var stmt = getConnection().prepareStatement(selectSql))
         {
             stmt.setInt(1,book.getId());
 
@@ -139,13 +152,14 @@ public class LibraryImpl implements Library
         }
 
         return resultBook;
-    }
+    }*/
+
 
     @Override
     public List<Book> findAvailableBooks()
     {
         List<Book> result = new ArrayList<Book>();
-        String sql = "select book_id,book_title from books where student_id is null";
+        String sql = "select book_id,book_title from books where student_id = -1";
         try (Statement stmt = getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(sql);)
         {

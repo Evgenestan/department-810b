@@ -2,31 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f4b31e1-dd6a-4ea2-823e-2a72fb588dfb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../task_01/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/.idea/task_01.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/.idea/task_01.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/CurrencyExchangeRate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/DifferentCurrenciesException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/IncorrectExchangeRateException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/Money.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/CurrencyExchangeRate.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/CurrencyExchangeRate.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/DifferentCurrenciesException.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/DifferentCurrenciesException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/IncorrectExchangeRateException.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/IncorrectExchangeRateException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/Money.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/target/classes/org/mai/dep810/Money.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../task_02/src/main/java/org/mai/dep810/basket/BasketShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/src/main/java/org/mai/dep810/basket/BasketShop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_02/src/test/java/org/mai/dep810/BasketShopTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/src/test/java/org/mai/dep810/BasketShopTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_02/target/classes/org/mai/dep810/basket/BasketShop.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/target/classes/org/mai/dep810/basket/BasketShop.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_02/target/test-classes/org/mai/dep810/BasketShopTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/target/test-classes/org/mai/dep810/BasketShopTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mai/dep810/basket/BasketImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mai/dep810/basket/BasketImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/LibraryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/LibraryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/mai/dep810/library/LibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/mai/dep810/library/LibraryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep810/library/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mai/dep810/library/App.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep810/library/LibraryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mai/dep810/library/LibraryImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/org/mai/dep810/library/LibraryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/org/mai/dep810/library/LibraryTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../scala/task_01/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../scala/task_01/.idea/modules/task_01.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/.idea/modules/task_01.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../scala/task_01/.idea/sbt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/.idea/sbt.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../scala/task_01/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/build.sbt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +49,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../task_04" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -80,7 +66,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.LibraryTest">
+  <component name="RunManager" selected="Application.Library">
     <configuration name="Basket" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.mai.dep810.basket.App" />
       <module name="lession7" />
@@ -91,22 +77,6 @@
     <configuration name="Library" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.mai.dep810.library.App" />
       <module name="lession7" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AppTest.testApp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="lession7" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.mai.dep810.jdbc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.mai.dep810.jdbc" />
-      <option name="MAIN_CLASS_NAME" value="org.mai.dep810.jdbc.AppTest" />
-      <option name="METHOD_NAME" value="testApp" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -126,7 +96,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LibraryTest.addAbonent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LibraryTest.addNewBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="lession7" />
       <extension name="coverage">
         <pattern>
@@ -136,13 +106,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.mai.dep810.library" />
       <option name="MAIN_CLASS_NAME" value="org.mai.dep810.library.LibraryTest" />
-      <option name="METHOD_NAME" value="addAbonent" />
+      <option name="METHOD_NAME" value="addNewBook" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LibraryTest.borrowBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LibraryTest.findAvailableBooks" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="lession7" />
       <extension name="coverage">
         <pattern>
@@ -152,7 +122,23 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.mai.dep810.library" />
       <option name="MAIN_CLASS_NAME" value="org.mai.dep810.library.LibraryTest" />
-      <option name="METHOD_NAME" value="borrowBook" />
+      <option name="METHOD_NAME" value="findAvailableBooks" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LibraryTest.getAllStudents" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="lession7" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.mai.dep810.library.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.mai.dep810.library" />
+      <option name="MAIN_CLASS_NAME" value="org.mai.dep810.library.LibraryTest" />
+      <option name="METHOD_NAME" value="getAllStudents" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -177,19 +163,19 @@
     <list>
       <item itemvalue="Application.Basket" />
       <item itemvalue="Application.Library" />
-      <item itemvalue="JUnit.LibraryTest" />
-      <item itemvalue="JUnit.LibraryTest.borrowBook" />
       <item itemvalue="JUnit.LibraryTest.returnBook" />
-      <item itemvalue="JUnit.LibraryTest.addAbonent" />
-      <item itemvalue="JUnit.AppTest.testApp" />
+      <item itemvalue="JUnit.LibraryTest.addNewBook" />
+      <item itemvalue="JUnit.LibraryTest.findAvailableBooks" />
+      <item itemvalue="JUnit.LibraryTest.getAllStudents" />
+      <item itemvalue="JUnit.LibraryTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.LibraryTest" />
-        <item itemvalue="JUnit.LibraryTest.addAbonent" />
-        <item itemvalue="JUnit.AppTest.testApp" />
+        <item itemvalue="JUnit.LibraryTest.getAllStudents" />
+        <item itemvalue="JUnit.LibraryTest.findAvailableBooks" />
         <item itemvalue="JUnit.LibraryTest.returnBook" />
-        <item itemvalue="JUnit.LibraryTest.borrowBook" />
+        <item itemvalue="JUnit.LibraryTest.addNewBook" />
       </list>
     </recent_temporary>
   </component>
@@ -226,17 +212,6 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/mai/dep810/library/App.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/lession7$LibraryTest.ic" NAME="LibraryTest Coverage Results" MODIFIED="1572280456010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

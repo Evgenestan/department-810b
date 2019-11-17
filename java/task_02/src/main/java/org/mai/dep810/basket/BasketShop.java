@@ -18,7 +18,7 @@ public class BasketShop implements Basket
     {
         if(quantity <= 0)
         {
-            throw new IllegalArgumentException("Количество товара должно быть числом, больлшим нуля");
+            throw new IllegalArgumentException("Amount should be greater then zero");
         }
         else
         {
@@ -32,9 +32,9 @@ public class BasketShop implements Basket
         if(!products.containsKey(product))
         {
             var errorMessage = new StringBuilder();
-            errorMessage.append("Продукта ")
+            errorMessage.append("There is no ")
                     .append(product)
-                    .append("  корзине нет");
+                    .append("  in bucket");
             throw new ProductNotFoundException(errorMessage.toString());
         }
         else
@@ -48,14 +48,14 @@ public class BasketShop implements Basket
     {
         if(quantity <= 0)
         {
-            throw new IllegalArgumentException("Число больше 0!");
+            throw new IllegalArgumentException("NUmber should be greater then zero");
         }
         else if(!products.containsKey(product))
         {
             var errorMessage = new StringBuilder();
-            errorMessage.append("Продукта ")
+            errorMessage.append("There is no  ")
                     .append(product)
-                    .append("  корзине нет");
+                    .append("  in bucket");
             throw new ProductNotFoundException(errorMessage.toString());
         }
         else
@@ -69,9 +69,9 @@ public class BasketShop implements Basket
         if(!products.containsKey(product))
         {
             var errorMessage = new StringBuilder();
-            errorMessage.append("Продукта ")
+            errorMessage.append("There is no  ")
                     .append(product)
-                    .append("  в корзине нет");
+                    .append("  in bucket");
             throw new ProductNotFoundException(errorMessage.toString());
         }
         else
