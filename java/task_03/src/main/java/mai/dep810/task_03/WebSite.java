@@ -14,7 +14,7 @@ public class WebSite
     synchronized public void visit()
     {
         try {
-            wait(500);
+            wait(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

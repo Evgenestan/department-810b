@@ -10,32 +10,48 @@ object IrisExample
   def main(args: Array[String]): Unit =
   {
     var flowers: List[Iris] = loadFromFile("iris.data")
-    println(flowers)
+    //println(flowers)
 
     //get average sepal width
     val avgSepalLength = flowers.map(iris => iris.sepalWidth).sum/flowers.length
-    println(avgSepalLength)
+    println("Average sepal width: ")
+    println(avgSepalLength);
 
     //get average petal square - petal width multiplied on petal length
     val avgPetalLength = flowers.map(iris => iris.petalWidth*iris.petalLength).sum/flowers.length
+    println("Average petal square: ")
     println(avgPetalLength)
+
+
 
     //get average petal square for flowers with sepal width > 4
     val avgPetalSquare = flowers
         .filter(iris => iris.sepalWidth >4)
         .map(iris => iris.petalLength*iris.sepalWidth)
-        .sum / flowers.count(iris => iris.sepalWidth >4)
+        .sum / flowers.count(iris => iris.sepalWidth >4) //fold left
 
-    println(avgPetalSquare)
+    val query = flowers
+        .filter(iris => iris.sepalWidth>4)
+        .foldLeft((Tuple2[Double,Double])(0,0)){
+          (acc,flower)=>(acc._1+flower.petalLength*flower.sepalWidth, acc._2+1)
+        }
+
+    println("Filter 4 for square")
+    println(query._1/query._2)
+
+
 
     //get flowers grouped by Petal size (PetalSize.Small, etc.) with function getPetalSize
     val groupsByPetalSize = flowers.groupBy(iris=>getPetalSize(iris))
+    println("Group by: ")
     println(groupsByPetalSize)
 
     //get max sepal width for flowers grouped by species
     val maxSepalWidthForGroupsBySpecies = flowers
       .groupBy(iris=> iris.species)
-      .map((species)=>(species._1,species._2.map(specie=>specie.sepalWidth).max))
+      .map{ case (key, v) => (key, v.maxBy(_.sepalWidth))}
+      //.map((elem)=>(elem._1,elem._2.map(elem=>elem.sepalWidth).max))
+    println("max sepal for group species: ")
     println(maxSepalWidthForGroupsBySpecies)
   }
 

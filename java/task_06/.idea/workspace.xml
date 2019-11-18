@@ -2,17 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f4b31e1-dd6a-4ea2-823e-2a72fb588dfb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../task_02/src/main/java/org/mai/dep810/basket/BasketShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/src/main/java/org/mai/dep810/basket/BasketShop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_02/target/classes/org/mai/dep810/basket/BasketShop.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/target/classes/org/mai/dep810/basket/BasketShop.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../task_02/target/test-classes/org/mai/dep810/BasketShopTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_02/target/test-classes/org/mai/dep810/BasketShopTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/.idea/task_01.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/.idea/task_01.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/CurrencyExchangeRate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/DifferentCurrenciesException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/IncorrectExchangeRateException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/out/production/task_01/org/mai/dep810/Money.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/src/main/java/org/mai/dep810/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/src/main/java/org/mai/dep810/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_01/src/main/java/org/mai/dep810/Money.java" beforeDir="false" afterPath="$PROJECT_DIR$/../task_01/src/main/java/org/mai/dep810/Money.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_03/src/main/java/mai/dep810/task_03/WebSite.java" beforeDir="false" afterPath="$PROJECT_DIR$/../task_03/src/main/java/mai/dep810/task_03/WebSite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_03/target/classes/mai/dep810/task_03/IncrementThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_03/target/classes/mai/dep810/task_03/Incrementor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_03/target/classes/mai/dep810/task_03/Run.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../task_03/target/classes/mai/dep810/task_03/WebSite.class" beforeDir="false" afterPath="$PROJECT_DIR$/../task_03/target/classes/mai/dep810/task_03/WebSite.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mai/dep810/basket/BasketImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mai/dep810/basket/BasketImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/LibraryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mai/dep810/library/LibraryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/mai/dep810/library/LibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/mai/dep810/library/LibraryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep810/library/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mai/dep810/library/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/mai/dep810/library/LibraryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mai/dep810/library/LibraryImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/org/mai/dep810/library/LibraryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/org/mai/dep810/library/LibraryTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/default/task_01-build/scala_2.12/sbt_1.0/0.1.0-SNAPSHOT/resolved.xml.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/default/task_01-build/scala_2.12/sbt_1.0/0.1.0-SNAPSHOT/resolved.xml.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/default/task_01-build/scala_2.12/sbt_1.0/0.1.0-SNAPSHOT/resolved.xml.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/default/task_01-build/scala_2.12/sbt_1.0/0.1.0-SNAPSHOT/resolved.xml.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-compile-internal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-compile-internal.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-compile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-compile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-optional.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-optional.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-provided.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-provided.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-runtime-internal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-runtime-internal.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-runtime.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-runtime.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-scala-tool.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-scala-tool.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-test-internal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-test-internal.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/scala-2.12/sbt-1.0/resolution-cache/reports/default-task_01-build-test.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/streams/$global/update/$global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/streams/$global/update/$global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/project/target/streams/$global/update/$global/streams/update_cache_2.12/output" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/project/target/streams/$global/update/$global/streams/update_cache_2.12/output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/src/main/scala/org/mai/dep810/scala/iris/IrisExample.scala" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/src/main/scala/org/mai/dep810/scala/iris/IrisExample.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/Iris$.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/Iris$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/Iris.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/Iris.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/IrisExample$.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/IrisExample$.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/IrisExample$StringToIris.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/IrisExample$StringToIris.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/PetalSize$.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../scala/task_01/target/dummy/org/mai/dep810/scala/iris/PetalSize$.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +93,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Library">
+  <component name="RunManager" selected="JUnit.LibraryTest">
     <configuration name="Basket" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.mai.dep810.basket.App" />
       <module name="lession7" />

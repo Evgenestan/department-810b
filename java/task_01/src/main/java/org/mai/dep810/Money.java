@@ -80,8 +80,8 @@ public class Money
         for(int i = 0; i< new BigDecimal(100).multiply(r).intValue();++i){
             result[i]=result[i].add(new BigDecimal(0.01)).setScale(2, RoundingMode.FLOOR);
         }
-        System.out.println("Ostatok");
-        System.out.println(r);
+        //System.out.println("Ostatok");
+        //System.out.println(r);
 
 
 

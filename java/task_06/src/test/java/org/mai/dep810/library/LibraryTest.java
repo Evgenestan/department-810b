@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import java.sql.*;
 
@@ -190,13 +191,15 @@ public class LibraryTest
         //booksOrigin[0] = book_1;
         booksOrigin[0] = book_2;
         booksOrigin[1] = book_3;
-        var books = library.findAvailableBooks().toArray();
+        var books = library.findAvailableBooks();
 
         //System.out.println(books.length);
         //System.out.println(booksOrigin.length);
 
 
-        assertArrayEquals(books,booksOrigin);
+//        assertArrayEquals(books,booksOrigin);
+        assertThat(books, hasItems(book_2, book_3));
+        assertThat(books, not(hasItems(book_1)));
     }
 
     @Test//(expected =  java.lang.AssertionError.class)

@@ -61,6 +61,8 @@ public class Main
             System.out.println("DifferentCurrenciesException thrown");
         }
 
+
+
         //should set usdMoney 95 with scale 2
         usdMoney = usdMoney.subtract(poundToUsd.convert(tenPound));
         System.out.println(usdMoney.getAmount().equals(new BigDecimal(95).setScale(2)));
