@@ -89,3 +89,23 @@ with sales_in_selected_period as
     from sales_by_months every_mounth left join sales_by_quartals every_quartal
     on every_mounth.month_number = every_quartal.month_number
     order by every_mounth.month_number;
+
+--query_05
+
+with avg_sales_product as
+         (
+            select product_id, product_name, sale_amount, avg(sale_amount) over (partition by product_id) avg_sale
+            from v_fact_sale
+            where sale_date between to_date('01.01.2014','DD.MM.YY') and to_date('01.01.2015','DD.MM.YY')
+         ),
+     total_sales_sum as
+         (
+             select product_id, product_name, sum(sale_amount) total_sale, avg_sale
+             from avg_sales_product
+             group by product_id, product_name, avg_sale
+             order by total_sale desc
+         )
+            select product_id, product_name, avg_sale, sum()
+            from total_sales_sum
+
+
