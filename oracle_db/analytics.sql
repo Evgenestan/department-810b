@@ -123,12 +123,7 @@ sum(av_sal) over() total_av_sum
 --sum(sale_price) over() total_price_sum
 from t1),
 t3 as(
-select product_id,
-product_name,
-total_sum,
-total_sale_amount,
-round(av_sal 
-/total_av_sum,2)*100 "total_impact%",
+select product_id,product_name,total_sum,total_sale_amount,round(av_sal /total_av_sum,2)*100 "total_impact%",
 row_number () over (order by av_sal desc) top_sal,
 av_sal,
 total_av_sum,

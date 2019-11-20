@@ -94,7 +94,7 @@ with sales_in_selected_period as
 
 with avg_sales_product as
          (
-            select product_id, product_name, sale_amount, avg(sale_amount) over (partition by product_id) avg_sale
+            select product_id, product_name, sale_amount, sum(sale_amount) over (partition by product_id) avg_sale
             from v_fact_sale
             where sale_date between to_date('01.01.2014','DD.MM.YY') and to_date('01.01.2015','DD.MM.YY')
          ),
@@ -106,6 +106,24 @@ with avg_sales_product as
              order by total_sale desc
          )
             select product_id, product_name, avg_sale, sum()
-            from total_sales_sum
+            from total_sales_sum;
+
+with sum_sales_by_products as
+         (
+            select distinct product_id, product_name, sum(sale_amount) over (partition by product_id) sum_sales
+            from v_fact_sale
+            where sale_date between to_date('01.01.2014','DD.MM.YY') and to_date('31.12.2014','DD.MM.YY')
+         ),
+      sum_sales_with_row_numbers as
+          (
+            select product_id,product_name, sum_sales,  percent_rank() over (order by sum_sales desc) percent
+            from sum_sales_by_products
+          )
+            select product_id,product_name, sum_sales, round(percent,2) round_percent
+            from sum_sales_with_row_numbers
+            where round(percent,2) <= 0.1 or round(percent,2)>=0.9;
 
 
+
+
+order by sum(sale_amount) over (partition by product_id) desc;
