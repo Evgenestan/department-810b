@@ -92,22 +92,6 @@ with sales_in_selected_period as
 
 --query_05
 
-with avg_sales_product as
-         (
-            select product_id, product_name, sale_amount, sum(sale_amount) over (partition by product_id) avg_sale
-            from v_fact_sale
-            where sale_date between to_date('01.01.2014','DD.MM.YY') and to_date('01.01.2015','DD.MM.YY')
-         ),
-     total_sales_sum as
-         (
-             select product_id, product_name, sum(sale_amount) total_sale, avg_sale
-             from avg_sales_product
-             group by product_id, product_name, avg_sale
-             order by total_sale desc
-         )
-            select product_id, product_name, avg_sale, sum()
-            from total_sales_sum;
-
 with sum_sales_by_products as
          (
             select distinct product_id, product_name, sum(sale_amount) over (partition by product_id) sum_sales
@@ -124,6 +108,33 @@ with sum_sales_by_products as
             where round(percent,2) <= 0.1 or round(percent,2)>=0.9;
 
 
+--query_06
+
+--query_07
+with sales_by_months as
+         (
+             select distinct product_id,
+                             product_name,
+                             sale_amount,
+                             trunc(MONTHS_BETWEEN(sale_date, to_date('01.12.13', 'DD.MM.YY'))) month_order
+             from v_fact_sale
+             where sale_date between to_date('01.01.2014', 'DD.MM.YY') and to_date('31.12.2014', 'DD.MM.YY')
+         ),
+     sales_by_months_sums as
+         (
+             select distinct product_id,product_name, month_order, sum(sale_amount) over (partition by product_id, month_order) sum_sales_in_months
+             from sales_by_months
+         ),
+    max_mins as
+    (
+            select product_id,product_name, month_order,sum_sales_in_months, max(sum_sales_in_months) over ( partition by month_order) maximum,
+                   min(sum_sales_in_months) over ( partition by month_order) minimum
+            from sales_by_months_sums
+    )
+            select product_id,product_name, month_order,sum_sales_in_months
+            from max_mins
+            where sum_sales_in_months = maximum or sum_sales_in_months = minimum
 
 
-order by sum(sale_amount) over (partition by product_id) desc;
+
+

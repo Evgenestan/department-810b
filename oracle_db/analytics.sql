@@ -179,24 +179,8 @@ cheapest_product_id, cheapest_product_name, expensive_product_id, expensive_prod
 -- two joins
 
 
-with t0 as (
-select product_name,
-product_id,
-sale_price,
-trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) month_order
-from V_FACT_SALE
-where to_date(sale_date,'DD.MM.YY') >= to_date('01.01.2014','DD.MM.YY') and to_date(sale_date,'DD.MM.YY') < to_date('01.01.2015','DD.MM.YY')
- )
-select distinct
-month_order,
-max (sale_price) over (partition by month_order) max_cost_prod,
-min (sale_price) over (partition by month_order) min_cost_prod,
-first_value(product_name) over (partition by month_order order by sale_price) expensive_product_name,
-first_value(product_name) over (partition by month_order order by sale_price desc) cheapest_product_name,
-first_value(product_id) over (partition by month_order order by sale_price) expensive_product_id,
-first_value(product_id) over (partition by month_order order by sale_price desc) cheapest_product_id
-from t0
-order by month_order;
+
+
 
 
 
