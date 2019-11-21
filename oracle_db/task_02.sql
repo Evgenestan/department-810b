@@ -110,6 +110,30 @@ with sum_sales_by_products as
 
 --query_06
 
+with managers_sales as
+    (
+        select manager_id, manager_last_name, manager_first_name, country, sale_date, sale_qty,
+        SUM(sale_qty) over (partition by country,manager_id order by sale_qty) country_sale_qty
+        from v_fact_sale
+        where sale_date between to_date('01.01.2014','DD.MM.YY') and to_date('31.12.2014','DD.MM.YY')
+        order by country
+    ),
+    maximum as
+    (
+        select distinct last_value(country_sale_qty ) over (partition by country, manager_id) manager_sum,
+        manager_id, manager_last_name, manager_first_name, country
+        from managers_sales
+    ),
+    t2 as
+    (
+        select manager_sum, manager_id, manager_last_name, manager_first_name, country,
+                rank() over (partition by country order by manager_sum) rank_id
+        from maximum
+    )
+        select country, manager_last_name|| ' , ' ||manager_first_name name
+        from t2
+        where rank_id in (1,2,3);
+
 --query_07
 with sales_by_months as
          (
@@ -130,11 +154,41 @@ with sales_by_months as
             select product_id,product_name, month_order,sum_sales_in_months, max(sum_sales_in_months) over ( partition by month_order) maximum,
                    min(sum_sales_in_months) over ( partition by month_order) minimum
             from sales_by_months_sums
-    )
-            select product_id,product_name, month_order,sum_sales_in_months
-            from max_mins
-            where sum_sales_in_months = maximum or sum_sales_in_months = minimum
+    ),
+    max_sales as
+         (
+             select product_id expensive_product_id, product_name expensive_product_name, month_order, sum_sales_in_months expensive_price
+             from max_mins
+             where sum_sales_in_months = maximum
+         ),
+     min_sales as
+         (
+             select product_id cheapest_product_id, product_name cheapest_product_name, month_order, sum_sales_in_months cheapest_price
+             from max_mins
+             where sum_sales_in_months = minimum
+         )
+    select cheapest_product_id, cheapest_product_name, expensive_product_id,expensive_product_name,max_sales.month_order month, cheapest_price, expensive_price
+    from max_sales join min_sales on max_sales.month_order= min_sales.month_order;
 
 
+--query_08
 
-
+with salary as
+        (
+            select sum(sale_amount) over (partition by trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY')))) total_sales,
+            manager_id,
+            trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) month_order,
+            (round(sum(sale_amount) over (partition by manager_id, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))))/1.1,2)) first_price,
+            30000+0.05*sum(sale_amount) over (partition by manager_id, trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) ) manager_income
+            from V_FACT_SALE
+            where  sale_date between to_date('01.01.2014', 'DD.MM.YY') and to_date('31.12.2014', 'DD.MM.YY')
+        ),
+     sum_salary as
+         (
+            select distinct total_sales, sum(first_price) first_price_total, month_order, sum(manager_income) salary_amount
+            from salary
+            group by month_order,total_sales
+            order by month_order
+        )
+            select  first_price_total, salary_amount, month_order, total_sales - (first_price_total +salary_amount) profit
+            from sum_salary;
