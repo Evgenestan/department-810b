@@ -124,14 +124,14 @@ with managers_sales as
         manager_id, manager_last_name, manager_first_name, country
         from managers_sales
     ),
-    t2 as
+    sum_managers_sales as
     (
         select manager_sum, manager_id, manager_last_name, manager_first_name, country,
                 rank() over (partition by country order by manager_sum) rank_id
         from maximum
     )
         select country, manager_last_name|| ' , ' ||manager_first_name name
-        from t2
+        from sum_managers_sales
         where rank_id in (1,2,3);
 
 --query_07
@@ -150,11 +150,11 @@ with sales_by_months as
              from sales_by_months
          ),
     max_mins as
-    (
+        (
             select product_id,product_name, month_order,sum_sales_in_months, max(sum_sales_in_months) over ( partition by month_order) maximum,
-                   min(sum_sales_in_months) over ( partition by month_order) minimum
+                    min(sum_sales_in_months) over ( partition by month_order) minimum
             from sales_by_months_sums
-    ),
+        ),
     max_sales as
          (
              select product_id expensive_product_id, product_name expensive_product_name, month_order, sum_sales_in_months expensive_price
@@ -167,8 +167,8 @@ with sales_by_months as
              from max_mins
              where sum_sales_in_months = minimum
          )
-    select cheapest_product_id, cheapest_product_name, expensive_product_id,expensive_product_name,max_sales.month_order month, cheapest_price, expensive_price
-    from max_sales join min_sales on max_sales.month_order= min_sales.month_order;
+        select cheapest_product_id, cheapest_product_name, expensive_product_id,expensive_product_name,max_sales.month_order month, cheapest_price, expensive_price
+        from max_sales join min_sales on max_sales.month_order= min_sales.month_order;
 
 
 --query_08
