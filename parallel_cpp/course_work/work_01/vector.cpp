@@ -96,8 +96,44 @@ double vector::scalar(const vector& left){
 
 }
 
-double distance(const vector& lv,const vector& rv){
-    return sqrt(pow(lv.x-rv.x,2)+pow(lv.y-rv.y,2)+pow(lv.z-rv.z,2));
+double distance(const vector& lv,const vector& rv, const double & length){
+    //double cur_len = sqrt(pow(lv.x-rv.x,2)+pow(lv.y-rv.y,2)+pow(lv.z-rv.z,2));
+    double x_r, y_r,z_r;
+    double x_dif = lv.x-rv.x;
+    double y_dif = lv.y - rv.y;
+    double z_dif = lv.z - rv.z; 
+    if(x_dif>length/2){
+        x_r = length - (x_dif);
+    }
+    else if(x_dif<-length/2){
+        x_r = length+x_dif;
+    }
+    else{
+        x_r = x_dif;
+    }
+
+    if(y_dif>length/2){
+        y_r = length - (y_dif);
+    }
+    else if(y_dif<-length/2){
+        y_r = length+y_dif;
+    }
+    else{
+        y_r = y_dif;
+    }
+
+    if(z_dif>length/2){
+        z_r = length - (z_dif);
+    }
+    else if(z_dif<-length/2){
+        z_r = length+z_dif;
+    }
+    else{
+        z_r = z_dif;
+    }
+    
+    return sqrt(pow(x_r,2)+pow(y_r,2)+pow(z_r,2));
+    
 }
 
 double length(const vector& v){

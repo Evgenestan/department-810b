@@ -29,7 +29,7 @@ bool operator==(const vector&, const vector&);
 
 
 double length(const vector&);
-double distance(const vector&,const vector&);
+double distance(const vector&,const vector&, const double &);
 
 
 #endif 
