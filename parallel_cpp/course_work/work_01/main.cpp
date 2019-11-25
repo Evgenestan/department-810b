@@ -207,10 +207,10 @@ int main(int argc, char * argv[]){
     //file_write["G"] = potential(Field);
     std::ofstream o(argv[2]);
     //std::cout<<"check: "<<Field.size()<<std::endl;
-    file_write["E_c"] = E_c(Field, Min_len, multy);
+    file_write["E_c"] = E_c(Field, Min_len, multy*x_arrow);
     o << file_write; 
     std::cout<<"Data was written to file "<<argv[2]<<std::endl;
-    std::cout<<"E_c = "<<E_c(Field,Min_len, multy)<<std::endl;
+    std::cout<<"E_c = "<<E_c(Field,Min_len, multy*x_arrow)<<std::endl;
     
     return 0;
 }
