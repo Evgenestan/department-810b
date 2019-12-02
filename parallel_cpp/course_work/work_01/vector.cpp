@@ -103,7 +103,7 @@ double distance(const vector& lv,const vector& rv, const double & length){
     double y_dif = lv.y - rv.y;
     double z_dif = lv.z - rv.z; 
     if(x_dif>length/2){
-        x_r = length - (x_dif);
+        x_r =  (x_dif)-length;
     }
     else if(x_dif<-length/2){
         x_r = length+x_dif;
@@ -113,7 +113,7 @@ double distance(const vector& lv,const vector& rv, const double & length){
     }
 
     if(y_dif>length/2){
-        y_r = length - (y_dif);
+        y_r =  (y_dif)-length;
     }
     else if(y_dif<-length/2){
         y_r = length+y_dif;
@@ -123,7 +123,7 @@ double distance(const vector& lv,const vector& rv, const double & length){
     }
 
     if(z_dif>length/2){
-        z_r = length - (z_dif);
+        z_r =  (z_dif) - length ;
     }
     else if(z_dif<-length/2){
         z_r = length+z_dif;
@@ -132,7 +132,7 @@ double distance(const vector& lv,const vector& rv, const double & length){
         z_r = z_dif;
     }
     
-    return sqrt(pow(x_r,2)+pow(y_r,2)+pow(z_r,2));
+    return sqrt(x_r*x_r+y_r*y_r+z_r*z_r);
     
 }
 

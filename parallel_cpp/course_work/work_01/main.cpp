@@ -80,66 +80,61 @@ double E_c(std::vector <Config> const &field,double const &min_len, const double
 }
 
 
-void generate_edge(std::vector<Config>  &Field,const nlohmann::json &file_read, std::string const & path_to){
+std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::json &file_read, std::string const & path_to){
 
-    std::vector<vector> Pool;
+    std::vector<Config> Pool = Field;
     double a = file_read["a"]; 
     int x_ar =file_read["size"]["x"];
     int y_ar = file_read["size"]["y"];
     int z_ar = file_read["size"]["z"];
 
     for(auto i: Field){    // OY
-        for(int j = 1; j<=y_ar; ++j){
-            if(i.vec.y+a*j<=y_ar*a){
-            Field.push_back(Config(vector(i.vec.x, i.vec.y+a*j, i.vec.z),
+        for(int j = 1; j<y_ar; ++j){
+            //if(i.vec.y+a*j<=y_ar*a){
+            Pool.push_back(Config(vector(i.vec.x, i.vec.y+a*j, i.vec.z),
             file_read["A"],
             file_read["eps"],
             file_read["p"],
             file_read["q"]));
-            }
-            else{
-                continue;
-            }
+            //}
+           
         }
     }
 
+    Field = Pool;
     for(auto i: Field){    // OX
-        for(int j = 1; j<=x_ar; ++j){
-            if(i.vec.x+a*j<=x_ar*a){
-            Field.push_back(Config(vector(i.vec.x+a*j, i.vec.y, i.vec.z),
+        for(int j = 1; j<x_ar; ++j){
+            //if(i.vec.x+a*j<=x_ar*a){
+            Pool.push_back(Config(vector(i.vec.x+a*j, i.vec.y, i.vec.z),
             file_read["A"],
             file_read["eps"],
             file_read["p"],
             file_read["q"]));
-            }
-            else{
-                continue;
-            }
+            //}
+            
         }
     }
-
+    Field = Pool;
     for(auto i: Field){    // OZ
-        for(int j = 1; j<=z_ar; ++j){
-            if(i.vec.z+a*j<=z_ar*a){
-            Field.push_back(Config(vector(i.vec.x, i.vec.y, i.vec.z+a*j),
+        for(int j = 1; j<z_ar; ++j){
+           // if(i.vec.z+a*j<=z_ar*a){
+            Pool.push_back(Config(vector(i.vec.x, i.vec.y, i.vec.z+a*j),
             file_read["A"],
             file_read["eps"],
             file_read["p"],
             file_read["q"]));
-            }
-            else{
-                continue;
-            }
+            //}
+            
         }
     }
 
 
-    std::cout<<"Nodes amount: "<<Field.size()<<std::endl<<std::endl;
+    std::cout<<"Nodes amount: "<<Pool.size()<<std::endl<<std::endl;
 
 
     //Write to file
 
-    for(auto i : Field){
+    for(auto i : Pool){
 
         std::cout<<"  x:"<<i.vec[0]<<"  y:"<<i.vec[1]<<"  z:"<<i.vec[2]<<std::endl;
         
@@ -148,11 +143,12 @@ void generate_edge(std::vector<Config>  &Field,const nlohmann::json &file_read, 
 
     std::ofstream fout(path_to,std::ios_base::out);
 
-    fout<<Field.size()<<std::endl<<std::endl;
-    for(auto i:Field){
+    fout<<Pool.size()<<std::endl<<std::endl;
+    for(auto i:Pool){
         fout<<"V "<<i.vec[0]<<" "<<i.vec[1]<<" "<<i.vec[2]<<std::endl;
     }
     fout.close();
+    return Pool;
     
 
 
@@ -186,37 +182,36 @@ int main(int argc, char * argv[]){
     
     for(int i = 0;i<file_read["edge"]["n"]; ++i){
         Field.push_back(Config(vector(
-            vector(
+            
             multy*double(file_read["edge"][std::to_string(i)]["x"]),//*0.000000001,
             multy*double(file_read["edge"][std::to_string(i)]["y"]),//0.000000001,
             multy*double(file_read["edge"][std::to_string(i)]["z"])//0.000000001
-        )),file_read["A"],
+        ),file_read["A"],
         file_read["eps"],
         file_read["p"],
         file_read["q"]));
     }
 
     
-    double Min_len = multy/pow(2.0,0.5);
+    double Min_len = multy/sqrt(2.0);
     std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
-    generate_edge(Field, file_read,path_to);    // edges are inside Field vector
-
+    std::vector<Config> Pool = generate_edge(Field, file_read,path_to);    // edges are inside Field vector
     std::cout<<"Min len :  "<<Min_len<<std::endl;
     
     nlohmann::json file_write;
     //file_write["G"] = potential(Field);
     std::ofstream o(argv[2]);
     //std::cout<<"check: "<<Field.size()<<std::endl;
-    file_write["E_c"] = E_c(Field, Min_len, multy*x_arrow);
+    auto answer = E_c(Pool, Min_len, multy*x_arrow)/Pool.size();
+    file_write["E_c"] =answer;
     o << file_write; 
     std::cout<<"Data was written to file "<<argv[2]<<std::endl;
-    std::cout<<"E_c = "<<E_c(Field,Min_len, multy*x_arrow)<<std::endl;
+    std::cout<<"E_c = "<<answer<<std::endl;
     
     return 0;
 }
 
 
-//-2.48131
 
 
 
