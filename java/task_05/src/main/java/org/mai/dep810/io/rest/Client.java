@@ -27,8 +27,8 @@ public class Client {
     private static Logger log = Logger.getLogger(Client.class);
 
     public static void main(String[] args) throws IOException {
-        saveBooks();
-   //     deleteBook();
+//        saveBooks();
+        deleteBook();
     }
 
     private static void deleteBook() throws IOException {

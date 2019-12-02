@@ -1,6 +1,6 @@
 package org.mai.dep110.scala.stackoverflow
 
-object Main extends App {
+object  Main extends App {
 
   val loader = new DataLoader {
     override def basePath: String = "stackoverflow"
