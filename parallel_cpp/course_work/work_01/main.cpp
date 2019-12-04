@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+//#include <tbb/parallel_for.h>
+
 
 struct Config{
 
@@ -19,14 +21,60 @@ struct Config{
     
 };
 
+
+double distance(const vector& lv,const vector& rv, const double & length, const double * matrix){
+    //double cur_len = sqrt(pow(lv.x-rv.x,2)+pow(lv.y-rv.y,2)+pow(lv.z-rv.z,2));
+    double x_r, y_r,z_r;
+    double x_dif = lv.x-rv.x;
+    double y_dif = lv.y - rv.y;
+    double z_dif = lv.z - rv.z; 
+    if(x_dif>length/2){
+        x_r =  (x_dif)-length;
+    }
+    else if(x_dif<-length/2){
+        x_r = length+x_dif;
+    }
+    else{
+        x_r = x_dif;
+    }
+
+    if(y_dif>length/2){
+        y_r =  (y_dif)-length;
+    }
+    else if(y_dif<-length/2){
+        y_r = length+y_dif;
+    }
+    else{
+        y_r = y_dif;
+    }
+
+    if(z_dif>length/2){
+        z_r =  (z_dif) - length ;
+    }
+    else if(z_dif<-length/2){
+        z_r = length+z_dif;
+    }
+    else{
+        z_r = z_dif;
+    }
+    
+    return sqrt(x_r*x_r*matrix[0]*matrix[0]+y_r*y_r*matrix[1]*matrix[1]+z_r*z_r*matrix[2]*matrix[2]);
+    
+}
+
+
 bool operator == ( const Config & left, const Config & right ){
-        if (left.vec == right.vec &&  left.A == right.A && left.eps == right.eps && left.p == right.p && left.q == right.q)
-            return true;
-        else return false;
+        return  (left.vec == right.vec &&  left.A == right.A && left.eps == right.eps && left.p == right.p && left.q == right.q);
+
     }
 
 
-double E_b(Config const  &elem ,std::vector <Config> const &field,double const &min_len, const double & multy){
+double E_b(
+    Config const  &elem,
+    std::vector <Config> const &field,
+    double const &min_len,
+    const double & multy,
+    const double* matrix){
 
     double energy = 0;
     for(auto i : field){
@@ -35,7 +83,7 @@ double E_b(Config const  &elem ,std::vector <Config> const &field,double const &
             
         else{
 
-            energy+= pow(i.eps,2)*exp(-2*i.q*(distance( i.vec,elem.vec, multy)/min_len-1));
+            energy+= pow(i.eps,2)*exp(-2*i.q*(distance( i.vec,elem.vec, multy, matrix)/min_len-1));
            // std::cout<<energy<<std::endl;
 
         }
@@ -45,8 +93,12 @@ double E_b(Config const  &elem ,std::vector <Config> const &field,double const &
     return -pow(energy,0.5);
 }
 
-double E_r(Config const & elem  ,std::vector <Config> const  &field,double const  &min_len, const double& multy){
-
+double E_r(
+    Config const & elem,
+    std::vector <Config> const  &field,
+    double const  &min_len,
+    const double& multy,
+    const double * matrix){
 
     double energy = 0;
     for(auto i : field){
@@ -55,7 +107,7 @@ double E_r(Config const & elem  ,std::vector <Config> const  &field,double const
             
         else{
 
-            energy+= i.A*exp(-1*i.p*(distance(i.vec, elem.vec,  multy)/min_len-1));
+            energy+= i.A*exp(-1*i.p*(distance(i.vec, elem.vec,  multy, matrix)/min_len-1));
 
         }
          
@@ -66,12 +118,16 @@ double E_r(Config const & elem  ,std::vector <Config> const  &field,double const
 }
 
 
-double E_c(std::vector <Config> const &field,double const &min_len, const double & multy){
+double E_c(
+    std::vector <Config> const &field,
+    double const &min_len,
+    const double & multy,
+    const double *matrix){
 
     double Result_energy = 0;
     
     for(auto i: field){
-        Result_energy = E_b(i,field,min_len, multy) + E_r(i,field,min_len, multy);
+        Result_energy += E_b(i,field,min_len, multy,matrix) + E_r(i,field,min_len, multy,matrix);
     }
 
     return Result_energy;
@@ -94,8 +150,8 @@ std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::j
             Pool.push_back(Config(vector(i.vec.x, i.vec.y+a*j, i.vec.z),
             file_read["A"],
             file_read["eps"],
-            file_read["p"],
-            file_read["q"]));
+            file_read["q"],
+            file_read["p"]));
             //}
            
         }
@@ -108,8 +164,8 @@ std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::j
             Pool.push_back(Config(vector(i.vec.x+a*j, i.vec.y, i.vec.z),
             file_read["A"],
             file_read["eps"],
-            file_read["p"],
-            file_read["q"]));
+            file_read["q"],
+            file_read["p"]));
             //}
             
         }
@@ -121,8 +177,8 @@ std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::j
             Pool.push_back(Config(vector(i.vec.x, i.vec.y, i.vec.z+a*j),
             file_read["A"],
             file_read["eps"],
-            file_read["p"],
-            file_read["q"]));
+            file_read["q"],
+            file_read["p"]));
             //}
             
         }
@@ -188,8 +244,8 @@ int main(int argc, char * argv[]){
             multy*double(file_read["edge"][std::to_string(i)]["z"])//0.000000001
         ),file_read["A"],
         file_read["eps"],
-        file_read["p"],
-        file_read["q"]));
+        file_read["q"],
+        file_read["p"]));
     }
 
     
@@ -202,12 +258,59 @@ int main(int argc, char * argv[]){
     //file_write["G"] = potential(Field);
     std::ofstream o(argv[2]);
     //std::cout<<"check: "<<Field.size()<<std::endl;
-    auto answer = E_c(Pool, Min_len, multy*x_arrow)/Pool.size();
-    file_write["E_c"] =answer;
-    o << file_write; 
+
+    double alpha = 0.01;
+    //E_0
+    double matrix_E_0[]= {1.0,1.0,1.0};
+    auto e_c = E_c(Pool, Min_len, multy*x_arrow,matrix_E_0)/Pool.size();
+    file_write["E_c"] =e_c;
+    //
+    //delete matrix_E_0;
+
+
+
+    //C11 and C12
+    double matrix_c_11[]= {1+alpha,1+alpha,1.0};
+    auto e_c_11 = E_c(Pool, Min_len, multy*x_arrow,matrix_c_11)/Pool.size();
+    //delete matrix_c_11;
+
+    double matrix_c_12[]= {1+alpha,1-alpha,1.0};
+    auto e_c_12 = E_c(Pool, Min_len, multy*x_arrow,matrix_c_12)/Pool.size();
+    //delete matrix_c_12;
+
+    auto delta_1 = (e_c_11 -e_c)/(multy*multy*multy*alpha*alpha); 
+    auto delta_2 = (e_c_12 - e_c)/(multy*multy*multy*alpha*alpha);
+    auto C_11 = (delta_1+delta_2)/2;
+    auto C_12 = C_11 - delta_1;
+    auto B = (C_11+C_12)/3;
+
+    file_write["C_11"] =C_11;
+    file_write["C_12"] =C_12;
+    file_write["B"] = B;
+
+    //C44
+
+
+    double matrix_c_44[]= {1.0,1.0,1/(1-alpha*alpha)};
+    auto e_c_44 = E_c(Pool, Min_len, multy*x_arrow,matrix_c_44)/Pool.size();
+    //delete matrix_c_44;
+    auto C_44 = (e_c_44 - e_c)/(2*multy*multy*multy*alpha*alpha);
+    file_write["C_44"] = C_44;
+
+
+
     std::cout<<"Data was written to file "<<argv[2]<<std::endl;
-    std::cout<<"E_c = "<<answer<<std::endl;
     
+    std::cout<<"E_c = "<<e_c<<std::endl;
+    std::cout<<"B = "<<B<<std::endl;
+    std::cout<<"C_11 = "<<C_11<<std::endl;
+    std::cout<<"C_12 = "<<C_12<<std::endl;
+    std::cout<<"C_44 = "<<C_44<<std::endl;
+    
+
+    o << file_write; 
+    o.close();
+
     return 0;
 }
 
