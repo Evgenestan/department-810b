@@ -246,6 +246,24 @@ select  first_price_total, salary_amount, month_order, total_sales - (first_pric
 
 
 
+/*Lesson 05.12.2019*/
+
+create sequence SEQ_DIM_COUNTRY_ID;
+
+
+select SEQ_DIM_COUNTRY_ID.nextval from dual;
+
+insert into DIM_COUNTRY(COUNTRY_ID, COUNTRY_NAME)
+select SEQ_DIM_COUNTRY_ID.nextval, C.country
+from (select distinct COUNTRY from CITY) C;
+
+select * from DIM_COUNTRY;
+
+
+select distinct country from city;
+
+
+
 
 
 
