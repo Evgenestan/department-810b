@@ -43,15 +43,34 @@ struct Params{
     double p0;
     double q0;
     double qsi;
+    Params(){}
     Params(double _A0, double _A1, double _r0, double _p0, double _q0, double _qsi): A0(_A0),A1(_A1), r0(_r0), p0(_p0),q0(_q0),qsi(_qsi){}
+    Params(const Params &params){
+         A0 = params.A0;
+    }
     //input params
 };
 
-struct ParamsArray{
-    //Params arr[][]= {{1,2},{1,2}};
-    
+
+enum atom_kernel {
+    A=1,B=2
 };
 
+
+struct ParamsArray{
+    //Params arr[3][3]= {{1,2},{1,2}};
+    
+
+
+    Params arr [2][2];
+    ParamsArray(){
+
+
+       // Params param(1.0,2.0,3.0,4.0,5.0,6.0);     
+        arr[A][A] = Params(1.0,2.0,3.0,4.0,5.0,6.0);
+    }
+    
+};
 
 double distance(const vector& lv,const vector& rv, const double & length, const double * matrix, int size =3){
     double x_r, y_r,z_r;
@@ -256,6 +275,10 @@ std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::j
 }
 
 int main(int argc, char * argv[]){
+
+
+    
+    //paramsArray.arr[A][B];
 
 	if(argc <2){
         throw std::logic_error("Error, need two params");

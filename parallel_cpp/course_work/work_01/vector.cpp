@@ -96,7 +96,7 @@ double vector::scalar(const vector& left){
 
 }
 
-
+            
 
 double length(const vector& v){
     double result = 0;
