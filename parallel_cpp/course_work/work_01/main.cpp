@@ -9,6 +9,10 @@
 //#include <tbb/parallel_for.h>
 
 
+//#include "tbb/blocked_range.h"
+//#include <tbb/parallel_for.h>
+
+
 struct Config{
 
     vector vec;
@@ -22,8 +26,34 @@ struct Config{
 };
 
 
-double distance(const vector& lv,const vector& rv, const double & length, const double * matrix){
-    //double cur_len = sqrt(pow(lv.x-rv.x,2)+pow(lv.y-rv.y,2)+pow(lv.z-rv.z,2));
+//stage 2
+
+struct Atom{
+vector vec;
+int type;
+Atom(vector _vec, int _type): vec(_vec), type(_type){}
+
+};
+
+
+struct Params{
+    double A0;
+    double A1;
+    double r0;
+    double p0;
+    double q0;
+    double qsi;
+    Params(double _A0, double _A1, double _r0, double _p0, double _q0, double _qsi): A0(_A0),A1(_A1), r0(_r0), p0(_p0),q0(_q0),qsi(_qsi){}
+    //input params
+};
+
+struct ParamsArray{
+    //Params arr[][]= {{1,2},{1,2}};
+    
+};
+
+
+double distance(const vector& lv,const vector& rv, const double & length, const double * matrix, int size =3){
     double x_r, y_r,z_r;
     double x_dif = lv.x-rv.x;
     double y_dif = lv.y - rv.y;
@@ -58,7 +88,15 @@ double distance(const vector& lv,const vector& rv, const double & length, const 
         z_r = z_dif;
     }
     
+    
+
+    if(size!=3){
+    return sqrt((x_r*matrix[0]+y_r*matrix[1])*((x_r*matrix[0]+y_r*matrix[1]))
+    +(y_r*matrix[3]+x_r*matrix[2])*(y_r*matrix[3]+x_r*matrix[2])+(z_r*matrix[4])*(z_r*matrix[4]));
+    }
+    else{
     return sqrt(x_r*x_r*matrix[0]*matrix[0]+y_r*y_r*matrix[1]*matrix[1]+z_r*z_r*matrix[2]*matrix[2]);
+    }
     
 }
 
@@ -74,7 +112,8 @@ double E_b(
     std::vector <Config> const &field,
     double const &min_len,
     const double & multy,
-    const double* matrix){
+    const double* matrix,
+    const int & size){
 
     double energy = 0;
     for(auto i : field){
@@ -83,7 +122,7 @@ double E_b(
             
         else{
 
-            energy+= pow(i.eps,2)*exp(-2*i.q*(distance( i.vec,elem.vec, multy, matrix)/min_len-1));
+            energy+= pow(i.eps,2)*exp(-2*i.q*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
            // std::cout<<energy<<std::endl;
 
         }
@@ -98,7 +137,8 @@ double E_r(
     std::vector <Config> const  &field,
     double const  &min_len,
     const double& multy,
-    const double * matrix){
+    const double * matrix,
+    const int & size){
 
     double energy = 0;
     for(auto i : field){
@@ -107,7 +147,7 @@ double E_r(
             
         else{
 
-            energy+= i.A*exp(-1*i.p*(distance(i.vec, elem.vec,  multy, matrix)/min_len-1));
+            energy+= i.A*exp(-1*i.p*(distance(i.vec, elem.vec,  multy, matrix, size)/min_len-1));
 
         }
          
@@ -122,12 +162,13 @@ double E_c(
     std::vector <Config> const &field,
     double const &min_len,
     const double & multy,
-    const double *matrix){
+    const double *matrix,
+    const int & size){
 
     double Result_energy = 0;
     
     for(auto i: field){
-        Result_energy += E_b(i,field,min_len, multy,matrix) + E_r(i,field,min_len, multy,matrix);
+        Result_energy += E_b(i,field,min_len, multy,matrix,size) + E_r(i,field,min_len, multy,matrix,size);
     }
 
     return Result_energy;
@@ -262,40 +303,68 @@ int main(int argc, char * argv[]){
     double alpha = 0.01;
     //E_0
     double matrix_E_0[]= {1.0,1.0,1.0};
-    auto e_c = E_c(Pool, Min_len, multy*x_arrow,matrix_E_0)/Pool.size();
+    auto e_c = E_c(Pool, Min_len, multy*x_arrow,matrix_E_0,3)/Pool.size();
     file_write["E_c"] =e_c;
     //
     //delete matrix_E_0;
 
+    //constants
 
+    auto const Main_constant = 1.602;    //important размерность должна быть нормальной из электронвольт 
+    auto const alpha_p2 = alpha*alpha;
+    auto const V_0 = multy*multy*multy/4;
 
     //C11 and C12
-    double matrix_c_11[]= {1+alpha,1+alpha,1.0};
-    auto e_c_11 = E_c(Pool, Min_len, multy*x_arrow,matrix_c_11)/Pool.size();
-    //delete matrix_c_11;
+    double matrix_c_11_plus[]= {1+alpha,1+alpha,1.0};
+    double matrix_c_11_minus[]= {1-alpha,1-alpha,1.0};
 
-    double matrix_c_12[]= {1+alpha,1-alpha,1.0};
-    auto e_c_12 = E_c(Pool, Min_len, multy*x_arrow,matrix_c_12)/Pool.size();
+    auto e_c_11_plus = E_c(Pool, Min_len, multy*x_arrow,matrix_c_11_plus,3)/Pool.size();
+    auto e_c_11_minus = E_c(Pool, Min_len, multy*x_arrow,matrix_c_11_minus,3)/Pool.size();
+
+    double matrix_c_12_plus[]= {1+alpha,1-alpha,1.0};
+    double matrix_c_12_minus[]= {1-alpha,1+alpha,1.0};
+
+
+    auto e_c_12_plus = E_c(Pool, Min_len, multy*x_arrow,matrix_c_12_plus,3)/Pool.size();
+    auto e_c_12_minus = E_c(Pool, Min_len, multy*x_arrow,matrix_c_12_minus,3)/Pool.size();
     //delete matrix_c_12;
 
-    auto delta_1 = (e_c_11 -e_c)/(multy*multy*multy*alpha*alpha); 
-    auto delta_2 = (e_c_12 - e_c)/(multy*multy*multy*alpha*alpha);
-    auto C_11 = (delta_1+delta_2)/2;
-    auto C_12 = C_11 - delta_1;
-    auto B = (C_11+C_12)/3;
+    auto der11 =  (e_c_11_plus - 2*e_c + e_c_11_minus)/(alpha_p2);
+    auto der12 = (e_c_12_plus-2*e_c+e_c_12_minus)/(alpha_p2);
+    auto C_11 = 1.0/(4.0*V_0)*(der11+der12)*Main_constant;
 
+    auto C_12 = 1.0/(4.0*V_0)*(der11-der12)*Main_constant;
     file_write["C_11"] =C_11;
     file_write["C_12"] =C_12;
+    //auto B = (C_11+C_12)/3;
+
+    double B_plus[]= {1+alpha,1+alpha,1+alpha};
+    double B_minus[] = {1-alpha,1-alpha,1-alpha};
+
+    auto B_plus_energy = E_c(Pool, Min_len, multy*x_arrow,B_plus,3)/Pool.size();
+    auto B_minus_energy = E_c(Pool, Min_len, multy*x_arrow,B_minus,3)/Pool.size();
+
+
+    auto B = 1.0/(9.0*V_0)*(B_plus_energy-2*e_c+B_minus_energy)/(alpha_p2)*Main_constant;
+
+
+
     file_write["B"] = B;
 
     //C44
 
 
-    double matrix_c_44[]= {1.0,1.0,1/(1-alpha*alpha)};
-    auto e_c_44 = E_c(Pool, Min_len, multy*x_arrow,matrix_c_44)/Pool.size();
+
+    double matrix_c_44_plus[]= {1.0,alpha,alpha,1.0,1.0/(1-alpha_p2)};
+    double matrix_c_44_minus[]= {1.0,-alpha,-alpha,1.0,1.0/(1+alpha_p2)};
+    std::cout<<"Matrix size:     "<<sizeof(matrix_c_44_plus)/sizeof(matrix_c_44_plus[0])<<std::endl;
+    auto e_c_44_plus = E_c(Pool, Min_len, multy*x_arrow,matrix_c_44_plus,5)/Pool.size();
+    auto e_c_44_minus = E_c(Pool, Min_len, multy*x_arrow,matrix_c_44_minus,5)/Pool.size();
     //delete matrix_c_44;
-    auto C_44 = (e_c_44 - e_c)/(2*multy*multy*multy*alpha*alpha);
+    auto C_44 = 1.0/(4*V_0)*(e_c_44_plus - 2*e_c + e_c_44_minus)/(alpha_p2)*Main_constant;
     file_write["C_44"] = C_44;
+
+    
 
 
 
@@ -310,6 +379,27 @@ int main(int argc, char * argv[]){
 
     o << file_write; 
     o.close();
+
+
+
+
+
+
+
+
+    /*const size_t SIZE = 10000000;
+    std::vector<double> myArray(SIZE);
+
+	// Запуск параллельного алгоритма for
+	tbb::parallel_for(tbb::blocked_range<size_t>(0, SIZE),
+	// Лямбда-функция
+	[&myArray](const tbb::blocked_range<size_t> &r)
+	{
+		for (size_t i = r.begin(); i != r.end(); i++)
+		    std::cout<<myArray[i]<<std::endl;
+	});*/
+
+
 
     return 0;
 }
