@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "struct.h"
 //#include <tbb/parallel_for.h>
 
 
@@ -13,64 +14,92 @@
 //#include <tbb/parallel_for.h>
 
 
-struct Config{
-
-    vector vec;
-    double A;
-    double eps;
-    double p;
-    double q;
-    Config(vector _vec, double _A, double _eps, double _q, double _p) :vec(_vec),A(_A), eps(_eps), q(_q), p(_p) {}
-
-    
-};
 
 
-//stage 2
+double E_b(
+    Atom const  &elem,
+    std::vector <Atom> const &field,
+    double const &min_len,
+    const double & multy,
+    const double* matrix,
+    const int & size,
+    const ParamsArray& feature){
 
-struct Atom{
-vector vec;
-int type;
-Atom(vector _vec, int _type): vec(_vec), type(_type){}
+    double energy = 0;
+    for(auto i : field){
+        if(elem == i)
+            continue;
+            
+        else{
 
-};
+            auto fi = feature.arr[i.type][elem.type];
+            energy+= pow(fi.qsi,2)*exp(-2*fi.q0*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
+            energy+=fi.qsi*exp(-2*fi.q0*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
 
-
-struct Params{
-    double A0;
-    double A1;
-    double r0;
-    double p0;
-    double q0;
-    double qsi;
-    Params(){}
-    Params(double _A0, double _A1, double _r0, double _p0, double _q0, double _qsi): A0(_A0),A1(_A1), r0(_r0), p0(_p0),q0(_q0),qsi(_qsi){}
-    Params(const Params &params){
-         A0 = params.A0;
+        }
+         
     }
-    //input params
-};
 
+    return -pow(energy,0.5);
+}
 
-enum atom_kernel {
-    A=1,B=2
-};
+double E_r(
+    Atom const & elem,
+    std::vector <Atom> const  &field,
+    double const  &min_len,
+    const double& multy,
+    const double * matrix,
+    const int & size,
+    const ParamsArray& feature
+    ){
 
-
-struct ParamsArray{
-    //Params arr[3][3]= {{1,2},{1,2}};
-    
-
-
-    Params arr [2][2];
-    ParamsArray(){
-
-
-       // Params param(1.0,2.0,3.0,4.0,5.0,6.0);     
-        arr[A][A] = Params(1.0,2.0,3.0,4.0,5.0,6.0);
+    double energy = 0;
+    for(auto i : field){
+        if(elem == i)
+            continue;
+            
+        else{
+            auto fi = feature.arr[i.type][elem.type];
+            energy+= (fi.A1*(distance( i.vec,elem.vec, multy, matrix,size)-min_len)+fi.A0)*exp(-fi.p0*(distance(i.vec, elem.vec,  multy, matrix, size)/min_len-1));
+        }
+         
     }
+    //std::cout<<"E_r "<<energy<<std::endl;
+
+    return energy;
+}
+
+
+double E_c(
+    std::vector <Atom> const &field,
+    double const &min_len,
+    const double & multy,
+    const double *matrix,
+    const int & size,
+    const ParamsArray& feature){
+
+    double Result_energy = 0;
     
-};
+    for(auto i: field){
+        Result_energy += E_b(i,field,min_len, multy,matrix,size,feature) + E_r(i,field,min_len, multy,matrix,size,feature);
+    }
+
+    return Result_energy;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 double distance(const vector& lv,const vector& rv, const double & length, const double * matrix, int size =3){
     double x_r, y_r,z_r;
@@ -120,85 +149,15 @@ double distance(const vector& lv,const vector& rv, const double & length, const 
 }
 
 
-bool operator == ( const Config & left, const Config & right ){
-        return  (left.vec == right.vec &&  left.A == right.A && left.eps == right.eps && left.p == right.p && left.q == right.q);
-
-    }
 
 
-double E_b(
-    Config const  &elem,
-    std::vector <Config> const &field,
-    double const &min_len,
-    const double & multy,
-    const double* matrix,
-    const int & size){
-
-    double energy = 0;
-    for(auto i : field){
-        if(elem == i)
-            continue;
-            
-        else{
-
-            energy+= pow(i.eps,2)*exp(-2*i.q*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
-           // std::cout<<energy<<std::endl;
-
-        }
-         
-    }
-    //std::cout<<"E_b "<<-pow(energy,0.5)<<std::endl;
-    return -pow(energy,0.5);
-}
-
-double E_r(
-    Config const & elem,
-    std::vector <Config> const  &field,
-    double const  &min_len,
-    const double& multy,
-    const double * matrix,
-    const int & size){
-
-    double energy = 0;
-    for(auto i : field){
-        if(elem == i)
-            continue;
-            
-        else{
-
-            energy+= i.A*exp(-1*i.p*(distance(i.vec, elem.vec,  multy, matrix, size)/min_len-1));
-
-        }
-         
-    }
-    //std::cout<<"E_r "<<energy<<std::endl;
-
-    return energy;
-}
 
 
-double E_c(
-    std::vector <Config> const &field,
-    double const &min_len,
-    const double & multy,
-    const double *matrix,
-    const int & size){
-
-    double Result_energy = 0;
-    
-    for(auto i: field){
-        Result_energy += E_b(i,field,min_len, multy,matrix,size) + E_r(i,field,min_len, multy,matrix,size);
-    }
-
-    return Result_energy;
 
 
-}
+std::vector<Atom> generate_edge( std::vector<Atom>  &Field,const nlohmann::json &file_read, std::string const & path_to){
 
-
-std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::json &file_read, std::string const & path_to){
-
-    std::vector<Config> Pool = Field;
+    std::vector<Atom> Pool = Field;
     double a = file_read["a"]; 
     int x_ar =file_read["size"]["x"];
     int y_ar = file_read["size"]["y"];
@@ -207,11 +166,8 @@ std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::j
     for(auto i: Field){    // OY
         for(int j = 1; j<y_ar; ++j){
             //if(i.vec.y+a*j<=y_ar*a){
-            Pool.push_back(Config(vector(i.vec.x, i.vec.y+a*j, i.vec.z),
-            file_read["A"],
-            file_read["eps"],
-            file_read["q"],
-            file_read["p"]));
+            Pool.push_back(Atom(vector(i.vec.x, i.vec.y+a*j, i.vec.z),
+            file_read["type"]));
             //}
            
         }
@@ -221,11 +177,8 @@ std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::j
     for(auto i: Field){    // OX
         for(int j = 1; j<x_ar; ++j){
             //if(i.vec.x+a*j<=x_ar*a){
-            Pool.push_back(Config(vector(i.vec.x+a*j, i.vec.y, i.vec.z),
-            file_read["A"],
-            file_read["eps"],
-            file_read["q"],
-            file_read["p"]));
+            Pool.push_back(Atom(vector(i.vec.x+a*j, i.vec.y, i.vec.z),
+            file_read["type"]));
             //}
             
         }
@@ -234,11 +187,8 @@ std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::j
     for(auto i: Field){    // OZ
         for(int j = 1; j<z_ar; ++j){
            // if(i.vec.z+a*j<=z_ar*a){
-            Pool.push_back(Config(vector(i.vec.x, i.vec.y, i.vec.z+a*j),
-            file_read["A"],
-            file_read["eps"],
-            file_read["q"],
-            file_read["p"]));
+            Pool.push_back(Atom(vector(i.vec.x, i.vec.y, i.vec.z+a*j),
+            file_read["type"]));
             //}
             
         }
@@ -265,16 +215,79 @@ std::vector<Config> generate_edge( std::vector<Config>  &Field,const nlohmann::j
     }
     fout.close();
     return Pool;
+}
+
+int main(int argc, char * argv[]){
+    //read input json 
     
+    if(argc <2){
+        throw std::logic_error("Error, need two params");
+        }
 
 
+    std::vector<Atom> Field;
+    
+    nlohmann::json file_read;
+    std::ifstream h(argv[1]);
+
+    std::cout<<"File "<<argv[1]<<" was successfully read."<<std::endl;
+
+
+    h>>file_read;
+
+    //extract atom data
+    double multy = file_read["initial_energy"]["a"];
+    int x_arrow = file_read["size"]["x"]; 
+    int y_arrow = file_read["size"]["y"];
+    int z_arrow = file_read["size"]["z"];
+    
+    for(int i = 0;i<file_read["edge"]["n"]; ++i){
+        Field.push_back(Atom(vector(
+            
+            multy*double(file_read["edge"][std::to_string(i)]["x"]),
+            multy*double(file_read["edge"][std::to_string(i)]["y"]),
+            multy*double(file_read["edge"][std::to_string(i)]["z"])
+        ),file_read["type"]));
+    }
+
+    double Min_len = multy/sqrt(2.0);   //r_0 for all types of interaction
+    std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
+    std::vector<Atom> Pool = generate_edge(Field, file_read,path_to);    // edges are inside Field vector
+    std::cout<<"Min len :  "<<Min_len<<std::endl;
+
+
+   
+        if(Field[0] == Field[0])
+        std::cout<<"Good";
+
+//initialization of potencial_features.
+//need to improve
+
+
+
+    ParamsArray feature;
+    feature.arr[A][A] = Params(file_read["initial_potencial_features"]["A0"],
+        file_read["initial_potencial_features"]["A1"],
+        file_read["initial_potencial_features"]["p"],
+        file_read["initial_potencial_features"]["q"],
+        file_read["initial_potencial_features"]["qsi"]);
+    feature.arr[A][B] = Params(file_read["initial_potencial_features"]["A0"],
+        file_read["initial_potencial_features"]["A1"],
+        file_read["initial_potencial_features"]["p"],
+        file_read["initial_potencial_features"]["q"],
+        file_read["initial_potencial_features"]["qsi"]);
+    feature.arr[B][B] = Params(file_read["initial_potencial_features"]["A0"],
+        file_read["initial_potencial_features"]["A1"],
+        file_read["initial_potencial_features"]["p"],
+        file_read["initial_potencial_features"]["q"],
+        file_read["initial_potencial_features"]["qsi"]);
 
 
 
 
 }
 
-int main(int argc, char * argv[]){
+/*int main(int argc, char * argv[]){
 
 
     
@@ -410,22 +423,11 @@ int main(int argc, char * argv[]){
 
 
 
-    /*const size_t SIZE = 10000000;
-    std::vector<double> myArray(SIZE);
-
-	// Запуск параллельного алгоритма for
-	tbb::parallel_for(tbb::blocked_range<size_t>(0, SIZE),
-	// Лямбда-функция
-	[&myArray](const tbb::blocked_range<size_t> &r)
-	{
-		for (size_t i = r.begin(); i != r.end(); i++)
-		    std::cout<<myArray[i]<<std::endl;
-	});*/
 
 
 
     return 0;
-}
+} */
 
 
 
