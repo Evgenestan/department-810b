@@ -10,6 +10,8 @@
 #include "optimizator.h"
 //#include <tbb/parallel_for.h>
 
+//#define Main_constant 1.602;
+//#define alpha 0.01;
 
 //#include "tbb/blocked_range.h"
 //#include <tbb/parallel_for.h>
@@ -53,15 +55,17 @@ int main(int argc, char * argv[]){
     std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
     std::vector<Atom> Pool = generate_edge(Field, file_read,path_to);    // edges are inside Field vector
 
-    std::cout<<"Check"<<std::endl;
+    //std::cout<<Main_constant<<std::endl;
     std::cout<<"Min len :  "<<Min_len<<std::endl;
 
 //initialization of potencial_features.
 //need to improve
 
+//#define Main_constant 1.602;
 
     
     ParamsArray feature;
+    
     feature.arr[A][A] = Params(file_read["initial_potencial_features"]["A0"],
         file_read["initial_potencial_features"]["A1"],
         file_read["initial_potencial_features"]["p"],
@@ -78,7 +82,7 @@ int main(int argc, char * argv[]){
         file_read["initial_potencial_features"]["q"],
         file_read["initial_potencial_features"]["qsi"]);
 
-    auto const Main_constant = 1.602;    //important размерность должна быть нормальной из электронвольт 
+        //important размерность должна быть нормальной из электронвольт 
 
     //E_sol task
     
@@ -92,8 +96,12 @@ int main(int argc, char * argv[]){
         feature,
         Min_len,
         multy,
-        (file_read["initial_energy"]["E_sol"])
-    );
+        file_read["initial_energy"]["E_sol"],
+        x_arrow,
+        file_read["optimizer_params"]["step"],
+        file_read["optimizer_params"]["epoch"],
+        file_read["optimizer_params"]["lambda"],
+        file_read["optimizer_params"]["residual"]);
 
     //double one = 1.0;
     //std::cout<<"Result:   "<<objOptimizer.error_function(one,one,one,one,one,one)<<std::endl;

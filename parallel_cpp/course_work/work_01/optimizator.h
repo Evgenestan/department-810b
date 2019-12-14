@@ -17,9 +17,13 @@
 
 struct Optimizer{
     double e_coh_i, B_i, C11_i, C12_i, C44_i, e_target_i, multy;
+    double lambda, residual;
+    int epoch, step;
+    int arrow;
     std::vector<Atom> Pool;
     ParamsArray features;
     double Min_len;
+    double residue;
     Optimizer(){};
 
     Optimizer(double  _e_coh_i,
@@ -31,7 +35,12 @@ struct Optimizer{
         ParamsArray & _feature,
         double  _Min_len,
         double  _multy,
-        double  _e_target_i):
+        double  _e_target_i,
+        int _x_arrow,
+        int _step,
+        int _epoch,
+        double _lambda,
+        double _residual):
 
     e_coh_i(_e_coh_i),
     B_i(_B_i),
@@ -42,18 +51,30 @@ struct Optimizer{
     Pool(_Pool),
     features(_feature),
     Min_len(_Min_len),
-    multy(_multy)
-    {};
+    multy(_multy),
+    arrow(_x_arrow),
+    step(_step),
+    epoch(_epoch),
+    lambda(_lambda),
+    residual(_residual)
+    {
+        
+    };
 
-    double error_function(double & e_coh,
+    inline double error_function(double & e_coh,
     double & B,
     double & C11,
     double & C12,
     double & C44,
     double & e_target );
 
+    double calculate_energy_params(ParamsArray & temp_arr);
 
+    void run();   
 
+    double optimizer_Huk_Jivs(ParamsArray & temp_arr);    
+    
+    ParamsArray random_variation_search();
 
 
 
@@ -101,6 +122,10 @@ std::vector<Atom> generate_edge(
 bool operator == (
     const Atom & left,
     const Atom & right );
+
+
+
+
 
 
 

@@ -59,7 +59,8 @@
   "optimizer_params":{
     "step" : 0.01,
     "epoch": 5,
-    "lambda": 2
+    "lambda": 2,
+    "residual":0.01
 }
   
   }
