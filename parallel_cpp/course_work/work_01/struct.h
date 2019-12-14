@@ -1,14 +1,15 @@
 
-#include "nlohmann/json.hpp"
+#ifndef STRUCT_H
+#define STRUCT_H
 
 //stage 2
 
-struct ParamsArray{
 
-    Params arr [2][2];
-    ParamsArray(){}
-    
+
+enum atom_kernel {
+    A=1,B=2
 };
+
 
 struct Atom{
 vector vec;
@@ -18,10 +19,7 @@ Atom(vector _vec, int _type): vec(_vec), type(_type){}
 
 };
 
-bool operator == ( const Atom & left, const Atom & right ){
-        return  (left.vec == right.vec &&  left.type == right.type);
 
-    }
 
 struct Params{
     double A0;
@@ -42,8 +40,12 @@ struct Params{
 };
 
 
-enum atom_kernel {
-    A=1,B=2
+
+struct ParamsArray{
+
+    Params arr [2][2];
+    ParamsArray(){}
+    
 };
 
-
+#endif

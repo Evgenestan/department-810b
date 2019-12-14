@@ -28,8 +28,8 @@ vector operator/ (const vector&, double rhs);
 bool operator==(const vector&, const vector&);
 
 
-double length(const vector&);
-double distance(const vector&,const vector&, const double &);
+//double length(const vector&);
+//double distance_vec(const vector&,const vector&, const double &);
 
 
 #endif 
