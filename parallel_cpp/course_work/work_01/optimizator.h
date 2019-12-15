@@ -12,18 +12,20 @@
 #include <math.h>
 #include "struct.h"
 #include "nlohmann/json.hpp"
+#include <random>
 //#include "optimizator.h"
 
 
 struct Optimizer{
-    double e_coh_i, B_i, C11_i, C12_i, C44_i, e_target_i, multy;
+    double e_coh_i, B_i, C11_i, C12_i, C44_i, e_target_i, multy, e_coh_B;
     double lambda, residual;
+    double epsilon;
     int epoch, step;
     int arrow;
     std::vector<Atom> Pool;
     ParamsArray features;
     double Min_len;
-    double residue;
+    //double residue;
     Optimizer(){};
 
     Optimizer(double  _e_coh_i,
@@ -40,7 +42,9 @@ struct Optimizer{
         int _step,
         int _epoch,
         double _lambda,
-        double _residual):
+        double _residual,
+        double _e_coh_B,
+        double _epsilon):
 
     e_coh_i(_e_coh_i),
     B_i(_B_i),
@@ -56,9 +60,16 @@ struct Optimizer{
     step(_step),
     epoch(_epoch),
     lambda(_lambda),
-    residual(_residual)
+    residual(_residual),
+    e_coh_B(_e_coh_B),
+    epsilon(_epsilon)
     {
-        
+
+
+        //intervals
+
+
+
     };
 
     inline double error_function(double & e_coh,
@@ -72,13 +83,21 @@ struct Optimizer{
 
     void run();   
 
-    double optimizer_Huk_Jivs(ParamsArray & temp_arr);    
+    double optimizer_Huk_Jivs(ParamsArray & init_pa);
     
     ParamsArray random_variation_search();
 
 
 
 };
+
+
+double optimizer_Huk_Jivs_beta(
+    ParamsArray & init_pa,
+    double & lambda,
+    double & residual,
+    int & step);
+
 
 double distance(const vector& lv,
     const vector& rv, 
@@ -124,7 +143,9 @@ bool operator == (
     const Atom & right );
 
 
-
+double random_par(
+    double lower_bound,
+    double upper_bound);
 
 
 

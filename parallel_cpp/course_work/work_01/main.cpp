@@ -85,7 +85,7 @@ int main(int argc, char * argv[]){
         //important размерность должна быть нормальной из электронвольт 
 
     //E_sol task
-    
+    //init
     Optimizer objOptimizer (
         file_read["initial_energy"]["E_c"],
         (file_read["initial_energy"]["B"]),
@@ -101,10 +101,13 @@ int main(int argc, char * argv[]){
         file_read["optimizer_params"]["step"],
         file_read["optimizer_params"]["epoch"],
         file_read["optimizer_params"]["lambda"],
-        file_read["optimizer_params"]["residual"]);
+        file_read["optimizer_params"]["residual"],
+        file_read["e_coh_B"],
+        file_read["optimizer_params"]["epsilon"]);
 
-    //double one = 1.0;
-    //std::cout<<"Result:   "<<objOptimizer.error_function(one,one,one,one,one,one)<<std::endl;
+    objOptimizer.run();
+
+    //objOptimizer.random_variation_search();
 
 }
 

@@ -15,15 +15,52 @@ const double  Main_constant =  1.602;
 const double alpha = 0.01;
 
 
-double Optimizer::optimizer_Huk_Jivs(ParamsArray & temp_arr){
+
+
+
+double random_par(double lower_bound, double upper_bound){
+
+    std::uniform_real_distribution<double> unif(lower_bound,upper_bound);
+    std::default_random_engine re;
+    double a_random_double = unif(re);
+    return a_random_double;
+}
+   
+
+double optimizer_Huk_Jivs_beta(ParamsArray & init_pa, double & lambda, double & residual, int & step, double & epsilon){
+
+    
+
+}
+
+
+
+
+
+
+
+
+double Optimizer::optimizer_Huk_Jivs(ParamsArray & init_pa){
     //do algorithm
+    ParamsArray temp;
 
     //cod below : after every step calculates loss
-    auto rez = this->calculate_energy_params(temp_arr);
+    //auto rez = this->calculate_energy_params(temp_arr);
 }
 
 ParamsArray Optimizer::random_variation_search(){
-
+    ParamsArray new_random;
+    new_random.arr[A][A] = Params(
+        random_par(this->features.arr[A][A].A0/2,this->features.arr[A][A].A0*2),
+        random_par(this->features.arr[A][A].A1/2,this->features.arr[A][A].A1*2),
+        random_par(this->features.arr[A][A].p0/2,this->features.arr[A][A].p0*2),
+        random_par(this->features.arr[A][A].q0/2,this->features.arr[A][A].q0*2),
+        random_par(this->features.arr[A][A].qsi/2,this->features.arr[A][A].qsi*2)
+    );
+    new_random.arr[B][B] =  new_random.arr[A][A];
+    //std::cout<<"Params:   "<<new_random.arr[A][A].A0<<" "<<new_random.arr[A][A].A1<<" "<<new_random.arr[A][A].p0<<" "<<new_random.arr[A][A].q0<<" "<<new_random.arr[A][A].qsi<<std::endl;
+    //new_random.arr[A][B] =  new_random.arr[A][A];
+    return new_random;
 }
 
 void Optimizer::run(){
@@ -33,15 +70,30 @@ void Optimizer::run(){
     double satisfy_loss_value;
     double loss_cur;
     bool satisfy = false;
+
     for(int i = 0; i<epoch; ++i){
         init_set_rand = this->random_variation_search();
-        loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
+
+        //loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
+        loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon);
         //start optimizer function with init params
-        if(satisfy == true){
-            final_set = temp_set;
+
+
+        if(loss_cur<=this->residual){
+            final_set = init_set_rand;
             satisfy_loss_value = loss_cur;
+            satisfy = true;
             break;
         }
+
+    }
+
+    if(satisfy = false){
+        std::cout<<"No solution found :("<<std::endl;
+    }
+
+    else{
+        std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << std::endl;
     }
     
     //check error function
@@ -256,6 +308,8 @@ double Optimizer::error_function(double & e_coh,
 
 
 double Optimizer::calculate_energy_params(ParamsArray & temp_arr){
+    //E_coh
+
     double matrix_E_0[]= {1.0,1.0,1.0};
     auto size = this->Pool.size();
     auto e_c = E_c(this->Pool,this->Min_len,this->multy,matrix_E_0,3,temp_arr);
@@ -263,9 +317,12 @@ double Optimizer::calculate_energy_params(ParamsArray & temp_arr){
     auto const V_0 = this->multy*this->multy*this->multy/4;
 
     //C11 and C12
+
     double matrix_c_11_plus[]= {1+alpha,1+alpha,1.0};
     double matrix_c_11_minus[]= {1-alpha,1-alpha,1.0};
+
     int x_arrow = this->arrow;
+
     auto e_c_11_plus = E_c(this->Pool, this->Min_len, this->multy*x_arrow,matrix_c_11_plus,3,temp_arr)/size;
     auto e_c_11_minus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_11_minus,3,temp_arr)/size;
 
@@ -275,14 +332,15 @@ double Optimizer::calculate_energy_params(ParamsArray & temp_arr){
 
     auto e_c_12_plus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_12_plus,3,temp_arr)/size;
     auto e_c_12_minus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_12_minus,3,temp_arr)/size;
-    //delete matrix_c_12;
+
 
     auto der11 =  (e_c_11_plus - 2*e_c + e_c_11_minus)/(alpha_p2);
     auto der12 = (e_c_12_plus-2*e_c+e_c_12_minus)/(alpha_p2);
     auto C_11 = 1.0/(4.0*V_0)*(der11+der12)*Main_constant;
 
     auto C_12 = 1.0/(4.0*V_0)*(der11-der12)*Main_constant;
-    //auto B = (C_11+C_12)/3;
+
+    //B
 
     double B_plus[]= {1+alpha,1+alpha,1+alpha};
     double B_minus[] = {1-alpha,1-alpha,1-alpha};
@@ -299,17 +357,21 @@ double Optimizer::calculate_energy_params(ParamsArray & temp_arr){
 
     double matrix_c_44_plus[]= {1.0,alpha,alpha,1.0,1.0/(1-alpha_p2)};
     double matrix_c_44_minus[]= {1.0,-alpha,-alpha,1.0,1.0/(1+alpha_p2)};
-   // std::cout<<"Matrix size:     "<<sizeof(matrix_c_44_plus)/sizeof(matrix_c_44_plus[0])<<std::endl;
+
     auto e_c_44_plus = E_c(Pool, Min_len,  this->multy*x_arrow,matrix_c_44_plus,5,temp_arr)/size;
     auto e_c_44_minus = E_c(Pool, Min_len,  this->multy*x_arrow,matrix_c_44_minus,5,temp_arr)/size;
-    //delete matrix_c_44;
     auto C_44 = 1.0/(4*V_0)*(e_c_44_plus - 2*e_c + e_c_44_minus)/(alpha_p2)*Main_constant;
 
+    //E_sol
+    this->Pool[0].type = atom_kernel::B;
+    auto e_AB = E_c(Pool, Min_len, this->multy*x_arrow, matrix_E_0, 3, temp_arr); 
+    auto e_sol = e_AB - e_c/this->Pool.size() - e_coh_B + e_c;
+    this->Pool[0].type = atom_kernel::A;
+    std::cout<<"Energy:   "<< e_sol<< std::endl;
 
 
-    double e_sol = 0;// E_Sol
 
-
+    // calculation of error function
     auto rezult = this->error_function(e_c,B,C_11,C_12,C_44,e_sol);
 
     return rezult;
