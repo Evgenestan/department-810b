@@ -27,25 +27,100 @@ double random_par(double lower_bound, double upper_bound){
 }
    
 
-double optimizer_Huk_Jivs_beta(ParamsArray & init_pa, double & lambda, double & residual, int & step, double & epsilon){
+/*double optimizer_Huk_Jivs_beta(ParamsArray & init_pa, double & lambda, double & residual, int & step, double & epsilon, double & delta){
 
-    
+    //calculate_energy_params();
 
+
+
+}*/
+
+
+ParamsArray  Optimizer::vector_to_param(std::vector<double> & vec){
+
+
+    ParamsArray pa{this->features.size};
+
+
+    for(int i = 1; i<=pa.size; ++i){
+
+        pa.arr[1][i] = Params(vec[0+5*(i-1)],vec[1+5*(i-1)],vec[2+5*(i-1)],vec[3+5*(i-1)],vec[4+5*(i-1)]);
+
+    }
+
+    return pa;
 }
 
 
 
+std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
 
 
+    std::vector<double> vec;
+    for(int i = 1; i<=obj.size; ++i){
+
+        vec.push_back(obj.arr[1][i].A0);
+        vec.push_back(obj.arr[1][i].A1);
+        vec.push_back(obj.arr[1][i].p0);
+        vec.push_back(obj.arr[1][i].q0);
+        vec.push_back(obj.arr[1][i].qsi);
+
+    }
+
+    return vec;
+}
 
 
 
 double Optimizer::optimizer_Huk_Jivs(ParamsArray & init_pa){
     //do algorithm
-    ParamsArray temp;
 
-    //cod below : after every step calculates loss
-    //auto rez = this->calculate_energy_params(temp_arr);
+    //init
+    double temp;
+    ParamsArray temp_pa {init_pa.size};
+    temp_pa.vec = init_pa.vec;
+    temp_pa.receive_from_vector();
+    //std::vector<double> vec = this->Params_to_vector(init_pa);
+
+    double max_func = this->calculate_energy_params(init_pa);
+    double temp_func;
+    //
+
+    for(int i = 0; i<init_pa.vec.size(); ++i){
+
+    
+        temp_pa.vec[i] = temp_pa.vec[i]+this->delta;
+        temp_pa.receive_from_vector();
+
+        temp_func = this->calculate_energy_params(temp_pa);
+
+        if(temp_func<max_func){
+            max_func = temp_func;
+        }
+        else{
+            temp_pa.vec[i] = init_pa.vec[i];
+            temp_pa.vec[i] = temp_pa.vec[i]-this->delta;
+            temp_pa.receive_from_vector();
+
+            temp_func = this->calculate_energy_params(temp_pa);
+            if(temp_func<max_func){
+                max_func = temp_func;
+            }
+            else{
+
+                 temp_pa.vec[i] = init_pa.vec[i];
+                 temp_pa.receive_from_vector();
+
+            }
+        }
+    }
+
+
+
+    //diagonal step
+
+
+    
 }
 
 ParamsArray Optimizer::random_variation_search(){
@@ -74,8 +149,8 @@ void Optimizer::run(){
     for(int i = 0; i<epoch; ++i){
         init_set_rand = this->random_variation_search();
 
-        //loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
-        loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon);
+        loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
+        //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
         //start optimizer function with init params
 
 

@@ -64,23 +64,26 @@ int main(int argc, char * argv[]){
 //#define Main_constant 1.602;
 
     
-    ParamsArray feature;
-    
+    ParamsArray feature {2};
+
     feature.arr[A][A] = Params(file_read["initial_potencial_features"]["A0"],
         file_read["initial_potencial_features"]["A1"],
         file_read["initial_potencial_features"]["p"],
         file_read["initial_potencial_features"]["q"],
         file_read["initial_potencial_features"]["qsi"]);
+
     feature.arr[A][B] = Params(file_read["initial_potencial_features"]["A0"],
         file_read["initial_potencial_features"]["A1"],
         file_read["initial_potencial_features"]["p"],
         file_read["initial_potencial_features"]["q"],
         file_read["initial_potencial_features"]["qsi"]);
-    feature.arr[B][B] = Params(file_read["initial_potencial_features"]["A0"],
+
+
+    /*feature.arr[B][B] = Params(file_read["initial_potencial_features"]["A0"],
         file_read["initial_potencial_features"]["A1"],
         file_read["initial_potencial_features"]["p"],
         file_read["initial_potencial_features"]["q"],
-        file_read["initial_potencial_features"]["qsi"]);
+        file_read["initial_potencial_features"]["qsi"]);*/
 
         //important размерность должна быть нормальной из электронвольт 
 
@@ -103,9 +106,12 @@ int main(int argc, char * argv[]){
         file_read["optimizer_params"]["lambda"],
         file_read["optimizer_params"]["residual"],
         file_read["e_coh_B"],
-        file_read["optimizer_params"]["epsilon"]);
+        file_read["optimizer_params"]["epsilon"],
+        file_read["optimizer_params"]["delta"]);
 
     objOptimizer.run();
+
+
 
     //objOptimizer.random_variation_search();
 

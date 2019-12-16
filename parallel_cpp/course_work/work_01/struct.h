@@ -4,7 +4,7 @@
 
 //stage 2
 
-
+#include <vector>
 
 enum atom_kernel {
     A=1,B=2
@@ -43,9 +43,40 @@ struct Params{
 
 struct ParamsArray{
 
-    Params arr [2][2];
-    ParamsArray(){}
+    int size;
+
+    Params arr [3][3];
+
+    std::vector<double> vec;
+
+    ParamsArray(){size = 2;}
+    ParamsArray(int _size){size = _size;}
+
     
+   
+
+    void convert_to_vector(){
+        
+    for(int i = 1; i<=this->size; ++i){
+
+        this->vec.push_back(this->arr[1][i].A0);
+        this->vec.push_back(this->arr[1][i].A1);
+        this->vec.push_back(this->arr[1][i].p0);
+        this->vec.push_back(this->arr[1][i].q0);
+        this->vec.push_back(this->arr[1][i].qsi);
+
+    }
+    }
+
+    void receive_from_vector(){
+
+        for(int i = 1; i<=this->size; ++i){
+
+            this->arr[1][i] = Params(this->vec[0+5*(i-1)],this->vec[1+5*(i-1)],this->vec[2+5*(i-1)],this->vec[3+5*(i-1)],this->vec[4+5*(i-1)]);
+
+        }
+
+    }
 };
 
 #endif

@@ -44,27 +44,31 @@
   "type":1,
 
   "initial_energy":{
-    "a":3.523,
-    "E_c":2,
-    "B":2,
-    "C11":2,
-    "C12":2,
-    "C44":2,
-    "E_sol":2,
-    "E_in":0,
-    "E_on":0
+    "a":4.085,
+    "E_c":-2.96,
+    "B":1.08,
+    "C11":1.32,
+    "C12":0.97,
+    "C44":0.51,
+    "E_sol":0.497,
+    "E_in":0.22,
+    "E_on":-0.36
     
   },
 
   "optimizer_params":{
-    "step" : 0.01,
+    "step" : 500,
     "epoch": 5,
     "lambda": 2,
     "residual":0.01,
-    "epsilon": 0.02
+    "epsilon": 0.02,
+    "delta": 0.01
 },
 
-"e_coh_B": 6.67
+"e_coh_B": 5.31,
+
+"material_base": "Ag(001)",
+"material_impurity": "V"
   
   }
  

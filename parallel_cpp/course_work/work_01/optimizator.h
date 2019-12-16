@@ -18,7 +18,7 @@
 
 struct Optimizer{
     double e_coh_i, B_i, C11_i, C12_i, C44_i, e_target_i, multy, e_coh_B;
-    double lambda, residual;
+    double lambda, residual, delta;
     double epsilon;
     int epoch, step;
     int arrow;
@@ -44,7 +44,8 @@ struct Optimizer{
         double _lambda,
         double _residual,
         double _e_coh_B,
-        double _epsilon):
+        double _epsilon,
+        double _delta):
 
     e_coh_i(_e_coh_i),
     B_i(_B_i),
@@ -62,7 +63,8 @@ struct Optimizer{
     lambda(_lambda),
     residual(_residual),
     e_coh_B(_e_coh_B),
-    epsilon(_epsilon)
+    epsilon(_epsilon),
+    delta(_delta)
     {
 
 
@@ -87,8 +89,9 @@ struct Optimizer{
     
     ParamsArray random_variation_search();
 
+    std::vector<double> Params_to_vector (ParamsArray & obj);
 
-
+    ParamsArray vector_to_param(std::vector<double> & vec);
 };
 
 
