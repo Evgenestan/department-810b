@@ -52,6 +52,40 @@ ParamsArray  Optimizer::vector_to_param(std::vector<double> & vec){
 }
 
 
+std::vector<double> Optimizer::first_stage(std::vector<double> &init_pa, bool & wrong_view){
+
+    
+    std::vector<double> temp_vec = init_pa;
+    double F_1;
+    this->min_func = this->calculate_energy_params(temp_vec);
+
+    for(int i = 0; i<init_pa.size(); ++i){
+
+    
+        temp_vec[i] = init_pa[i]+this->delta;
+        F_1 = this->calculate_energy_params(temp_vec);
+
+        if(F_1 < this->min_func){
+            this->min_func = F_1;
+            wrong_view = false;
+        }
+
+        else{
+            temp_vec[i] = init_pa[i] - this->delta;
+            
+            F_1 = this->calculate_energy_params(temp_vec);
+
+            if(F_1<this->min_func){
+                this->min_func = F_1;
+                wrong_view = false;
+            }
+            else{
+                 temp_vec[i] = init_pa[i];
+            }
+        }
+    }
+    return temp_vec;
+}
 
 std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
 
@@ -70,56 +104,86 @@ std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
     return vec;
 }
 
+std::vector<double> operator-(const std::vector<double> & lhs, const std::vector<double> & rhs){
+    //auto result = vector();
+    std::vector<double> result;
+    for(int i = 0; i< lhs.size(); ++i){
+        result[i] = lhs[i]-rhs[i];
+    }   
+    return result;
+}
 
 
-double Optimizer::optimizer_Huk_Jivs(ParamsArray & init_pa){
+std::vector<double> operator*(const std::vector<double> & lhs, const double & number){
+    //auto result = vector();
+    std::vector<double> result;
+    for(int i = 0; i< lhs.size(); ++i){
+        result[i] = lhs[i]*number;
+    }   
+    return result;
+}
+
+double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     //do algorithm
 
     //init
-    double temp;
-    ParamsArray temp_pa {init_pa.size};
-    temp_pa.vec = init_pa.vec;
-    temp_pa.receive_from_vector();
-    //std::vector<double> vec = this->Params_to_vector(init_pa);
 
-    double max_func = this->calculate_energy_params(init_pa);
-    double temp_func;
-    //
-
-    for(int i = 0; i<init_pa.vec.size(); ++i){
-
+    bool wrong_view = true;
     
-        temp_pa.vec[i] = temp_pa.vec[i]+this->delta;
-        temp_pa.receive_from_vector();
+    std::vector<double> X_1;
+    std::vector<double> X_2;
+    std::vector<double> X_3;
+    std::vector<double> X_0 = init.vec; 
 
-        temp_func = this->calculate_energy_params(temp_pa);
 
-        if(temp_func<max_func){
-            max_func = temp_func;
+
+    for(int i = 0; i<this->step && this->delta > (this->epsilon/sqrt(this->features.size) ) ; ++i){
+
+        half_delta:
+        X_1 = first_stage(X_0, wrong_view);
+
+        if(wrong_view){
+            this->delta /= 2.0;
+            goto half_delta;
         }
-        else{
-            temp_pa.vec[i] = init_pa.vec[i];
-            temp_pa.vec[i] = temp_pa.vec[i]-this->delta;
-            temp_pa.receive_from_vector();
 
-            temp_func = this->calculate_energy_params(temp_pa);
-            if(temp_func<max_func){
-                max_func = temp_func;
+        else{
+
+            new_point:
+            X_2 = X_1*2 - X_0;
+            wrong_view = true;
+            X_3 = first_stage(X_2 , wrong_view);
+
+            if(this->calculate_energy_params(X_3) > this->calculate_energy_params(X_1)){
+                X_0 = X_1;
             }
             else{
-
-                 temp_pa.vec[i] = init_pa.vec[i];
-                 temp_pa.receive_from_vector();
-
+                X_0 = X_1;
+                X_1 = X_3;
+                goto new_point;
             }
+           
         }
+
     }
 
+    //GOVNOKOD mama prosti menya
 
+    std::vector<double> ret_val;
 
-    //diagonal step
-
-
+    if(this->calculate_energy_params(X_1)<=this->calculate_energy_params(X_3) && 
+       this->calculate_energy_params(X_1)<=this->calculate_energy_params(X_2))
+        ret_val = X_1;
+    else if(this->calculate_energy_params(X_2)<=this->calculate_energy_params(X_3) &&
+        this->calculate_energy_params(X_2)<=this->calculate_energy_params(X_1))
+        ret_val = X_2;
+    else
+        ret_val = X_3;
+    
+    init.vec = ret_val;
+    init.receive_from_vector();
+    //std::cout << ret_val << std::endl;
+    return this->calculate_energy_params(ret_val);
     
 }
 
@@ -135,10 +199,13 @@ ParamsArray Optimizer::random_variation_search(){
     new_random.arr[B][B] =  new_random.arr[A][A];
     //std::cout<<"Params:   "<<new_random.arr[A][A].A0<<" "<<new_random.arr[A][A].A1<<" "<<new_random.arr[A][A].p0<<" "<<new_random.arr[A][A].q0<<" "<<new_random.arr[A][A].qsi<<std::endl;
     //new_random.arr[A][B] =  new_random.arr[A][A];
+    
+
     return new_random;
 }
 
 void Optimizer::run(){
+    
     
     ParamsArray final_set;
     ParamsArray init_set_rand;
@@ -147,13 +214,15 @@ void Optimizer::run(){
     bool satisfy = false;
 
     for(int i = 0; i<epoch; ++i){
-        init_set_rand = this->random_variation_search();
 
+        std::cout<<" Ya tut epocha!"<<std::endl;
+        init_set_rand = this->random_variation_search();
+        std::cout<<" Ya tut!"<<std::endl;
         loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
         //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
         //start optimizer function with init params
 
-
+        std::cout<<" Huka tut!"<<std::endl;
         if(loss_cur<=this->residual){
             final_set = init_set_rand;
             satisfy_loss_value = loss_cur;
@@ -171,6 +240,8 @@ void Optimizer::run(){
         std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << std::endl;
     }
     
+
+
     //check error function
 
 
@@ -382,8 +453,13 @@ double Optimizer::error_function(double & e_coh,
     }
 
 
-double Optimizer::calculate_energy_params(ParamsArray & temp_arr){
+double Optimizer::calculate_energy_params(std::vector<double> & vec_in){
     //E_coh
+    ParamsArray temp_arr  {this->features.size};
+
+    temp_arr.vec = vec_in;
+    temp_arr.receive_from_vector();
+
 
     double matrix_E_0[]= {1.0,1.0,1.0};
     auto size = this->Pool.size();

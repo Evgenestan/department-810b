@@ -77,6 +77,13 @@ struct ParamsArray{
         }
 
     }
+
+
+    /*void change_value_matrix(int i,double value){
+
+        
+        this->>arr[1][i>=5 ? 2 : 1] = value;
+    }*/
 };
 
 #endif

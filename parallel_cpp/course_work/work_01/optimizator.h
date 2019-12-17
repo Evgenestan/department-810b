@@ -13,6 +13,7 @@
 #include "struct.h"
 #include "nlohmann/json.hpp"
 #include <random>
+#include <algorithm>
 //#include "optimizator.h"
 
 
@@ -25,6 +26,7 @@ struct Optimizer{
     std::vector<Atom> Pool;
     ParamsArray features;
     double Min_len;
+    double min_func;
     //double residue;
     Optimizer(){};
 
@@ -81,17 +83,19 @@ struct Optimizer{
     double & C44,
     double & e_target );
 
-    double calculate_energy_params(ParamsArray & temp_arr);
+    double calculate_energy_params(std::vector<double> & vec_in);
 
     void run();   
 
-    double optimizer_Huk_Jivs(ParamsArray & init_pa);
+    double optimizer_Huk_Jivs(ParamsArray &);
     
     ParamsArray random_variation_search();
 
     std::vector<double> Params_to_vector (ParamsArray & obj);
 
     ParamsArray vector_to_param(std::vector<double> & vec);
+
+    std::vector<double> first_stage(std::vector<double>  &init_pa, bool & wrong_view);
 };
 
 
