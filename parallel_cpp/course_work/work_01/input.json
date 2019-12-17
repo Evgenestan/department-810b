@@ -57,12 +57,12 @@
   },
 
   "optimizer_params":{
-    "step" : 500,
-    "epoch": 5,
+    "step" : 20,
+    "epoch": 1,
     "lambda": 2,
-    "residual":0.01,
-    "epsilon": 0.02,
-    "delta": 0.01
+    "residual":0.0001,
+    "epsilon": 0.0002,
+    "delta": 0.05
 },
 
 "e_coh_B": 5.31,

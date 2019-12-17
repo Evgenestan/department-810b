@@ -72,7 +72,12 @@ struct ParamsArray{
 
         for(int i = 1; i<=this->size; ++i){
 
-            this->arr[1][i] = Params(this->vec[0+5*(i-1)],this->vec[1+5*(i-1)],this->vec[2+5*(i-1)],this->vec[3+5*(i-1)],this->vec[4+5*(i-1)]);
+            this->arr[1][i] = Params(
+            this->vec[0+5*(i-1)],
+            this->vec[1+5*(i-1)],
+            this->vec[2+5*(i-1)],
+            this->vec[3+5*(i-1)],
+            this->vec[4+5*(i-1)]);
 
         }
 

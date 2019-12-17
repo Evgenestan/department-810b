@@ -36,7 +36,7 @@ double random_par(double lower_bound, double upper_bound){
 }*/
 
 
-ParamsArray  Optimizer::vector_to_param(std::vector<double> & vec){
+ParamsArray  Optimizer::vector_to_param(std::vector<double> &vec){
 
 
     ParamsArray pa{this->features.size};
@@ -52,12 +52,14 @@ ParamsArray  Optimizer::vector_to_param(std::vector<double> & vec){
 }
 
 
-std::vector<double> Optimizer::first_stage(std::vector<double> &init_pa, bool & wrong_view){
+std::vector<double> Optimizer::first_stage(std::vector<double> & init_pa, bool & wrong_view){
 
-    
+    std::cout<<"ALgo 4  "<<init_pa.size()<<std::endl;
     std::vector<double> temp_vec = init_pa;
     double F_1;
     this->min_func = this->calculate_energy_params(temp_vec);
+
+     std::cout<<"ALgo 4  "<<std::endl;
 
     for(int i = 0; i<init_pa.size(); ++i){
 
@@ -125,7 +127,7 @@ std::vector<double> operator*(const std::vector<double> & lhs, const double & nu
 
 double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     //do algorithm
-
+    
     //init
 
     bool wrong_view = true;
@@ -134,38 +136,49 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     std::vector<double> X_2;
     std::vector<double> X_3;
     std::vector<double> X_0 = init.vec; 
+    std::cout<<"Fuck:   "<< init.vec.size()<<std::endl;
 
+    
+    do{
+   // for(int i = 0; (i<this->step) /*&& (this->delta > (this->epsilon/sqrt(this->features.size) ))*/ ; ++i){
 
-
-    for(int i = 0; i<this->step && this->delta > (this->epsilon/sqrt(this->features.size) ) ; ++i){
-
-        half_delta:
+        
+       std::cout<<"Delta  :  "<<this->delta<<std::endl;
+        
+        //half_delta:
         X_1 = first_stage(X_0, wrong_view);
 
         if(wrong_view){
             this->delta /= 2.0;
-            goto half_delta;
+            wrong_view = true;
+          
+            
         }
 
         else{
 
-            new_point:
-            X_2 = X_1*2 - X_0;
-            wrong_view = true;
-            X_3 = first_stage(X_2 , wrong_view);
+            //std::cout<<"ALgo 4  "<<i<<std::endl;
+            for(int i = 0; i <= this->step; ++i){
+                X_2 = X_1*2 - X_0;
+                wrong_view = true;
+                X_3 = first_stage(X_2 , wrong_view);
 
-            if(this->calculate_energy_params(X_3) > this->calculate_energy_params(X_1)){
-                X_0 = X_1;
-            }
-            else{
-                X_0 = X_1;
-                X_1 = X_3;
-                goto new_point;
+                if(this->calculate_energy_params(X_3) > this->calculate_energy_params(X_1)){
+                    X_0 = X_1;
+                    //std::cout<<"ALgo 5 "<<i<<std::endl;
+                    break;
+                }
+                else{
+                    //std::cout<<"ALgo 6 "<<i<<std::endl;
+                    X_0 = X_1;
+                    X_1 = X_3;
+                }
+                
             }
            
         }
 
-    }
+    }while(this->delta > (this->epsilon/sqrt(this->features.size) ));
 
     //GOVNOKOD mama prosti menya
 
@@ -215,14 +228,13 @@ void Optimizer::run(){
 
     for(int i = 0; i<epoch; ++i){
 
-        std::cout<<" Ya tut epocha!"<<std::endl;
         init_set_rand = this->random_variation_search();
-        std::cout<<" Ya tut!"<<std::endl;
+        init_set_rand.convert_to_vector();
+        //std::cout<<"SIZW "<<init_set_rand.vec.size()<<std::endl;
         loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
         //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
         //start optimizer function with init params
 
-        std::cout<<" Huka tut!"<<std::endl;
         if(loss_cur<=this->residual){
             final_set = init_set_rand;
             satisfy_loss_value = loss_cur;
@@ -453,14 +465,15 @@ double Optimizer::error_function(double & e_coh,
     }
 
 
-double Optimizer::calculate_energy_params(std::vector<double> & vec_in){
+double Optimizer::calculate_energy_params(std::vector<double>  & vec_in){
     //E_coh
     ParamsArray temp_arr  {this->features.size};
+    std::cout<<"Calc1  "<<vec_in.size()<<std::endl;
 
     temp_arr.vec = vec_in;
     temp_arr.receive_from_vector();
 
-
+     std::cout<<"Calc1  "<<std::endl;
     double matrix_E_0[]= {1.0,1.0,1.0};
     auto size = this->Pool.size();
     auto e_c = E_c(this->Pool,this->Min_len,this->multy,matrix_E_0,3,temp_arr);
@@ -524,7 +537,7 @@ double Optimizer::calculate_energy_params(std::vector<double> & vec_in){
 
     // calculation of error function
     auto rezult = this->error_function(e_c,B,C_11,C_12,C_44,e_sol);
-
+    std::cout<<"Error function:   "<<rezult<<std::endl;
     return rezult;
 //calculate all energy params
 

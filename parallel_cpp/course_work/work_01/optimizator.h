@@ -83,7 +83,7 @@ struct Optimizer{
     double & C44,
     double & e_target );
 
-    double calculate_energy_params(std::vector<double> & vec_in);
+    double calculate_energy_params(std::vector<double>  &vec_in);
 
     void run();   
 
@@ -93,7 +93,7 @@ struct Optimizer{
 
     std::vector<double> Params_to_vector (ParamsArray & obj);
 
-    ParamsArray vector_to_param(std::vector<double> & vec);
+    ParamsArray vector_to_param(std::vector<double> &vec);
 
     std::vector<double> first_stage(std::vector<double>  &init_pa, bool & wrong_view);
 };
