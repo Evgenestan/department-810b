@@ -21,8 +21,8 @@ const double alpha = 0.01;
 double random_par(double lower_bound, double upper_bound){
 
     std::uniform_real_distribution<double> unif(lower_bound,upper_bound);
-    std::default_random_engine re;
-    double a_random_double = unif(re);
+    std::mt19937_64 rng(time(0));
+    double a_random_double = unif(rng);
     return a_random_double;
 }
    
@@ -52,41 +52,7 @@ ParamsArray  Optimizer::vector_to_param(std::vector<double> &vec){
 }
 
 
-std::vector<double> Optimizer::first_stage(std::vector<double> & init_pa, bool & wrong_view){
 
-    //std::cout<<"ALgo 4  "<<init_pa.size()<<std::endl;
-    std::vector<double> temp_vec = init_pa;
-    double F_1;
-    this->min_func = this->calculate_energy_params(temp_vec);
-
-
-    for(int i = 0; i<init_pa.size(); ++i){
-
-    
-        temp_vec[i] = init_pa[i]+this->delta;
-        F_1 = this->calculate_energy_params(temp_vec);
-
-        if(F_1 < this->min_func){
-            this->min_func = F_1;
-            wrong_view = false;
-        }
-
-        else{
-            temp_vec[i] = init_pa[i] - this->delta;
-            
-            F_1 = this->calculate_energy_params(temp_vec);
-
-            if(F_1<this->min_func){
-                this->min_func = F_1;
-                wrong_view = false;
-            }
-            else{
-                 temp_vec[i] = init_pa[i];
-            }
-        }
-    }
-    return temp_vec;
-}
 
 std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
 
@@ -133,6 +99,43 @@ std::vector<double> operator*(const std::vector<double> & lhs, const double & nu
                     }
 
 
+std::vector<double> Optimizer::first_stage(std::vector<double> & init_pa, bool & wrong_view){
+
+    //std::cout<<"ALgo 4  "<<init_pa.size()<<std::endl;
+    std::vector<double> temp_vec = init_pa;
+    double F_1;
+    this->min_func = this->calculate_energy_params(temp_vec);
+
+
+    for(int i = 0; i<init_pa.size(); ++i){
+
+    
+        temp_vec[i] = init_pa[i]+this->delta;
+        F_1 = this->calculate_energy_params(temp_vec);
+
+        if(F_1 < this->min_func){
+            this->min_func = F_1;
+            wrong_view = false;
+        }
+
+        else{
+            temp_vec[i] = init_pa[i] - this->delta;
+            
+            F_1 = this->calculate_energy_params(temp_vec);
+
+            if(F_1<this->min_func){
+                this->min_func = F_1;
+                wrong_view = false;
+            }
+            else{
+                 temp_vec[i] = init_pa[i];
+            }
+        }
+    }
+    return temp_vec;
+}
+
+
 double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     //do algorithm
     
@@ -145,53 +148,71 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     std::vector<double> X_3;
     std::vector<double> X_0 = init.vec; 
 
-    
+    int count = 0;
+    bool flag = false;
+
     do{
-   // for(int i = 0; (i<this->step) /*&& (this->delta > (this->epsilon/sqrt(this->features.size) ))*/ ; ++i){
 
+        std::cout<<"Delta: "<<this->delta<< " in iteration " << count <<std::endl;
         
-       
-        
-        std::cout<<"Delta:   "<<this->delta<<std::endl;
-        X_1 = first_stage(X_0, wrong_view);
-
-        if(wrong_view){
-            this->delta /= 2.0;
+        if(!flag){
             wrong_view = true;
+            X_1 = first_stage(X_0, wrong_view);
+        }
+
+        if(wrong_view && !flag)
+            this->delta /= 2.0;
           
-            
-        }
-
         else{
+            X_2 = X_1*2 - X_0;
 
-            
-            for(int i = 0; i <= this->step; ++i){
-    
-                X_2 = X_1*2 - X_0;
-                wrong_view = true;
-                X_3 = first_stage(X_2 , wrong_view);
-
-                if(this->calculate_energy_params(X_3) > this->calculate_energy_params(X_1)){
-                    X_0 = X_1;
-                    
-                    break;
-                }
-                else{
-                    
-                    X_0 = X_1;
-                    X_1 = X_3;
-                    std::cout<<"Error function: "<<this->calculate_energy_params(X_3)<<std::endl;
-                   
-                    show(X_3);
-
-                    
-                }
-                
+            wrong_view = true;
+            X_3 = first_stage(X_2,wrong_view);
+          
+            if(this->calculate_energy_params(X_3) > this->calculate_energy_params(X_1)){
+                X_0 = X_1;
+                flag = false;
             }
-           
+
+            else{
+                X_0 = X_1;
+                X_1 = X_3;
+
+
+                std::cout.setf(std::ios::fixed);
+                std::cout.precision(20);
+                std::cout<<"Error function: "<<this->calculate_energy_params(X_3)<<std::endl;
+                flag = true;        
+            }
         }
 
-    }while(this->delta > (this->epsilon/sqrt(this->features.size) ));
+        ++count;
+    } while(this->delta > (this->epsilon/sqrt(this->features.size) ) && count != step);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //GOVNOKOD mama prosti menya
 
@@ -208,7 +229,8 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     
     init.vec = ret_val;
     init.receive_from_vector();
-    //std::cout << ret_val << std::endl;
+   // std::cout << this->calculate_energy_params(ret_val) << std::endl;
+  //  show(ret_val);
     return this->calculate_energy_params(ret_val);
     
 }
@@ -241,13 +263,15 @@ ParamsArray Optimizer::run(){
 
     for(int i = 0; i<epoch; ++i){
 
+
+        std::cout<<"Epoch: "<<i<<std::endl;
         init_set_rand = this->random_variation_search();
         init_set_rand.convert_to_vector();
         //std::cout<<"SIZW "<<init_set_rand.vec.size()<<std::endl;
         loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
         //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
         //start optimizer function with init params
-
+        std::cout<<"Loss: "<<loss_cur<<std::endl;
         if(loss_cur<=this->residual){
             final_set = init_set_rand;
             satisfy_loss_value = loss_cur;
@@ -257,7 +281,7 @@ ParamsArray Optimizer::run(){
 
     }
 
-    if(satisfy = false){
+    if(satisfy == false){
         std::cout<<"No solution found :("<<std::endl;
         return ParamsArray();
     }

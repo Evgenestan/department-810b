@@ -51,11 +51,15 @@ struct ParamsArray{
 
     ParamsArray(){size = 2;}
     ParamsArray(int _size){size = _size;}
-    /*ParamsArray(const ParamsArray & in){
+    ParamsArray(const ParamsArray & in){
         this->size = in.size;
         this->vec = in.vec;
-        this->receive_from_vector();
-    }*/
+        //this->receive_from_vector();
+        for(int i = 1; i<=in.size; ++i){
+            this->arr[1][i] = in.arr[1][i];
+        }
+
+    }
 
     
    
