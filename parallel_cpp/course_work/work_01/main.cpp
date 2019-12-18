@@ -49,7 +49,7 @@ int main(int argc, char * argv[]){
             multy*double(file_read["edge"][std::to_string(i)]["z"])
         ),file_read["type"]));
     }
-    std::cout<<"Check"<<std::endl;
+    
 
     double Min_len = multy/sqrt(2.0);   //r_0 for all types of interaction
     std::string  path_to  = "/home/aquafeet/Рабочий стол/edge.xyz";
@@ -105,13 +105,18 @@ int main(int argc, char * argv[]){
         file_read["optimizer_params"]["epoch"],
         file_read["optimizer_params"]["lambda"],
         file_read["optimizer_params"]["residual"],
-        file_read["e_coh_B"],
+        file_read["e_coh_B"], //add atom
         file_read["optimizer_params"]["epsilon"],
         file_read["optimizer_params"]["delta"]);
 
     
+    //objOptimizer.test();
+
+
+    
     ParamsArray a = objOptimizer.run();
 
+    
     nlohmann::json file_write;
     //file_write["G"] = potential(Field);
     std::ofstream o(argv[2]);
@@ -132,8 +137,6 @@ int main(int argc, char * argv[]){
     o.close();
 
 
-
-    //objOptimizer.random_variation_search();
 
 }
 

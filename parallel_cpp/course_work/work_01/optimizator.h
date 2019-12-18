@@ -27,6 +27,7 @@ struct Optimizer{
     ParamsArray features;
     double Min_len;
     double min_func;
+    
     //double residue;
     Optimizer(){};
 
@@ -70,10 +71,6 @@ struct Optimizer{
     {
 
 
-        //intervals
-
-
-
     };
 
     inline double error_function(double & e_coh,
@@ -83,7 +80,7 @@ struct Optimizer{
     double & C44,
     double & e_target );
 
-    double calculate_energy_params(std::vector<double>  &vec_in);
+    double calculate_energy_params(std::vector<double>  &vec_in, bool flag = false);
 
     ParamsArray run();   
 
@@ -95,9 +92,13 @@ struct Optimizer{
 
     ParamsArray vector_to_param(std::vector<double> &vec);
 
-    std::vector<double> first_stage(std::vector<double>  &init_pa, bool & wrong_view);
+    std::vector<double> first_stage(std::vector<double>  &init_pa, bool & wrong_view, std::vector<double> & delta);
+
+    void test();
 };
 
+
+double vector_std_len(std::vector<double> & vec);
 
 double optimizer_Huk_Jivs_beta(
     ParamsArray & init_pa,

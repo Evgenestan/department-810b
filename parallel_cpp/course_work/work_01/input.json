@@ -34,7 +34,7 @@
     
   "initial_potencial_features":{
     "A1":0.0376,
-    "A0":0.7,
+    "A0":0,
   "qsi":1.070,
   "p":16.999,
   "q":1.189
@@ -61,8 +61,8 @@
     "epoch": 5,
     "lambda": 2,
     "residual":0.1,
-    "epsilon": 0.005,
-    "delta": 0.06
+    "epsilon": 0.0001,
+    "delta": 0.01
 },
 
 "e_coh_B": 5.31,
