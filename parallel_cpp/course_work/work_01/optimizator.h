@@ -85,7 +85,7 @@ struct Optimizer{
 
     double calculate_energy_params(std::vector<double>  &vec_in);
 
-    void run();   
+    ParamsArray run();   
 
     double optimizer_Huk_Jivs(ParamsArray &);
     

@@ -54,12 +54,11 @@ ParamsArray  Optimizer::vector_to_param(std::vector<double> &vec){
 
 std::vector<double> Optimizer::first_stage(std::vector<double> & init_pa, bool & wrong_view){
 
-    std::cout<<"ALgo 4  "<<init_pa.size()<<std::endl;
+    //std::cout<<"ALgo 4  "<<init_pa.size()<<std::endl;
     std::vector<double> temp_vec = init_pa;
     double F_1;
     this->min_func = this->calculate_energy_params(temp_vec);
 
-     std::cout<<"ALgo 4  "<<std::endl;
 
     for(int i = 0; i<init_pa.size(); ++i){
 
@@ -110,7 +109,7 @@ std::vector<double> operator-(const std::vector<double> & lhs, const std::vector
     //auto result = vector();
     std::vector<double> result;
     for(int i = 0; i< lhs.size(); ++i){
-        result[i] = lhs[i]-rhs[i];
+        result.push_back(lhs[i]-rhs[i]);
     }   
     return result;
 }
@@ -120,10 +119,19 @@ std::vector<double> operator*(const std::vector<double> & lhs, const double & nu
     //auto result = vector();
     std::vector<double> result;
     for(int i = 0; i< lhs.size(); ++i){
-        result[i] = lhs[i]*number;
+        result.push_back(lhs[i]*number);
     }   
     return result;
 }
+
+
+ void show(std::vector<double> & vec){
+                        for(auto i: vec){
+                            std::cout<<" "<<i;
+                        }
+                        std::cout<<std::endl;
+                    }
+
 
 double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     //do algorithm
@@ -136,16 +144,15 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     std::vector<double> X_2;
     std::vector<double> X_3;
     std::vector<double> X_0 = init.vec; 
-    std::cout<<"Fuck:   "<< init.vec.size()<<std::endl;
 
     
     do{
    // for(int i = 0; (i<this->step) /*&& (this->delta > (this->epsilon/sqrt(this->features.size) ))*/ ; ++i){
 
         
-       std::cout<<"Delta  :  "<<this->delta<<std::endl;
+       
         
-        //half_delta:
+        std::cout<<"Delta:   "<<this->delta<<std::endl;
         X_1 = first_stage(X_0, wrong_view);
 
         if(wrong_view){
@@ -157,21 +164,27 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 
         else{
 
-            //std::cout<<"ALgo 4  "<<i<<std::endl;
+            
             for(int i = 0; i <= this->step; ++i){
+    
                 X_2 = X_1*2 - X_0;
                 wrong_view = true;
                 X_3 = first_stage(X_2 , wrong_view);
 
                 if(this->calculate_energy_params(X_3) > this->calculate_energy_params(X_1)){
                     X_0 = X_1;
-                    //std::cout<<"ALgo 5 "<<i<<std::endl;
+                    
                     break;
                 }
                 else{
-                    //std::cout<<"ALgo 6 "<<i<<std::endl;
+                    
                     X_0 = X_1;
                     X_1 = X_3;
+                    std::cout<<"Error function: "<<this->calculate_energy_params(X_3)<<std::endl;
+                   
+                    show(X_3);
+
+                    
                 }
                 
             }
@@ -217,7 +230,7 @@ ParamsArray Optimizer::random_variation_search(){
     return new_random;
 }
 
-void Optimizer::run(){
+ParamsArray Optimizer::run(){
     
     
     ParamsArray final_set;
@@ -246,10 +259,12 @@ void Optimizer::run(){
 
     if(satisfy = false){
         std::cout<<"No solution found :("<<std::endl;
+        return ParamsArray();
     }
 
     else{
         std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << std::endl;
+        return final_set;
     }
     
 
@@ -453,6 +468,7 @@ double Optimizer::error_function(double & e_coh,
     double & C12,
     double & C44,
     double & e_target ){
+        //std::cout<<B<<" "<<C11<<" "<<C12<<" "<<C44<<" "<<e_target<<std::endl;
 
         return sqrt((
         (B-this->B_i)*(B-this->B_i)/(this->B_i*this->B_i)+
@@ -468,12 +484,9 @@ double Optimizer::error_function(double & e_coh,
 double Optimizer::calculate_energy_params(std::vector<double>  & vec_in){
     //E_coh
     ParamsArray temp_arr  {this->features.size};
-    std::cout<<"Calc1  "<<vec_in.size()<<std::endl;
 
     temp_arr.vec = vec_in;
     temp_arr.receive_from_vector();
-
-     std::cout<<"Calc1  "<<std::endl;
     double matrix_E_0[]= {1.0,1.0,1.0};
     auto size = this->Pool.size();
     auto e_c = E_c(this->Pool,this->Min_len,this->multy,matrix_E_0,3,temp_arr);
@@ -522,22 +535,32 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in){
     double matrix_c_44_plus[]= {1.0,alpha,alpha,1.0,1.0/(1-alpha_p2)};
     double matrix_c_44_minus[]= {1.0,-alpha,-alpha,1.0,1.0/(1+alpha_p2)};
 
-    auto e_c_44_plus = E_c(Pool, Min_len,  this->multy*x_arrow,matrix_c_44_plus,5,temp_arr)/size;
-    auto e_c_44_minus = E_c(Pool, Min_len,  this->multy*x_arrow,matrix_c_44_minus,5,temp_arr)/size;
+    auto e_c_44_plus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_44_plus,5,temp_arr)/size;
+    auto e_c_44_minus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_44_minus,5,temp_arr)/size;
     auto C_44 = 1.0/(4*V_0)*(e_c_44_plus - 2*e_c + e_c_44_minus)/(alpha_p2)*Main_constant;
 
     //E_sol
     this->Pool[0].type = atom_kernel::B;
-    auto e_AB = E_c(Pool, Min_len, this->multy*x_arrow, matrix_E_0, 3, temp_arr); 
+    auto e_AB = E_c(this->Pool, this->Min_len, this->multy*x_arrow, matrix_E_0, 3, temp_arr); 
+
+    
+
+    //auto e_c = E_c(this->Pool,this->Min_len,this->multy,matrix_E_0,3,temp_arr);
+
+
     auto e_sol = e_AB - e_c/this->Pool.size() - e_coh_B + e_c;
     this->Pool[0].type = atom_kernel::A;
-    std::cout<<"Energy:   "<< e_sol<< std::endl;
+
+    //std::cout<<"E_sol: "<<e_sol<<"Empty: "<<temp_arr.vec.size()<<std::endl;
+    //show(temp_arr.vec);
+    //std::cout<<"Energy:   "<< e_sol<< std::endl;
 
 
 
     // calculation of error function
     auto rezult = this->error_function(e_c,B,C_11,C_12,C_44,e_sol);
-    std::cout<<"Error function:   "<<rezult<<std::endl;
+    //std::cout<<"Error function:   "<<rezult<<std::endl;
+    //std::cout<<"Delta:   "<< this->delta<<std::endl;    
     return rezult;
 //calculate all energy params
 

@@ -51,6 +51,11 @@ struct ParamsArray{
 
     ParamsArray(){size = 2;}
     ParamsArray(int _size){size = _size;}
+    /*ParamsArray(const ParamsArray & in){
+        this->size = in.size;
+        this->vec = in.vec;
+        this->receive_from_vector();
+    }*/
 
     
    

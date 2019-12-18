@@ -110,7 +110,26 @@ int main(int argc, char * argv[]){
         file_read["optimizer_params"]["delta"]);
 
     
-    objOptimizer.run();
+    ParamsArray a = objOptimizer.run();
+
+    nlohmann::json file_write;
+    //file_write["G"] = potential(Field);
+    std::ofstream o(argv[2]);
+    file_write["A-A"]["A0"] =a.arr[A][A].A0;
+    file_write["A-A"]["A1"] = a.arr[A][A].A1;
+    file_write["A-A"]["qsi"] = a.arr[A][A].qsi;
+    file_write["A-A"]["p"] = a.arr[A][A].p0;
+    file_write["A-A"]["q"] = a.arr[A][A].q0;
+
+    file_write["A-B"]["A0"] =a.arr[A][B].A0;
+    file_write["A-B"]["A1"] = a.arr[A][B].A1;
+    file_write["A-B"]["qsi"] = a.arr[A][B].qsi;
+    file_write["A-B"]["p"] = a.arr[A][B].p0;
+    file_write["A-B"]["q"] = a.arr[A][B].q0;
+
+
+    o << file_write; 
+    o.close();
 
 
 
