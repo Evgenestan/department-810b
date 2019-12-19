@@ -5,6 +5,7 @@ with sales as
     select round(months_between(sale_date,to_date('01.09.2013','dd.mm.yy'))) as monh_order, manager_id, sum(sale_amount) sale_sum
     from v_fact_sale
     where  to_date(sale_date,'DD.MM.YY')  >= to_date('01.10.2013','DD.MM.YY') AND to_date(sale_date,'DD.MM.YY') < to_date('01.12.2014','DD.MM.YY')
+-- sale_date - это уже DATE, приводить еще раз to_date - бессмысленно.
     group by round(months_between(sale_date,to_date('01.09.2013','dd.mm.yy'))),manager_id
 ),
     total_sums as
@@ -19,6 +20,7 @@ with sales as
     max(total_sums.total_sum) over (partition by total_sums.monh_order) max_sum
     from total_sums
 )
+-- не хватает month в результате
     select mngs.manager_id,mngs.manager_first_name,mngs.manager_last_name,(maxs.max_sum * 0.05) premia
     from max_sums maxs join manager mngs on maxs.manager_id = mngs.manager_id
     where maxs.total_sum = maxs.max_sum and monh_order >= 4;
@@ -39,7 +41,7 @@ with sum_officies as
 )
     select office_id, city_name, year, country, sum_sales/total_sum relative_amount
     from sum_officies_by_year
-    order by relative_amount desc;
+    order by relative_amount asc;
 
 --query_03
 
@@ -106,7 +108,10 @@ with sum_sales_by_products as
             select product_id,product_name, sum_sales, round(percent,2) round_percent
             from sum_sales_with_row_numbers
             where round(percent,2) <= 0.1 or round(percent,2)>=0.9;
-
+-- не полностью соответствует заданию.
+-- 5. Найдите вклад в общую прибыль за 2014 год 10% наиболее дорогих товаров и 10% наиболее дешевых товаров.
+-- Выведите product_id, product_name, total_sale_amount, percent
+-- у вас товары, вклад которых в общую прибыль >10% >90%, а не 10% самых дорогих и 10% дешевых (по цене).
 
 --query_06
 
@@ -133,10 +138,15 @@ with managers_sales as
         select country, manager_last_name|| ' , ' ||manager_first_name name
         from sum_managers_sales
         where rank_id in (1,2,3);
+                                   
+-- Опять не соотв. заданию. 
+-- надо: Страна - список менеджеров, разделенных запятыми. Страна в результате встречается не больше одного раза.
+-- см. функцию listagg()
 
 --query_07
 with sales_by_months as
          (
+             -- если будет 2 продажи одного товара с одним sale_amount в одном месяце - вы потеряете одну продажу из-за distinct!
              select distinct product_id,
                              product_name,
                              sale_amount,
@@ -151,18 +161,21 @@ with sales_by_months as
          ),
     max_mins as
         (
+            -- дешевый и дорогой - это по цене (sale_price), а не по объему продажи.
             select product_id,product_name, month_order,sum_sales_in_months, max(sum_sales_in_months) over ( partition by month_order) maximum,
                     min(sum_sales_in_months) over ( partition by month_order) minimum
             from sales_by_months_sums
         ),
     max_sales as
          (
+             -- зачем этот запрос??? вы уже нашли minimum и maximum
              select product_id expensive_product_id, product_name expensive_product_name, month_order, sum_sales_in_months expensive_price
              from max_mins
              where sum_sales_in_months = maximum
          ),
      min_sales as
          (
+             -- то же самое
              select product_id cheapest_product_id, product_name cheapest_product_name, month_order, sum_sales_in_months cheapest_price
              from max_mins
              where sum_sales_in_months = minimum
@@ -175,6 +188,8 @@ with sales_by_months as
 
 with salary as
         (
+            -- в запросе зарплата и сумма считается для каждого факта продажи из v_fact_sale, 
+            -- из-за этого сумма потом получается очень большая (происходит многократное дублирование сумм и неверный результат) .
             select sum(sale_amount) over (partition by trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY')))) total_sales,
             manager_id,
             trunc(MONTHS_BETWEEN(sale_date,to_date('01.12.13','DD.MM.YY'))) month_order,
