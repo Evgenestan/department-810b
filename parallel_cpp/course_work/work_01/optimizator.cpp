@@ -157,10 +157,10 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     for(auto i: this->features.vec){
 
         if(abs(i)<1)
-            delta.push_back(0.001);
+            delta.push_back(this->delta/10.0);
         else
         {
-            delta.push_back(0.01);
+            delta.push_back(this->delta);
         }
 
     }
@@ -188,26 +188,41 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
         
         if(!flag){
             X_1 = first_stage(X_0, wrong_view,delta);
+            std::cout<<"First type step:  "<< wrong_view<<std::endl;
             
         }
 
         if(wrong_view || flag_revert)
             delta = delta*(0.5);
+            if(flag_revert){
+                flag_revert = false;
+                flag = false;
+            }
+                
           
         else{
             X_2 = X_1*2 - X_0;
            
             wrong_view = true;
             X_3 = first_stage(X_2,wrong_view,delta);
+
             if(wrong_view){
-                flag_revert = true;
+
+                //flag_revert = true;
+                flag = false;
+                
                 X_0 = X_2;
+                std::cout<<"Error function: "<<this->calculate_energy_params(X_0)<<std::endl;
+                std::cout<<"No change in X"<<std::endl;
                 continue;
             }
 
             if(this->calculate_energy_params(X_3) > this->calculate_energy_params(X_1)){
                 X_0 = X_1;
+                std::cout<<"Second type step is bad (X3>X1)"<<std::endl;
                 flag = false;
+                wrong_view = true ;
+                flag_revert = true;
                 continue;
             }
 
@@ -219,7 +234,10 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
                 //std::cout.setf(std::ios::fixed);
                 //std::cout.precision(80);
                 std::cout<<"Error function: "<<this->calculate_energy_params(X_3)<<std::endl;
-                flag = true;        
+                flag = true;  
+                wrong_view = false;
+                flag_revert = false;  
+                std::cout<<"Зашло"<<std::endl;   
             }
         }
 
@@ -282,11 +300,16 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     else if(this->calculate_energy_params(X_2)<=this->calculate_energy_params(X_3) &&
         this->calculate_energy_params(X_2)<=this->calculate_energy_params(X_1))
         ret_val = X_2;
-    else
+    else 
         ret_val = X_3;
     
     init.vec = ret_val;
     init.receive_from_vector();
+
+
+    show(X_1);
+    show(X_2);
+    show(X_3);
    // std::cout << this->calculate_energy_params(ret_val) << std::endl;
   //  show(ret_val);
     return this->calculate_energy_params(ret_val);
@@ -296,7 +319,7 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 ParamsArray Optimizer::random_variation_search(){
     ParamsArray new_random;
     new_random.arr[A][A] = Params(
-        random_par(this->features.arr[A][A].A0/2,this->features.arr[A][A].A0*2),
+        random_par(this->features.arr[A][A].A0/4,this->features.arr[A][A].A0*4),
         random_par(this->features.arr[A][A].A1/2,this->features.arr[A][A].A1*2),
         random_par(this->features.arr[A][A].p0/2,this->features.arr[A][A].p0*2),
         random_par(this->features.arr[A][A].q0/2,this->features.arr[A][A].q0*2),
@@ -457,13 +480,15 @@ double E_b(
 
             auto fi = feature.arr[i.type][elem.type];
             energy+= pow(fi.qsi,2)*exp(-2*fi.q0*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
-            energy+=fi.qsi*exp(-2*fi.q0*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
+            //energy+=fi.qsi*exp(-2*fi.q0*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
 
         }
          
     }
+    if(energy<0)
+    std::cout<<"energy: "<<sqrt(energy)<<std::endl;
 
-    return -pow(energy,0.5);
+    return -sqrt(energy);
 }
 
 double E_r(
@@ -590,8 +615,8 @@ double Optimizer::error_function(double & e_coh,
         (C11-this->C11_i)*(C11-this->C11_i)/(this->C11_i*this->C11_i)+
         (C12-this->C12_i)*(C12-this->C12_i)/(this->C12_i*this->C12_i)+
         (C44-this->C44_i)*(C44-this->C44_i)/(this->C44_i*this->C44_i)+
-        (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i*this->e_coh_i)+
-        (e_target-this->e_target_i)*(e_target-this->e_target_i)/(this->e_target_i*this->e_target_i))/this->Pool.size());
+        (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i * this->e_coh_i)+
+        (e_target-this->e_target_i)*(e_target-this->e_target_i)/(this->e_target_i * this->e_target_i))/this->Pool.size());
         
         //FOR TEST
 
@@ -600,8 +625,8 @@ double Optimizer::error_function(double & e_coh,
         (C11-this->C11_i)*(C11-this->C11_i)/(this->C11_i*this->C11_i)+
         (C12-this->C12_i)*(C12-this->C12_i)/(this->C12_i*this->C12_i)+
         (C44-this->C44_i)*(C44-this->C44_i)/(this->C44_i*this->C44_i)+
-        (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i*this->e_coh_i))/this->Pool.size());
-*/
+        (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i*this->e_coh_i))/this->Pool.size());*/
+
     }
 
 
@@ -667,6 +692,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
     //E_sol
     this->Pool[0].type = atom_kernel::B;
+
     auto e_AB = E_c(this->Pool, this->Min_len, this->multy*x_arrow, matrix_E_0, 3, temp_arr); 
 
     
@@ -674,7 +700,11 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     //auto e_c = E_c(this->Pool,this->Min_len,this->multy,matrix_E_0,3,temp_arr);
 
     // release
-    auto e_sol = e_AB - e_c*this->Pool.size() - e_coh_B + e_c;
+   auto e_sol = e_AB - e_c*this->Pool.size() - e_coh_B + e_c;
+
+    
+    
+
 
    //test
    //
@@ -683,6 +713,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
     //
     this->Pool[0].type = atom_kernel::A;
+    
 
     //std::cout<<"E_sol: "<<e_sol<<"Empty: "<<temp_arr.vec.size()<<std::endl;
     //show(temp_arr.vec);

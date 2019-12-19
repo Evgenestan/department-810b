@@ -33,8 +33,8 @@
   },
     
   "initial_potencial_features":{
-    "A1":0.0376,
-    "A0":0,
+  "A1":0.0376,
+  "A0":0.0001,
   "qsi":1.070,
   "p":16.999,
   "q":1.189
@@ -58,11 +58,11 @@
 
   "optimizer_params":{
     "step" : 1000,
-    "epoch": 5,
+    "epoch": 10,
     "lambda": 2,
-    "residual":0.1,
-    "epsilon": 0.0001,
-    "delta": 0.01
+    "residual":0.4,
+    "epsilon": 1e-4,
+    "delta": 0.1
 },
 
 "e_coh_B": 5.31,
