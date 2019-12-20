@@ -640,7 +640,10 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
     double matrix_E_0[]= {1.0,1.0,1.0};
     auto size = this->Pool.size();
-    auto e_c = E_c(this->Pool,this->Min_len,this->multy,matrix_E_0,3,temp_arr)/size;
+
+    int x_arrow = this->arrow;
+
+    auto e_c = E_c(this->Pool,this->Min_len,this->multy*x_arrow,matrix_E_0,3,temp_arr)/size;
     auto const alpha_p2 = alpha*alpha;
     auto const V_0 = this->multy*this->multy*this->multy/4;
 
@@ -649,7 +652,6 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     double matrix_c_11_plus[]= {1+alpha,1+alpha,1.0};
     double matrix_c_11_minus[]= {1-alpha,1-alpha,1.0};
 
-    int x_arrow = this->arrow;
 
     auto e_c_11_plus = E_c(this->Pool, this->Min_len, this->multy*x_arrow,matrix_c_11_plus,3,temp_arr)/size;
     auto e_c_11_minus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_11_minus,3,temp_arr)/size;
