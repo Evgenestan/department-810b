@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1731c576-43ac-4b17-bfe9-8cee5e1852df" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="75a42d7c-cca2-4c2d-8c16-ca76d8e471bd" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,37 +13,50 @@
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
-  <component name="ProjectId" id="1UQSj3lwJkYFmfRCLG6M73pLTQz" />
+  <component name="ProjectId" id="1UhvZ8SADXPAXIgpRdPp5wKJAgy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\v.sherbakov\Downloads\lession12\train" />
+      <recent name="C:\Users\v.sherbakov\Downloads\lession12\train\src\main\resources" />
+      <recent name="C:\Users\v.sherbakov\Downloads\lession12\train\stackoverfow" />
+    </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Iris" type="Application" factoryName="Application">
+  <component name="RunManager" selected="Application.StackOverflow">
+    <configuration name="StackOverflow" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="org.mai.dep110.scala.iris.Main" />
+      <option name="MAIN_CLASS_NAME" value="org.mai.dep810.stackoverflow.Main" />
+      <module name="task_04" />
+      <option name="PROGRAM_PARAMETERS" value="extract --query &quot;select * from so_post;&quot;" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.mai.dep810.Object" />
       <module name="task_04" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Application.StackOverflow" />
+    </list>
   </component>
   <component name="SbtLocalSettings">
     <option name="projectSyncType">
@@ -57,23 +69,112 @@
       </map>
     </option>
   </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1731c576-43ac-4b17-bfe9-8cee5e1852df" name="Default Changelist" comment="" />
-      <created>1575287457138</created>
+      <changelist id="75a42d7c-cca2-4c2d-8c16-ca76d8e471bd" name="Default Changelist" comment="" />
+      <created>1575821693128</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1575287457138</updated>
-      <workItem from="1575287468879" duration="287000" />
-      <workItem from="1575287864878" duration="1469000" />
-      <workItem from="1575290531163" duration="224000" />
-      <workItem from="1575303889942" duration="696000" />
-      <workItem from="1575543675368" duration="40000" />
-      <workItem from="1575638898424" duration="118000" />
+      <updated>1575821693128</updated>
+      <workItem from="1575821696403" duration="9267000" />
+      <workItem from="1575870820465" duration="1198000" />
+      <workItem from="1575873014677" duration="390000" />
+      <workItem from="1575880145473" duration="1156000" />
+      <workItem from="1575881413385" duration="13000" />
+      <workItem from="1575881799287" duration="701000" />
+      <workItem from="1575888293425" duration="567000" />
+      <workItem from="1575889529113" duration="670000" />
+      <workItem from="1575899313977" duration="1391000" />
+      <workItem from="1575906220208" duration="39000" />
+      <workItem from="1575906299141" duration="96000" />
+      <workItem from="1575906924515" duration="414000" />
+      <workItem from="1575907422868" duration="2247000" />
+      <workItem from="1575910157546" duration="3227000" />
+      <workItem from="1576081640770" duration="6356000" />
+      <workItem from="1576265504487" duration="15482000" />
+      <workItem from="1576475458237" duration="2258000" />
+      <workItem from="1576504390333" duration="337000" />
+      <workItem from="1576504860874" duration="895000" />
+      <workItem from="1576510588697" duration="7317000" />
+      <workItem from="1576951585952" duration="11122000" />
+      <workItem from="1576999643775" duration="2741000" />
+      <workItem from="1577003028748" duration="367000" />
+      <workItem from="1577003670009" duration="689000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="572" y="344" key="#com.intellij.framework.addSupport.AddSupportForSingleFrameworkDialog" timestamp="1577003694609">
+      <screen x="0" y="0" width="1603" height="862" />
+    </state>
+    <state x="572" y="344" key="#com.intellij.framework.addSupport.AddSupportForSingleFrameworkDialog/0.0.1603.862@0.0.1603.862" timestamp="1577003694609" />
+    <state width="1559" height="231" key="GridCell.Tab.0.bottom" timestamp="1576504733897">
+      <screen x="0" y="0" width="1603" height="862" />
+    </state>
+    <state width="1559" height="231" key="GridCell.Tab.0.bottom/0.0.1603.862@0.0.1603.862" timestamp="1576504733897" />
+    <state width="1559" height="231" key="GridCell.Tab.0.center" timestamp="1576504733897">
+      <screen x="0" y="0" width="1603" height="862" />
+    </state>
+    <state width="1559" height="231" key="GridCell.Tab.0.center/0.0.1603.862@0.0.1603.862" timestamp="1576504733897" />
+    <state width="1559" height="231" key="GridCell.Tab.0.left" timestamp="1576504733897">
+      <screen x="0" y="0" width="1603" height="862" />
+    </state>
+    <state width="1559" height="231" key="GridCell.Tab.0.left/0.0.1603.862@0.0.1603.862" timestamp="1576504733897" />
+    <state width="1559" height="231" key="GridCell.Tab.0.right" timestamp="1576504733897">
+      <screen x="0" y="0" width="1603" height="862" />
+    </state>
+    <state width="1559" height="231" key="GridCell.Tab.0.right/0.0.1603.862@0.0.1603.862" timestamp="1576504733897" />
+    <state x="281" y="4" key="SettingsEditor" timestamp="1576504517780">
+      <screen x="0" y="0" width="1603" height="862" />
+    </state>
+    <state x="281" y="4" key="SettingsEditor/0.0.1603.862@0.0.1603.862" timestamp="1576504517780" />
+    <state x="500" y="254" key="com.intellij.ide.util.TipDialog" timestamp="1577003670352">
+      <screen x="0" y="0" width="1603" height="862" />
+    </state>
+    <state x="500" y="254" key="com.intellij.ide.util.TipDialog/0.0.1603.862@0.0.1603.862" timestamp="1577003670352" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/org/mai/dep810/stackoverflow/Main.scala</url>
+          <line>73</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/org/mai/dep810/stackoverflow/DbOperations.scala</url>
+          <line>337</line>
+          <properties>
+            <option name="lambda-ordinal" value="0" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/org/mai/dep810/stackoverflow/DbOperations.scala</url>
+          <line>281</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/org/mai/dep810/stackoverflow/DbOperations.scala</url>
+          <line>365</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
