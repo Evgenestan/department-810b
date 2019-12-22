@@ -1,0 +1,61 @@
+products:
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\Main.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\Main$.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\Main.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\Main.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Comment$.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Comment.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\DataLoader.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\DbOperations$.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\DbOperations.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Entity.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Post$.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Post.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\User$.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\User.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Config$.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Config.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Logic$.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Logic.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Main$$anon$1.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Main$.class
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\target\classes\org\mai\dep810\stackoverflow\Main.class
+binary dependencies:
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\Main.scala -> C:\Program Files\Java\jdk1.8.0_231\jre\lib\rt.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\Main.scala -> C:\Users\v.sherbakov\.m2\repository\org\scala-lang\scala-library\2.12.5\scala-library-2.12.5.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Program Files\Java\jdk1.8.0_231\jre\lib\rt.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\.m2\repository\org\scala-lang\modules\scala-xml_2.12\1.1.1\scala-xml_2.12-1.1.1.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\.m2\repository\org\scala-lang\scala-library\2.12.5\scala-library-2.12.5.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\.m2\repository\org\scalikejdbc\scalikejdbc-config_2.12\3.3.1\scalikejdbc-config_2.12-3.3.1.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\.m2\repository\org\scalikejdbc\scalikejdbc-core_2.12\3.3.1\scalikejdbc-core_2.12-3.3.1.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\.m2\repository\org\scalikejdbc\scalikejdbc-interpolation_2.12\3.3.1\scalikejdbc-interpolation_2.12-3.3.1.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> C:\Users\v.sherbakov\.m2\repository\org\scalikejdbc\scalikejdbc_2.12\3.3.1\scalikejdbc_2.12-3.3.1.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> C:\Program Files\Java\jdk1.8.0_231\jre\lib\rt.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> C:\Users\v.sherbakov\.m2\repository\org\scala-lang\scala-library\2.12.5\scala-library-2.12.5.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Program Files\Java\jdk1.8.0_231\jre\lib\rt.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Users\v.sherbakov\.m2\repository\com\github\scopt\scopt_2.12\3.7.0\scopt_2.12-3.7.0.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Users\v.sherbakov\.m2\repository\org\scala-lang\scala-library\2.12.5\scala-library-2.12.5.jar
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Users\v.sherbakov\.m2\repository\org\scalikejdbc\scalikejdbc-config_2.12\3.3.1\scalikejdbc-config_2.12-3.3.1.jar
+source dependencies:
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala
+external dependencies:
+class names:
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\Main.scala -> org.mai.dep810.Main
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\Main.scala -> org.mai.dep810.Main$
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.Comment
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.Comment$
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.DataLoader
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.DbOperations
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.DbOperations$
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.Entity
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.Post
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.Post$
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.User
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\DbOperations.scala -> org.mai.dep810.stackoverflow.User$
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> org.mai.dep810.stackoverflow.Config
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> org.mai.dep810.stackoverflow.Config$
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> org.mai.dep810.stackoverflow.Logic
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Logic.scala -> org.mai.dep810.stackoverflow.Logic$
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> org.mai.dep810.stackoverflow.Main
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> org.mai.dep810.stackoverflow.Main$
+   C:\Users\v.sherbakov\Downloads\lession12\train\src\main\scala\org\mai\dep810\stackoverflow\Main.scala -> org.mai.dep810.stackoverflow.Main$$anon$1
