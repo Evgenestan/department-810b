@@ -50,6 +50,11 @@
     "C11":1.32,
     "C12":0.97,
     "C44":0.56,
+    "energy":{
+      "1":0.497,
+      "2":0.22,
+      "3": -0.36
+    },
     "E_sol":0.497,
     "E_in":0.22,
     "E_on":-0.36
@@ -60,12 +65,14 @@
     "step" : 1000,
     "epoch": 10,
     "lambda": 2,
-    "residual":0.4,
-    "epsilon": 1e-4,
+    "residual":0.04,
+    "epsilon": 1e-3,
     "delta": 0.1
 },
 
 "e_coh_B": 5.31,
+"task":2,
+
 
 "material_base": "Ag(001)",
 "material_impurity": "V"
