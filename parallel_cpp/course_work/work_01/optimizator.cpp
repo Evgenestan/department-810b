@@ -246,54 +246,11 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 
 
 
-    std::cout<<"Fimal step:  "<<vector_std_len(delta)<<std::endl;
-    /*do{
-
-        std::cout<<"Delta: "<<this->delta<< " in iteration " << count <<std::endl;
-        
-        if(!flag){
-            wrong_view = true;
-            X_1 = first_stage(X_0, wrong_view,delta);
-        }
-
-        if(wrong_view && !flag)
-            delta = delta*(0.5);
-          
-        else{
-            X_2 = X_1*2 - X_0;
-
-            wrong_view = true;
-            X_3 = first_stage(X_2,wrong_view,delta);
-          
-            if(this->calculate_energy_params(X_3) > this->calculate_energy_params(X_1)){
-                X_0 = X_1;
-                flag = false;
-            }
-
-            else{
-                X_0 = X_1;
-                X_1 = X_3;
-
-
-                std::cout.setf(std::ios::fixed);
-                std::cout.precision(80);
-                std::cout<<"Error function: "<<this->calculate_energy_params(X_3)<<std::endl;
-                flag = true;        
-            }
-        }
-
-        ++count;
-    } while(vector_std_len(delta) > (this->epsilon ) && count != step);*/
-
-
-
-
-
-
-    //GOVNOKOD mama prosti menya
-
+    std::cout<<"Final step:  "<<vector_std_len(delta)<<std::endl;
+   
     std::vector<double> ret_val;
 
+    std::cout<<"X1 = "<<this->calculate_energy_params(X_1)<<"X2 = "<<this->calculate_energy_params(X_2)<<"X3 = "<<this->calculate_energy_params(X_3)<<std::endl;
     if(this->calculate_energy_params(X_1)<=this->calculate_energy_params(X_3) && 
        this->calculate_energy_params(X_1)<=this->calculate_energy_params(X_2))
         ret_val = X_1;
@@ -311,8 +268,10 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     show(X_2);
     show(X_3);
    // std::cout << this->calculate_energy_params(ret_val) << std::endl;
-  //  show(ret_val);
-    return this->calculate_energy_params(ret_val);
+    show(ret_val);
+    std::cout<<"Before loss = "<<this->calculate_energy_params(ret_val)<<std::endl;
+    double rez = this->calculate_energy_params(ret_val);
+    return rez;
     
 }
 
@@ -412,36 +371,36 @@ ParamsArray Optimizer::run(){
 
 }
 
-double distance(const vector& lv,const vector& rv, const double & length, const double * matrix, int size){
+double distance(const vector& lv,const vector& rv, const double * array_multy, const double * matrix, int size){
     double x_r, y_r,z_r;
     double x_dif = lv.x-rv.x;
     double y_dif = lv.y - rv.y;
     double z_dif = lv.z - rv.z; 
-    if(x_dif>length/2){
-        x_r =  (x_dif)-length;
+    if(x_dif>array_multy[0]/2){
+        x_r =  (x_dif)-array_multy[0];
     }
-    else if(x_dif<-length/2){
-        x_r = length+x_dif;
+    else if(x_dif<-array_multy[0]/2){
+    x_r = array_multy[0]+x_dif;
     }
     else{
         x_r = x_dif;
     }
 
-    if(y_dif>length/2){
-        y_r =  (y_dif)-length;
+    if(y_dif>array_multy[1]/2){
+        y_r =  (y_dif)-array_multy[1];
     }
-    else if(y_dif<-length/2){
-        y_r = length+y_dif;
+    else if(y_dif<-array_multy[1]/2){
+        y_r = array_multy[1]+y_dif;
     }
     else{
         y_r = y_dif;
     }
 
-    if(z_dif>length/2){
-        z_r =  (z_dif) - length ;
+    if(z_dif>array_multy[2]/2){
+        z_r =  (z_dif) - array_multy[2] ;
     }
-    else if(z_dif<-length/2){
-        z_r = length+z_dif;
+    else if(z_dif<-array_multy[2]/2){
+        z_r = array_multy[2]+z_dif;
     }
     else{
         z_r = z_dif;
@@ -466,7 +425,7 @@ double E_b(
     Atom const  &elem,
     std::vector <Atom> const &field,
     double const &min_len,
-    const double & multy,
+    const double *array_multy,
     const double* matrix,
     const int & size,
     const ParamsArray& feature){
@@ -479,7 +438,7 @@ double E_b(
         else{
 
             auto fi = feature.arr[i.type][elem.type];
-            energy+= pow(fi.qsi,2)*exp(-2*fi.q0*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
+            energy+= pow(fi.qsi,2)*exp(-2*fi.q0*(distance( i.vec,elem.vec, array_multy, matrix,size)/min_len-1));
             //energy+=fi.qsi*exp(-2*fi.q0*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
 
         }
@@ -495,7 +454,7 @@ double E_r(
     Atom const & elem,
     std::vector <Atom> const  &field,
     double const  &min_len,
-    const double& multy,
+    const double *array_multy,
     const double * matrix,
     const int & size,
     const ParamsArray& feature
@@ -508,7 +467,7 @@ double E_r(
             
         else{
             auto fi = feature.arr[i.type][elem.type];
-            energy+= (fi.A1*(distance( i.vec,elem.vec, multy, matrix,size)-min_len)+fi.A0)*exp(-fi.p0*(distance(i.vec, elem.vec,  multy, matrix, size)/min_len-1));
+            energy+= (fi.A1*(distance( i.vec,elem.vec, array_multy, matrix,size)-min_len)+fi.A0)*exp(-fi.p0*(distance(i.vec, elem.vec,  array_multy, matrix, size)/min_len-1));
         }
          
     }
@@ -521,15 +480,18 @@ double E_r(
 double E_c(
     std::vector <Atom> const &field,
     double const &min_len,
-    const double & multy,
+    const double *array_multy,
     const double *matrix,
     const int & size,
     const ParamsArray& feature){
 
     double Result_energy = 0;
     
+    //temp
+
+
     for(auto i: field){
-        Result_energy += E_b(i,field,min_len, multy,matrix,size,feature) + E_r(i,field,min_len, multy,matrix,size,feature);
+        Result_energy += E_b(i,field,min_len, array_multy,matrix,size,feature) + E_r(i,field,min_len, array_multy,matrix,size,feature);
     }
 
     return Result_energy;
@@ -538,13 +500,20 @@ double E_c(
 }
 
 
-std::vector<Atom> generate_edge( std::vector<Atom>  &Field,const nlohmann::json &file_read, std::string const & path_to){
+std::vector<Atom> generate_edge( 
+    std::vector<Atom>  &Field,
+    const nlohmann::json &file_read,
+    std::string const & path_to,
+    const double & _a,
+    const int &_x,
+    const int & _y,
+    const int & _z){
 
     std::vector<Atom> Pool = Field;
-    double a = file_read["initial_energy"]["a"]; 
-    int x_ar =file_read["size"]["x"];
-    int y_ar = file_read["size"]["y"];
-    int z_ar = file_read["size"]["z"];
+    double a = _a; 
+    int x_ar = _x;
+    int y_ar = _y;
+    int z_ar = _z;
     for(auto i: Field){    // OY
         for(int j = 1; j<y_ar; ++j){
             //if(i.vec.y+a*j<=y_ar*a){
@@ -640,7 +609,12 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
     double matrix_E_0[]= {1.0,1.0,1.0};
     auto size = this->Pool.size();
-    auto e_c = E_c(this->Pool,this->Min_len,this->multy,matrix_E_0,3,temp_arr)/size;
+
+    //int x_arrow = this->arrow;
+
+    double array_mr[] = {this->x_arrow*this->multy,this->y_arrow*this->multy,this->z_arrow*this->multy };
+
+    auto e_c = E_c(this->Pool,this->Min_len,array_mr,matrix_E_0,3,temp_arr)/size;
     auto const alpha_p2 = alpha*alpha;
     auto const V_0 = this->multy*this->multy*this->multy/4;
 
@@ -649,17 +623,16 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     double matrix_c_11_plus[]= {1+alpha,1+alpha,1.0};
     double matrix_c_11_minus[]= {1-alpha,1-alpha,1.0};
 
-    int x_arrow = this->arrow;
 
-    auto e_c_11_plus = E_c(this->Pool, this->Min_len, this->multy*x_arrow,matrix_c_11_plus,3,temp_arr)/size;
-    auto e_c_11_minus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_11_minus,3,temp_arr)/size;
+    auto e_c_11_plus = E_c(this->Pool, this->Min_len, array_mr,matrix_c_11_plus,3,temp_arr)/size;
+    auto e_c_11_minus = E_c(this->Pool, this->Min_len,  array_mr,matrix_c_11_minus,3,temp_arr)/size;
 
     double matrix_c_12_plus[]= {1+alpha,1-alpha,1.0};
     double matrix_c_12_minus[]= {1-alpha,1+alpha,1.0};
 
 
-    auto e_c_12_plus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_12_plus,3,temp_arr)/size;
-    auto e_c_12_minus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_12_minus,3,temp_arr)/size;
+    auto e_c_12_plus = E_c(this->Pool, this->Min_len,array_mr,matrix_c_12_plus,3,temp_arr)/size;
+    auto e_c_12_minus = E_c(this->Pool, this->Min_len,array_mr,matrix_c_12_minus,3,temp_arr)/size;
 
 
     auto der11 =  (e_c_11_plus - 2*e_c + e_c_11_minus)/(alpha_p2);
@@ -673,8 +646,8 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     double B_plus[]= {1+alpha,1+alpha,1+alpha};
     double B_minus[] = {1-alpha,1-alpha,1-alpha};
 
-    auto B_plus_energy = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,B_plus,3,temp_arr)/size;
-    auto B_minus_energy = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,B_minus,3,temp_arr)/size;
+    auto B_plus_energy = E_c(this->Pool, this->Min_len, array_mr,B_plus,3,temp_arr)/size;
+    auto B_minus_energy = E_c(this->Pool, this->Min_len, array_mr,B_minus,3,temp_arr)/size;
 
 
     auto B = 1.0/(9.0*V_0)*(B_plus_energy-2*e_c+B_minus_energy)/(alpha_p2)*Main_constant;
@@ -686,33 +659,82 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     double matrix_c_44_plus[]= {1.0,alpha,alpha,1.0,1.0/(1-alpha_p2)};
     double matrix_c_44_minus[]= {1.0,-alpha,-alpha,1.0,1.0/(1+alpha_p2)};
 
-    auto e_c_44_plus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_44_plus,5,temp_arr)/size;
-    auto e_c_44_minus = E_c(this->Pool, this->Min_len,  this->multy*x_arrow,matrix_c_44_minus,5,temp_arr)/size;
+    auto e_c_44_plus = E_c(this->Pool, this->Min_len,  array_mr,matrix_c_44_plus,5,temp_arr)/size;
+    auto e_c_44_minus = E_c(this->Pool, this->Min_len,  array_mr,matrix_c_44_minus,5,temp_arr)/size;
     auto C_44 = 1.0/(4*V_0)*(e_c_44_plus - 2*e_c + e_c_44_minus)/(alpha_p2)*Main_constant;
 
+    double e_target;
     //E_sol
-    this->Pool[0].type = atom_kernel::B;
+    if(this->task_type == 1){
+        this->Pool[0].type = atom_kernel::B;
+        auto e_AB = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr); 
+        auto e_sol = e_AB - e_c*this->Pool.size() - e_coh_B + e_c;
+        //std::cout<<"e_AB = "<<e_AB<<"e_c2 =  "<<e_c*this->Pool.size()<<"e_coh_B = "<<e_coh_B<<"e_c = "<<e_c<<std::endl;
+        this->Pool[0].type = atom_kernel::A;
+        e_target = e_sol;
+    }
+        
+    else if(this->task_type == 2){
 
-    auto e_AB = E_c(this->Pool, this->Min_len, this->multy*x_arrow, matrix_E_0, 3, temp_arr); 
+        //find points
+        auto e_surf = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
-    
+        this->Pool[0].type = atom_kernel::B;
 
-    //auto e_c = E_c(this->Pool,this->Min_len,this->multy,matrix_E_0,3,temp_arr);
+        auto e_adatom =  E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr)*this->Pool.size();
 
-    // release
-   auto e_sol = e_AB - e_c*this->Pool.size() - e_coh_B + e_c;
+        
+        this->Pool[this->id2].type =atom_kernel::B;
 
-    
-    
+        //evaluate
+
+        
+        auto e_dim_surf = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+        
+
+        auto e_in_dim = (e_dim_surf*this->Pool.size()-e_surf)-2*(e_adatom - e_surf);
 
 
-   //test
-   //
+        this->Pool[0].type = atom_kernel::A;
+        this->Pool[id2].type = atom_kernel::A;
+        e_target = e_in_dim;
+    }
+    else if(this->task_type == 3){
+        //smth
+        //find points
+        auto e_surf = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
-     //double e_sol = 0;
+        //this->Pool[0].type = atom_kernel::B;
 
-    //
-    this->Pool[0].type = atom_kernel::A;
+        
+
+       
+        //std::cout<<f1<<"and"<<f2<<std::endl;
+        this->Pool[this->id3_1].type =atom_kernel::B;
+        auto e_adatom = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+
+        this->Pool[this->id3_2].type =atom_kernel::B;
+
+        //evaluate
+
+        
+        auto e_dim_surf = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+        
+
+        auto e_on_dim = (e_dim_surf*this->Pool.size()-e_surf)-2*(e_adatom - e_surf);
+
+       
+        this->Pool[this->id3_1].type =atom_kernel::B;
+        this->Pool[this->id3_2].type =atom_kernel::B;
+        e_target = e_on_dim;
+
+
+
+    }
+    else{
+
+        throw std::logic_error("There is no such a parameter");
+    }
     
 
     //std::cout<<"E_sol: "<<e_sol<<"Empty: "<<temp_arr.vec.size()<<std::endl;
@@ -724,7 +746,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     // calculation of error function
     if(flag)
     std::cout<<"----params :"<<e_c<<" "<<B<<" "<<C_11<<" "<<C_12<<" "<<C_44<<std::endl;
-    auto rezult = this->error_function(e_c,B,C_11,C_12,C_44,e_sol);
+    auto rezult = this->error_function(e_c,B,C_11,C_12,C_44,e_target);
     //std::cout<<"Error function:   "<<rezult<<std::endl;
     //std::cout<<"Delta:   "<< this->delta<<std::endl; 
    
