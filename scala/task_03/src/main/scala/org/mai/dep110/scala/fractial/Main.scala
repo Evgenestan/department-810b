@@ -19,6 +19,6 @@ object Main extends App {
 
   println(fr3)
 
-  println(10 toNumerator)
-  println(10L toDenumerator)
+  //println(10 toNumerator)
+  //println(10L toDenumerator)
 }
