@@ -58,13 +58,13 @@ std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
 
 
     std::vector<double> vec;
-    for(int i = 1; i<=obj.size; ++i){
+    for(int i = 2; i<=obj.size; ++i){
 
-        vec.push_back(obj.arr[1][i].A0);
-        vec.push_back(obj.arr[1][i].A1);
-        vec.push_back(obj.arr[1][i].p0);
-        vec.push_back(obj.arr[1][i].q0);
-        vec.push_back(obj.arr[1][i].qsi);
+        vec.push_back(obj.arr[1][i-1].A0);
+        vec.push_back(obj.arr[1][i-1].A1);
+        vec.push_back(obj.arr[1][i-1].p0);
+        vec.push_back(obj.arr[1][i-1].q0);
+        vec.push_back(obj.arr[1][i-1].qsi);
 
     }
 
@@ -247,30 +247,39 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 
 
     std::cout<<"Final step:  "<<vector_std_len(delta)<<std::endl;
-   
-    std::vector<double> ret_val;
+    double rez;
+    //std::vector<double> ret_val;
+    auto er1 = this->calculate_energy_params(X_1);
+    auto er2 = this->calculate_energy_params(X_2);
+    auto er3 = this->calculate_energy_params(X_3);
+    //std::cout<<"X1 = "<<er1<<"X2 = "<<er2<<"X3 = "<<er3<<std::endl;
+    if(er1<=er3 &&er1<=er2){
+        init.vec = X_1;
+        init.receive_from_vector();
+        rez = er1;
+    }
+    else if(er2<=er1&&er2<=er3) {
+        init.vec = X_2;
+        init.receive_from_vector();
+        rez = er2;
+    }
+    else {
+        init.vec = X_3;
+        init.receive_from_vector();
+        rez = er3;
+    }
 
-    std::cout<<"X1 = "<<this->calculate_energy_params(X_1)<<"X2 = "<<this->calculate_energy_params(X_2)<<"X3 = "<<this->calculate_energy_params(X_3)<<std::endl;
-    if(this->calculate_energy_params(X_1)<=this->calculate_energy_params(X_3) && 
-       this->calculate_energy_params(X_1)<=this->calculate_energy_params(X_2))
-        ret_val = X_1;
-    else if(this->calculate_energy_params(X_2)<=this->calculate_energy_params(X_3) &&
-        this->calculate_energy_params(X_2)<=this->calculate_energy_params(X_1))
-        ret_val = X_2;
-    else 
-        ret_val = X_3;
     
-    init.vec = ret_val;
-    init.receive_from_vector();
 
 
-    show(X_1);
-    show(X_2);
-    show(X_3);
+
+    //show(X_1);
+    //show(X_2);
+    //show(X_3);
    // std::cout << this->calculate_energy_params(ret_val) << std::endl;
-    show(ret_val);
-    std::cout<<"Before loss = "<<this->calculate_energy_params(ret_val)<<std::endl;
-    double rez = this->calculate_energy_params(ret_val);
+    //show(ret_val);
+    //std::cout<<"Before loss = "<<this->calculate_energy_params(ret_val)<<std::endl;
+    //double rez = this->calculate_energy_params(ret_val);
     return rez;
     
 }
@@ -278,13 +287,14 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 ParamsArray Optimizer::random_variation_search(){
     ParamsArray new_random;
     new_random.arr[A][A] = Params(
-        random_par(this->features.arr[A][A].A0/4,this->features.arr[A][A].A0*4),
+        random_par(this->features.arr[A][A].A0/2,this->features.arr[A][A].A0*2),
         random_par(this->features.arr[A][A].A1/2,this->features.arr[A][A].A1*2),
         random_par(this->features.arr[A][A].p0/2,this->features.arr[A][A].p0*2),
         random_par(this->features.arr[A][A].q0/2,this->features.arr[A][A].q0*2),
         random_par(this->features.arr[A][A].qsi/2,this->features.arr[A][A].qsi*2)
     );
     new_random.arr[B][B] =  new_random.arr[A][A];
+    new_random.arr[A][B] =  new_random.arr[A][A];
     //std::cout<<"Params:   "<<new_random.arr[A][A].A0<<" "<<new_random.arr[A][A].A1<<" "<<new_random.arr[A][A].p0<<" "<<new_random.arr[A][A].q0<<" "<<new_random.arr[A][A].qsi<<std::endl;
     //new_random.arr[A][B] =  new_random.arr[A][A];
     
@@ -668,7 +678,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     if(this->task_type == 1){
         this->Pool[0].type = atom_kernel::B;
         auto e_AB = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr); 
-        auto e_sol = e_AB - e_c*this->Pool.size() - e_coh_B + e_c;
+        auto e_sol = e_AB - e_c*this->Pool.size() - this->e_coh_B + e_c;
         //std::cout<<"e_AB = "<<e_AB<<"e_c2 =  "<<e_c*this->Pool.size()<<"e_coh_B = "<<e_coh_B<<"e_c = "<<e_c<<std::endl;
         this->Pool[0].type = atom_kernel::A;
         e_target = e_sol;
@@ -710,7 +720,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
        
         //std::cout<<f1<<"and"<<f2<<std::endl;
-        this->Pool[this->id3_1].type =atom_kernel::B;
+        this->Pool[this->id3_1].type =atom_kernel::B;// тут ошибка
         auto e_adatom = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
         this->Pool[this->id3_2].type =atom_kernel::B;

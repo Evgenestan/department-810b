@@ -77,8 +77,13 @@ int main(int argc, char * argv[]){
 
 //#define Main_constant 1.602;
 
-    
-    ParamsArray feature {2};
+    ParamsArray feature;
+
+    if(atoi(argv[3])==3){
+        feature.size = 3;
+    }
+    else
+        feature.size = 2;
 
     feature.arr[A][A] = Params(file_read["initial_potencial_features"]["A0"],
         file_read["initial_potencial_features"]["A1"],

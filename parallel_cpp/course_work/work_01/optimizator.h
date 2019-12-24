@@ -78,7 +78,7 @@ struct Optimizer{
     {
 
         if(task_type == 2){
-            auto find_atom = vector(this->Min_len/sqrt(2),this->Min_len/sqrt(2),0);
+            auto find_atom = vector(this->Min_len/2,this->Min_len/2,0);
         
         int m;
         for(m = 0; m<this->Pool.size(); ++m){
@@ -93,7 +93,7 @@ struct Optimizer{
             
 
         auto find_atom_1_surf = vector(0,0,this->multy*(this->z_arrow)/2.0);
-        auto find_atom_2_surf = vector(this->Min_len/sqrt(2),this->Min_len/sqrt(2),this->multy*(this->z_arrow)/2.0);
+        auto find_atom_2_surf = vector(this->Min_len/2.0,this->Min_len/2.0,this->multy*(this->z_arrow)/2.0);
 
         int m;
         int m1,m2;
