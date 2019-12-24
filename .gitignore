@@ -4,5 +4,6 @@ out/
 target/
 .idea/
 .vscode/
+.cmake-build-debug/
   
   
