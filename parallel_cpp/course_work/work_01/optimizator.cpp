@@ -244,7 +244,7 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
         ++count;
     } while(vector_std_len(delta) > (this->epsilon ) && count != step);
 
-
+    std::cout<<"Energy found through computation = "<< this->energy_check<<std::endl;
 
     std::cout<<"Final step:  "<<vector_std_len(delta)<<std::endl;
     double rez;
@@ -595,7 +595,7 @@ double Optimizer::error_function(double & e_coh,
         (C12-this->C12_i)*(C12-this->C12_i)/(this->C12_i*this->C12_i)+
         (C44-this->C44_i)*(C44-this->C44_i)/(this->C44_i*this->C44_i)+
         (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i * this->e_coh_i)+
-        (e_target-this->e_target_i)*(e_target-this->e_target_i)/(this->e_target_i * this->e_target_i))/this->Pool.size());
+        (e_target-this->e_target_i)*(e_target-this->e_target_i)/(this->e_target_i * this->e_target_i))/6);
         
         //FOR TEST
 
@@ -757,6 +757,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     if(flag)
     std::cout<<"----params :"<<e_c<<" "<<B<<" "<<C_11<<" "<<C_12<<" "<<C_44<<std::endl;
     auto rezult = this->error_function(e_c,B,C_11,C_12,C_44,e_target);
+    this->energy_check = e_target;
     //std::cout<<"Error function:   "<<rezult<<std::endl;
     //std::cout<<"Delta:   "<< this->delta<<std::endl; 
    

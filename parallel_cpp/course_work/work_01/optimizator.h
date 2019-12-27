@@ -29,6 +29,7 @@ struct Optimizer{
     double min_func;
     int task_type;
     int id2,id3_1, id3_2;
+    double energy_check;
     //double residue;
     Optimizer(){};
 
