@@ -28,8 +28,13 @@ struct Optimizer{
     double Min_len;
     double min_func;
     int task_type;
-    int id2,id3_1, id3_2;
+    int id_1, id_2;
+    vector point1;
+    vector point2;
+
+
     double energy_check;
+
     //double residue;
     Optimizer(){};
 
@@ -53,7 +58,13 @@ struct Optimizer{
         double _e_coh_B,
         double _epsilon,
         double _delta,
-        int _task_type):
+        int _task_type,
+        double p1x,
+        double p1y,
+        double p1z,
+        double p2x,
+        double p2y,
+        double p2z):
         
     e_coh_i(_e_coh_i),
     B_i(_B_i),
@@ -77,50 +88,57 @@ struct Optimizer{
     delta(_delta),
     task_type(_task_type)
     {
+        if(task_type == 2) {
+            std::vector<Atom>::iterator it1;
+            vector pont1(p1x, p1y, p1z);
+            vector pont2(p2x, p2y, p2z);
 
-        if(task_type == 2){
-            auto find_atom = vector(this->Min_len/2,this->Min_len/2,0);
-        
-        int m;
-        for(m = 0; m<this->Pool.size(); ++m){
-            if(this->Pool[m].vec == find_atom){
-                
-                break;
-            }
-        }
-        id2 = m;
-        }
-        if(task_type ==3){
-            
+            /*it1 = find_if (Pool.begin(), Pool.end(), [point1,id_1] (const Atom& o) -> bool {
+                if(o.vec == point1){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            });*/
+            id_1 = 0;
+            id_2 = 0;
+            int ptr;
+            bool flag1 = false;
+            bool flag2 = false;
+            for (ptr = 0; ptr < Pool.size(); ++ptr) {
+                if (flag1 && flag2) {
+                    break;
+                }
+                if(ptr == 53){
+                    std::cout<<"53"<<std::endl;
+                }
+                if (Pool[ptr].vec == pont1) {
+                    flag1 = true;
+                    id_1 = ptr;
+                }
+                if (Pool[ptr].vec == pont2) {
+                    flag2 = true;
+                    id_2 = ptr;
+                }
 
-        auto find_atom_1_surf = vector(0,0,this->multy*(this->z_arrow)/2.0);
-        auto find_atom_2_surf = vector(this->Min_len/2.0,this->Min_len/2.0,this->multy*(this->z_arrow)/2.0);
-
-        int m;
-        int m1,m2;
-        bool f1 = false;
-        bool f2 = false;
-        for(m = 0; m<this->Pool.size(); ++m){
-            if((f1 && f2)){
-                break;
             }
-            if(this->Pool[m].vec == find_atom_1_surf){
-                //std::cout<<"m1"<<std::endl;
-                m1 = m;
-                f1 = true;
-                continue;
+            if(id_1 == 0 && id_2 == 0){
+                std::cout<<"Not found"<<std::endl;
+                throw std::logic_error("There is no atoms with this coords");
+        }
+
+
+            if(task_type == 3){
+                point1 = {p1x,p1y,p1z};
+                point2 = {p2x,p2y,p2z};
+
             }
 
-            if(this->Pool[m].vec == find_atom_2_surf){
-                //std::cout<<"m2"<<std::endl;
-                m2 = m;
-                f2 = true;
-                continue;
-            }
+
         }
-        id3_1 = m1;
-        id3_1 = m2;
-        }
+
+    //make vector for 3 task from input variables
         
     };
 

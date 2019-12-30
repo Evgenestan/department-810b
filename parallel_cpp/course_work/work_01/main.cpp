@@ -43,11 +43,9 @@ int main(int argc, char * argv[]){
     int z_arrow = file_read["size"]["z"];
 
     std::cout<<(argv[3])<<std::endl;
-    if(atoi(argv[3]) == 2 || atoi(argv[3]) == 3){
-        std::cout<<"Come in"<<std::endl;
-        z_arrow = z_arrow*2;
-    }
-    std::cout<<"SizeL: z="<<z_arrow<<" x = "<<x_arrow<<std::endl;
+
+
+    //std::cout<<"SizeL: z="<<z_arrow<<" x = "<<x_arrow<<std::endl;
     
     for(int i = 0;i<file_read["edge"]["n"]; ++i){
         Field.push_back(Atom(vector(
@@ -55,7 +53,7 @@ int main(int argc, char * argv[]){
             multy*double(file_read["edge"][std::to_string(i)]["x"]),
             multy*double(file_read["edge"][std::to_string(i)]["y"]),
             multy*double(file_read["edge"][std::to_string(i)]["z"])
-        ),file_read["type"]));
+        ),atom_kernel::A));
     }
     
 
@@ -71,49 +69,92 @@ int main(int argc, char * argv[]){
 
     //std::cout<<Main_constant<<std::endl;
     std::cout<<"Min len :  "<<Min_len<<std::endl;
+    std::cout<<"Pool: "<<std::endl;
+    //--show Pool
+    /*int numb = 0;
+    for(auto i: Pool){
+        std::cout<<"Atom "<<numb<<" "<<i.vec.x/multy<<" "<<i.vec.y/multy<<" "<<i.vec.z/multy<<std::endl;
+        ++numb;
+    }*/
 
-//initialization of potencial_features.
-//need to improve
-
-//#define Main_constant 1.602;
 
     ParamsArray feature;
 
-    if(atoi(argv[3])==3){
+    if(atoi(argv[3]) == 3 || atoi(argv[3]) == 2){
         feature.size = 3;
     }
     else
         feature.size = 2;
 
-    feature.arr[A][A] = Params(file_read["initial_potencial_features"]["A0"],
-        file_read["initial_potencial_features"]["A1"],
-        file_read["initial_potencial_features"]["p"],
-        file_read["initial_potencial_features"]["q"],
-        file_read["initial_potencial_features"]["qsi"]);
+    feature.arr[A][A] = Params(file_read["initial_potential_features"]["A0"],
+        file_read["initial_potential_features"]["A1"],
+        file_read["initial_potential_features"]["p"],
+        file_read["initial_potential_features"]["q"],
+        file_read["initial_potential_features"]["qsi"]);
 
-    feature.arr[A][B] = Params(file_read["initial_potencial_features"]["A0"],
-        file_read["initial_potencial_features"]["A1"],
-        file_read["initial_potencial_features"]["p"],
-        file_read["initial_potencial_features"]["q"],
-        file_read["initial_potencial_features"]["qsi"]);
+    feature.arr[A][B] = Params(file_read["initial_potential_features"]["A0"],
+        file_read["initial_potential_features"]["A1"],
+        file_read["initial_potential_features"]["p"],
+        file_read["initial_potential_features"]["q"],
+        file_read["initial_potential_features"]["qsi"]);
 
-    feature.arr[B][B] = Params(file_read["initial_potencial_features"]["A0"],
-        file_read["initial_potencial_features"]["A1"],
-        file_read["initial_potencial_features"]["p"],
-        file_read["initial_potencial_features"]["q"],
-        file_read["initial_potencial_features"]["qsi"]);
+    feature.arr[B][B] = Params(file_read["initial_potential_features"]["A0"],
+        file_read["initial_potential_features"]["A1"],
+        file_read["initial_potential_features"]["p"],
+        file_read["initial_potential_features"]["q"],
+        file_read["initial_potential_features"]["qsi"]);
 
 
-    /*feature.arr[B][B] = Params(file_read["initial_potencial_features"]["A0"],
-        file_read["initial_potencial_features"]["A1"],
-        file_read["initial_potencial_features"]["p"],
-        file_read["initial_potencial_features"]["q"],
-        file_read["initial_potencial_features"]["qsi"]);*/
+
 
         //important размерность должна быть нормальной из электронвольт 
 
-    //E_sol task
-    //init
+
+
+
+
+    if(atoi(argv[3]) == 2 || atoi(argv[3]) == 3){
+        auto direction = file_read["direction_vacuum"];
+        if(direction == "x"){
+            x_arrow = x_arrow*2;
+        }
+        if(direction == "y"){
+            y_arrow = y_arrow*2;
+        }
+        if(direction == "z"){
+            z_arrow = z_arrow*2;
+        }
+
+    }
+
+
+    double p1_x=0.0;
+    double p1_y=0.0;
+    double p1_z=0.0;
+    double p2_x=0.0;
+    double p2_y=0.0;
+    double p2_z=0.0;
+
+    if(atoi(argv[3]) == 2){
+       p1_x = multy*double(file_read["place_atoms"]["2"]["1_atom"]["x"]);
+       p1_y = multy*double(file_read["place_atoms"]["2"]["1_atom"]["y"]);
+       p1_z = multy*double(file_read["place_atoms"]["2"]["1_atom"]["z"]);
+       p2_x = multy*double(file_read["place_atoms"]["2"]["2_atom"]["x"]);
+       p2_y = multy*double(file_read["place_atoms"]["2"]["2_atom"]["y"]);
+       p2_z = multy*double(file_read["place_atoms"]["2"]["2_atom"]["z"]);
+    }
+
+    if(atoi(argv[3]) == 3){
+        p1_x = multy*double(file_read["place_atoms"]["3"]["1_atom"]["x"]);
+        p1_y = multy*double(file_read["place_atoms"]["3"]["1_atom"]["y"]);
+        p1_z = multy*double(file_read["place_atoms"]["3"]["1_atom"]["z"]);
+        p2_x = multy*double(file_read["place_atoms"]["3"]["2_atom"]["x"]);
+        p2_y = multy*double(file_read["place_atoms"]["3"]["2_atom"]["y"]);
+        p2_z = multy*double(file_read["place_atoms"]["3"]["2_atom"]["z"]);
+    }
+
+
+
     Optimizer objOptimizer (
         file_read["initial_energy"]["E_c"],
         (file_read["initial_energy"]["B"]),
@@ -135,7 +176,14 @@ int main(int argc, char * argv[]){
         file_read["e_coh_B"], //add atom
         file_read["optimizer_params"]["epsilon"],
         file_read["optimizer_params"]["delta"],
-        atoi(argv[3]));
+        atoi(argv[3]),
+        p1_x,
+        p1_y,
+        p1_z,
+        p2_x,
+        p2_y,
+        p2_z
+        );
 
         //std::cout<<objOptimizer.e_target_i<<std::endl<<objOptimizer.x_arrow<<objOptimizer.y_arrow<<objOptimizer.z_arrow<<std::endl<<objOptimizer.task_type;
 

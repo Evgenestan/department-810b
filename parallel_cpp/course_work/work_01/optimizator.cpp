@@ -115,6 +115,7 @@ std::vector<double> Optimizer::first_stage(std::vector<double> & init_pa, bool &
 
        
         temp_vec[i] = init_pa[i]+delta[i];
+
         //std::cout<<"hereweare"<<std::endl;
         F_1 = this->calculate_energy_params(temp_vec);
 
@@ -249,9 +250,9 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     std::cout<<"Final step:  "<<vector_std_len(delta)<<std::endl;
     double rez;
     //std::vector<double> ret_val;
-    auto er1 = this->calculate_energy_params(X_1);
-    auto er2 = this->calculate_energy_params(X_2);
-    auto er3 = this->calculate_energy_params(X_3);
+    auto er1 = this->calculate_energy_params(X_1, true);
+    auto er2 = this->calculate_energy_params(X_2, true);
+    auto er3 = this->calculate_energy_params(X_3, true);
     //std::cout<<"X1 = "<<er1<<"X2 = "<<er2<<"X3 = "<<er3<<std::endl;
     if(er1<=er3 &&er1<=er2){
         init.vec = X_1;
@@ -439,7 +440,7 @@ double E_b(
     const double* matrix,
     const int & size,
     const ParamsArray& feature){
-
+    int atom1,atom2;
     double energy = 0;
     for(auto i : field){
         if(elem == i)
@@ -447,7 +448,18 @@ double E_b(
             
         else{
 
-            auto fi = feature.arr[i.type][elem.type];
+            atom1 = i.type;
+            atom2 = elem.type;
+
+            if(i.type == 2){
+                atom1 = elem.type;
+                atom2 = i.type;
+
+            }
+
+
+            auto fi = feature.arr[atom1][atom2];
+
             energy+= pow(fi.qsi,2)*exp(-2*fi.q0*(distance( i.vec,elem.vec, array_multy, matrix,size)/min_len-1));
             //energy+=fi.qsi*exp(-2*fi.q0*(distance( i.vec,elem.vec, multy, matrix,size)/min_len-1));
 
@@ -471,12 +483,24 @@ double E_r(
     ){
 
     double energy = 0;
+    int atom1, atom2;
     for(auto i : field){
         if(elem == i)
             continue;
             
         else{
-            auto fi = feature.arr[i.type][elem.type];
+
+            atom1 = i.type;
+            atom2 = elem.type;
+
+            if(i.type == 2){
+                atom1 = elem.type;
+                atom2 = i.type;
+
+            }
+
+
+            auto fi = feature.arr[atom1][atom2];
             energy+= (fi.A1*(distance( i.vec,elem.vec, array_multy, matrix,size)-min_len)+fi.A0)*exp(-fi.p0*(distance(i.vec, elem.vec,  array_multy, matrix, size)/min_len-1));
         }
          
@@ -689,12 +713,12 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
         //find points
         auto e_surf = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
-        this->Pool[0].type = atom_kernel::B;
+        this->Pool[id_1].type = atom_kernel::B;
 
-        auto e_adatom =  E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr)*this->Pool.size();
+        auto e_adatom =  E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
         
-        this->Pool[this->id2].type =atom_kernel::B;
+        this->Pool[this->id_2].type =atom_kernel::B;
 
         //evaluate
 
@@ -702,11 +726,11 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
         auto e_dim_surf = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
         
 
-        auto e_in_dim = (e_dim_surf*this->Pool.size()-e_surf)-2*(e_adatom - e_surf);
+        auto e_in_dim = (e_dim_surf*-e_surf)-2*(e_adatom - e_surf);
 
 
-        this->Pool[0].type = atom_kernel::A;
-        this->Pool[id2].type = atom_kernel::A;
+        this->Pool[id_1].type = atom_kernel::A;
+        this->Pool[id_2].type = atom_kernel::A;
         e_target = e_in_dim;
     }
     else if(this->task_type == 3){
@@ -714,32 +738,25 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
         //find points
         auto e_surf = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
-        //this->Pool[0].type = atom_kernel::B;
 
-        
+        this->Pool.push_back(Atom(this->point1,2));
 
-       
-        //std::cout<<f1<<"and"<<f2<<std::endl;
-        this->Pool[this->id3_1].type =atom_kernel::B;// тут ошибка
+        //
         auto e_adatom = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
-        this->Pool[this->id3_2].type =atom_kernel::B;
 
-        //evaluate
+        this->Pool.push_back(Atom(this->point2,2));
+
 
         
         auto e_dim_surf = E_c(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
         
 
-        auto e_on_dim = (e_dim_surf*this->Pool.size()-e_surf)-2*(e_adatom - e_surf);
+        auto e_on_dim = (e_dim_surf*-e_surf)-2*(e_adatom - e_surf);
 
-       
-        this->Pool[this->id3_1].type =atom_kernel::B;
-        this->Pool[this->id3_2].type =atom_kernel::B;
+        this->Pool.pop_back();
+        this->Pool.pop_back();
         e_target = e_on_dim;
-
-
-
     }
     else{
 

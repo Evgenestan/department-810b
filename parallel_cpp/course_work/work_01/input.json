@@ -32,7 +32,7 @@
     "z":3
   },
     
-  "initial_potencial_features":{
+  "initial_potential_features":{
   "A1":1.0376,
   "A0":0.01,
   "qsi":1.070,
@@ -54,30 +54,53 @@
       "1":0.497,
       "2":0.22,
       "3": -0.36
-    },
-    "E_sol":0.497,
-    "E_in":0.22,
-    "E_on":-0.36
+    }
     
   },
 
   "optimizer_params":{
     "step" : 1000,
-    "epoch": 10,
+    "epoch": 30,
     "lambda": 2,
     "residual":0.01,
     "epsilon": 1e-4,
     "delta": 0.1
 },
 
-"e_coh_B": -5.31,
+
 "task":2,
+"direction_vacuum": "z",
+"place_atoms": {
+  "2": {
+    "1_atom": {
+      "x": 0.5,
+      "y": 1.0,
+      "z": 2.5
+    },
+    "2_atom": {
+      "x": 1.0,
+      "y": 1.5,
+      "z": 2.5
+    }
+  },
+  "3": {
+    "1_atom": {
+      "x": 0.5,
+      "y": 1.5,
+      "z": 2.5
+    },
+    "2_atom": {
+      "x": 0.0,
+      "y": 1.0,
+      "z": 3
+    }
 
-
-"material_base": "Ag(001)",
-"material_impurity": "V"
-  
   }
+},
+"material_base": "Ag(001)",
+"material_impurity": "V",
+"e_coh_B": -5.31
+}
  
 
 
