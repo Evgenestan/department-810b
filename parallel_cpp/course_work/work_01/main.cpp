@@ -68,8 +68,8 @@ int main(int argc, char * argv[]){
      z_arrow);    // edges are inside Field vector
 
     //std::cout<<Main_constant<<std::endl;
-    std::cout<<"Min len :  "<<Min_len<<std::endl;
-    std::cout<<"Pool: "<<std::endl;
+    //std::cout<<"Min len :  "<<Min_len<<std::endl;
+    //std::cout<<"Pool: "<<std::endl;
     //--show Pool
     /*int numb = 0;
     for(auto i: Pool){
@@ -79,12 +79,14 @@ int main(int argc, char * argv[]){
 
 
     ParamsArray feature;
-
-    if(atoi(argv[3]) == 3 || atoi(argv[3]) == 2){
+    feature.size = 3;
+    /*if(atoi(argv[3]) == 3 || atoi(argv[3]) == 2){
         feature.size = 3;
     }
     else
-        feature.size = 2;
+        feature.size = 2;*/
+
+
 
     feature.arr[A][A] = Params(file_read["initial_potential_features"]["A0"],
         file_read["initial_potential_features"]["A1"],
@@ -113,7 +115,7 @@ int main(int argc, char * argv[]){
 
 
 
-    if(atoi(argv[3]) == 2 || atoi(argv[3]) == 3){
+    /*if(atoi(argv[3]) == 2 || atoi(argv[3]) == 3){
         auto direction = file_read["direction_vacuum"];
         if(direction == "x"){
             x_arrow = x_arrow*2;
@@ -125,36 +127,45 @@ int main(int argc, char * argv[]){
             z_arrow = z_arrow*2;
         }
 
-    }
+    }*/
 
 
-    double p1_x=0.0;
-    double p1_y=0.0;
-    double p1_z=0.0;
-    double p2_x=0.0;
-    double p2_y=0.0;
-    double p2_z=0.0;
+    double p1_x_2=0.0;
+    double p1_y_2=0.0;
+    double p1_z_2=0.0;
+    double p2_x_2=0.0;
+    double p2_y_2=0.0;
+    double p2_z_2=0.0;
 
-    if(atoi(argv[3]) == 2){
-       p1_x = multy*double(file_read["place_atoms"]["2"]["1_atom"]["x"]);
-       p1_y = multy*double(file_read["place_atoms"]["2"]["1_atom"]["y"]);
-       p1_z = multy*double(file_read["place_atoms"]["2"]["1_atom"]["z"]);
-       p2_x = multy*double(file_read["place_atoms"]["2"]["2_atom"]["x"]);
-       p2_y = multy*double(file_read["place_atoms"]["2"]["2_atom"]["y"]);
-       p2_z = multy*double(file_read["place_atoms"]["2"]["2_atom"]["z"]);
-    }
+    double p1_x_3=0.0;
+    double p1_y_3=0.0;
+    double p1_z_3=0.0;
+    double p2_x_3=0.0;
+    double p2_y_3=0.0;
+    double p2_z_3=0.0;
 
-    if(atoi(argv[3]) == 3){
-        p1_x = multy*double(file_read["place_atoms"]["3"]["1_atom"]["x"]);
-        p1_y = multy*double(file_read["place_atoms"]["3"]["1_atom"]["y"]);
-        p1_z = multy*double(file_read["place_atoms"]["3"]["1_atom"]["z"]);
-        p2_x = multy*double(file_read["place_atoms"]["3"]["2_atom"]["x"]);
-        p2_y = multy*double(file_read["place_atoms"]["3"]["2_atom"]["y"]);
-        p2_z = multy*double(file_read["place_atoms"]["3"]["2_atom"]["z"]);
-    }
+    //if(atoi(argv[3]) == 2){
+       p1_x_2 = multy*double(file_read["place_atoms"]["2"]["1_atom"]["x"]);
+       p1_y_2 = multy*double(file_read["place_atoms"]["2"]["1_atom"]["y"]);
+       p1_z_2 = multy*double(file_read["place_atoms"]["2"]["1_atom"]["z"]);
+       p2_x_2 = multy*double(file_read["place_atoms"]["2"]["2_atom"]["x"]);
+       p2_y_2 = multy*double(file_read["place_atoms"]["2"]["2_atom"]["y"]);
+       p2_z_2 = multy*double(file_read["place_atoms"]["2"]["2_atom"]["z"]);
+    //}
 
 
+    //}
 
+    p1_x_3 = multy*double(file_read["place_atoms"]["3"]["1_atom"]["x"]);
+    p1_y_3 = multy*double(file_read["place_atoms"]["3"]["1_atom"]["y"]);
+    p1_z_3 = multy*double(file_read["place_atoms"]["3"]["1_atom"]["z"]);
+    p2_x_3 = multy*double(file_read["place_atoms"]["3"]["2_atom"]["x"]);
+    p2_y_3 = multy*double(file_read["place_atoms"]["3"]["2_atom"]["y"]);
+    p2_z_3 = multy*double(file_read["place_atoms"]["3"]["2_atom"]["z"]);
+
+
+
+    std::string vacuum = file_read["direction_vacuum"];
     Optimizer objOptimizer (
         file_read["initial_energy"]["E_c"],
         (file_read["initial_energy"]["B"]),
@@ -165,7 +176,9 @@ int main(int argc, char * argv[]){
         feature,
         Min_len,
         multy,
-        file_read["initial_energy"]["energy"][argv[3]],
+        file_read["initial_energy"]["e_sol"],
+        file_read["initial_energy"]["e_in_dim"],
+        file_read["initial_energy"]["e_on_dim"],
         x_arrow,
         y_arrow,
         z_arrow,
@@ -177,12 +190,19 @@ int main(int argc, char * argv[]){
         file_read["optimizer_params"]["epsilon"],
         file_read["optimizer_params"]["delta"],
         atoi(argv[3]),
-        p1_x,
-        p1_y,
-        p1_z,
-        p2_x,
-        p2_y,
-        p2_z
+        p1_x_2,
+        p1_y_2,
+        p1_z_2,
+        p2_x_2,
+        p2_y_2,
+        p2_z_2,
+        p1_x_3,
+        p1_y_3,
+        p1_z_3,
+        p2_x_3,
+        p2_y_3,
+        p2_z_3,
+        vacuum[0]
         );
 
         //std::cout<<objOptimizer.e_target_i<<std::endl<<objOptimizer.x_arrow<<objOptimizer.y_arrow<<objOptimizer.z_arrow<<std::endl<<objOptimizer.task_type;
@@ -210,13 +230,13 @@ int main(int argc, char * argv[]){
     file_write["A-B"]["p"] = a.arr[A][B].p0;
     file_write["A-B"]["q"] = a.arr[A][B].q0;
 
-    if(atoi(argv[3]) == 2 || atoi(argv[3]) == 3){
+    //if(atoi(argv[3]) == 2 || atoi(argv[3]) == 3){
         file_write["B-B"]["A0"] =a.arr[B][B].A0;
         file_write["B-B"]["A1"] = a.arr[B][B].A1;
         file_write["B-B"]["qsi"] = a.arr[B][B].qsi;
         file_write["B-B"]["p"] = a.arr[B][B].p0;
         file_write["B-B"]["q"] = a.arr[B][B].q0;
-    }
+    //}
 
 
     o << file_write; 

@@ -14,11 +14,13 @@
 #include "nlohmann/json.hpp"
 #include <random>
 #include <algorithm>
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_for.h>
 //#include "optimizator.h"
 
 
 struct Optimizer{
-    double e_coh_i, B_i, C11_i, C12_i, C44_i, e_target_i, multy, e_coh_B;
+    double e_coh_i, B_i, C11_i, C12_i, C44_i, e_sol, e_in_dim, e_on_dim, multy, e_coh_B;
     double lambda, residual, delta;
     double epsilon;
     int epoch, step;
@@ -29,8 +31,9 @@ struct Optimizer{
     double min_func;
     int task_type;
     int id_1, id_2;
-    vector point1;
-    vector point2;
+    vector point1_3;
+    vector point2_3;
+    char vacuum;
 
 
     double energy_check;
@@ -47,7 +50,9 @@ struct Optimizer{
         ParamsArray & _feature,
         double  _Min_len,
         double  _multy,
-        double  _e_target_i,
+        double  _e_sol,
+        double _e_in_dim,
+        double _e_on_dim,
         int _x_arrow,
         int _y_arrow,
         int _z_arrow,
@@ -59,19 +64,25 @@ struct Optimizer{
         double _epsilon,
         double _delta,
         int _task_type,
-        double p1x,
-        double p1y,
-        double p1z,
-        double p2x,
-        double p2y,
-        double p2z):
+        double p1x2,
+        double p1y2,
+        double p1z2,
+        double p2x2,
+        double p2y2,
+        double p2z2,
+              double p1x3,
+              double p1y3,
+              double p1z3,
+              double p2x3,
+              double p2y3,
+              double p2z3,
+        char _vacuum):
         
     e_coh_i(_e_coh_i),
     B_i(_B_i),
     C11_i(_C11_i),
     C12_i(_C12_i),
     C44_i(_C44_i),
-    e_target_i(_e_target_i),
     Pool(_Pool),
     features(_feature),
     Min_len(_Min_len),
@@ -86,12 +97,16 @@ struct Optimizer{
     e_coh_B(_e_coh_B),
     epsilon(_epsilon),
     delta(_delta),
-    task_type(_task_type)
+    task_type(_task_type),
+    e_sol(_e_sol),
+    e_in_dim(_e_in_dim),
+    e_on_dim(_e_on_dim),
+    vacuum(_vacuum)
     {
-        if(task_type == 2) {
+        //if(task_type == 2) {
             std::vector<Atom>::iterator it1;
-            vector pont1(p1x, p1y, p1z);
-            vector pont2(p2x, p2y, p2z);
+            vector pont1_2(p1x2, p1y2, p1z2);
+            vector pont2_2(p2x2, p2y2, p2z2);
 
             /*it1 = find_if (Pool.begin(), Pool.end(), [point1,id_1] (const Atom& o) -> bool {
                 if(o.vec == point1){
@@ -110,14 +125,12 @@ struct Optimizer{
                 if (flag1 && flag2) {
                     break;
                 }
-                if(ptr == 53){
-                    std::cout<<"53"<<std::endl;
-                }
-                if (Pool[ptr].vec == pont1) {
+
+                if (Pool[ptr].vec == pont1_2) {
                     flag1 = true;
                     id_1 = ptr;
                 }
-                if (Pool[ptr].vec == pont2) {
+                if (Pool[ptr].vec == pont2_2) {
                     flag2 = true;
                     id_2 = ptr;
                 }
@@ -126,14 +139,14 @@ struct Optimizer{
             if(id_1 == 0 && id_2 == 0){
                 std::cout<<"Not found"<<std::endl;
                 throw std::logic_error("There is no atoms with this coords");
-        }
+        //}
 
 
-            if(task_type == 3){
-                point1 = {p1x,p1y,p1z};
-                point2 = {p2x,p2y,p2z};
+            //if(task_type == 3){
+                point1_3 = {p1x3,p1y3,p1z3};
+                point2_3 = {p2x3,p2y3,p2z3};
 
-            }
+            //}
 
 
         }
@@ -143,11 +156,13 @@ struct Optimizer{
     };
 
     inline double error_function(double & e_coh,
-    double & B,
-    double & C11,
-    double & C12,
-    double & C44,
-    double & e_target );
+            double & B,
+            double & C11,
+            double & C12,
+            double & C44,
+            double & e_sol,
+            double & e_in_dim,
+            double & e_on_dim);
 
     double calculate_energy_params(std::vector<double>  &vec_in, bool flag = false);
 
@@ -159,7 +174,7 @@ struct Optimizer{
 
     std::vector<double> Params_to_vector (ParamsArray & obj);
 
-    ParamsArray vector_to_param(std::vector<double> &vec);
+    //ParamsArray vector_to_param(std::vector<double> &vec);
 
     std::vector<double> first_stage(std::vector<double>  &init_pa, bool & wrong_view, std::vector<double> & delta);
 
