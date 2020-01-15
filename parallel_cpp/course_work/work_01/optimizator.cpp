@@ -275,15 +275,6 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 
     
 
-
-
-    //show(X_1);
-    //show(X_2);
-    //show(X_3);
-   // std::cout << this->calculate_energy_params(ret_val) << std::endl;
-    //show(ret_val);
-    //std::cout<<"Before loss = "<<this->calculate_energy_params(ret_val)<<std::endl;
-    //double rez = this->calculate_energy_params(ret_val);
     return rez;
     
 }
@@ -315,21 +306,10 @@ void Optimizer::test(){
         this->features.convert_to_vector();
         ParamsArray init_set_rand = this->features;
         
-        //std::cout<<"start: "<<this->features.vec.size()<<std::endl;
-        //std::cout<<"start: "<<init_set_rand.vec.size()<<std::endl;
+
 
         double loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
 
-        //double loss_cur = this->calculate_energy_params(init_set_rand.vec);
-        /*std::cout<<"end"<<std::endl;
-        std::cout<<"A0: "<<init_set_rand.vec[0]<<std::endl;
-        std::cout<<"A1: "<<init_set_rand.vec[1]<<std::endl;
-        std::cout<<"p0: "<<init_set_rand.vec[2]<<std::endl;
-        std::cout<<"q0: "<<init_set_rand.vec[3]<<std::endl;
-        std::cout<<"qsi: "<<init_set_rand.vec[4]<<std::endl;*/
-        //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
-        //start optimizer function with init params
-        //5     std::cout<<"Loss: "<<loss_cur<<std::endl;
 
 
 }
@@ -345,48 +325,14 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
     bool satisfy = false;
     int ep_good = -1;
 
-/*
-    tbb::parallel_for( tbb::blocked_range<int>(0,epoch,4),
-            [&](const tbb::blocked_range<int> &r ){
-                for(int i = r.begin();i!=r.end();++i){
-                    if(satisfy == true){
-                        break;
-                    }
-                    std::cout<<"Epoch: "<<i<<" begins"<<std::endl;
 
-                    init_set_rand = this->random_variation_search();
-                    init_set_rand.convert_to_vector();
-
-                    //std::cout<<"SIZW "<<init_set_rand.vec.size()<<std::endl;
-                    loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
-                    //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
-                    //start optimizer function with init params
-                    std::cout<<"epoch "<<i<<" ended | Loss: "<<loss_cur<<std::endl;
-                    if(loss_cur<=this->residual){
-                        final_set = init_set_rand;
-                        satisfy_loss_value = loss_cur;
-                        satisfy = true;
-                        ep_good = i;
-                        break;
-                    }
-                }
-    });*/
-
-
-    //for(int i = 0; i<epoch; ++i){
-
-        //if(satisfy == true){
-          //  break;
-        //}
 
 
         init_set_rand = this->random_variation_search(i_epoch);
 
         init_set_rand.convert_to_vector();
         this->look_at_start_vector = init_set_rand.vec;
-    //for(auto i:this->look_at_start_vector)
-      //  std::cout<<i<<std::endl;
-        //std::cout<<"SIZW "<<init_set_rand.vec.size()<<std::endl;
+
         loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
         //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
         //start optimizer function with init params
@@ -404,8 +350,8 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
 
 
     if(satisfy == false){
-        std::cout<<"No solution found :("<<std::endl;
-        std::cout<<"Epoch "<<i_epoch<<" Loss: "<<loss_cur<<std::endl;
+        //std::cout<<"No solution found at "<<std::endl;
+        std::cout<<"No solution found at Epoch "<<i_epoch<<" Loss: "<<loss_cur<<std::endl;
         flag_check = false;
         return ParamsArray();
     }
@@ -737,17 +683,12 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     auto C_44 = 1.0/(4*V_0)*(e_c_44_plus - 2*e_c + e_c_44_minus)/(alpha_p2)*Main_constant;
 
 
-    //E_sol
-   // if(this->task_type == 1){
         this->Pool[0].type = atom_kernel::B;
         auto e_AB = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
         auto e_sol = e_AB - e_c*this->Pool.size() - this->e_coh_B + e_c;
         //std::cout<<"e_AB = "<<e_AB<<"e_c2 =  "<<e_c*this->Pool.size()<<"e_coh_B = "<<e_coh_B<<"e_c = "<<e_c<<std::endl;
         this->Pool[0].type = atom_kernel::A;
-        //e_target = e_sol;
-    //}
-        
-    //else if(this->task_type == 2){
+
     if(this->vacuum == 'x'){
         array_mr[0] *=2;
     }
@@ -758,11 +699,6 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
         array_mr[2] *=2;
     }
 
-
-
-        //find points
-        //this->Pool[id_1].type = atom_kernel::A;
-        //this->Pool[id_2].type = atom_kernel::A;
         auto e_surf = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
         this->Pool[this->id_1].type = atom_kernel::B;
@@ -783,11 +719,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
         this->Pool[this->id_1].type = atom_kernel::A;
         this->Pool[this->id_2].type = atom_kernel::A;
-       // e_target = e_in_dim;
-   // }
-    //else if(this->task_type == 3){
-        //smth
-        //find points
+
          e_surf = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
 
@@ -808,27 +740,11 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
         this->Pool.pop_back();
         this->Pool.pop_back();
-        //e_target = e_on_dim;
-    //}
-    //else{
 
-    //    throw std::logic_error("There is no such a parameter");
-   // }
-    
-
-    //std::cout<<"E_sol: "<<e_sol<<"Empty: "<<temp_arr.vec.size()<<std::endl;
-    //show(temp_arr.vec);
-    //std::cout<<"Energy:   "<< e_sol<< std::endl;
-
-
-
-    // calculation of error function
-    //if(flag)
-      //  std::cout<<"----params :"<<e_c<<" "<<B<<" "<<C_11<<" "<<C_12<<" "<<C_44<<" "<<e_sol<<" "<<e_in_dim<<" "<<e_on_dim<<std::endl;
+    if(flag)
+        std::cout<<"----params :"<<e_c<<" "<<B<<" "<<C_11<<" "<<C_12<<" "<<C_44<<" "<<e_sol<<" "<<e_in_dim<<" "<<e_on_dim<<std::endl;
     auto result = this->error_function(e_c,B,C_11,C_12,C_44,e_sol,e_in_dim,e_on_dim);
-    //this->energy_check = e_target;
-    //std::cout<<"Error function:   "<<rezult<<std::endl;
-    //std::cout<<"Delta:   "<< this->delta<<std::endl;
+
     return result;
 //calculate all energy params
 

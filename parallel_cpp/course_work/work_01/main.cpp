@@ -274,7 +274,7 @@ int main(int argc, char * argv[]){
     });
 
 
-    
+    std::cout<<"End of evaluations"<<std::endl;
     nlohmann::json file_write;
     //file_write["G"] = potential(Field);
     std::ofstream o(argv[2]);
