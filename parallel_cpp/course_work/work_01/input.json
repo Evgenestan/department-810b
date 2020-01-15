@@ -60,7 +60,7 @@
     "step" : 1000,
     "epoch": 100,
     "lambda": 2,
-    "residual":0.01,
+    "residual":0.1,
     "epsilon": 1e-4,
     "delta": 0.1,
     "l_b_multy": 0.25,

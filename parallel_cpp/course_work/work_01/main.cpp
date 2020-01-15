@@ -212,9 +212,27 @@ int main(int argc, char * argv[]){
     
     //objOptimizer.test();
 
+    ParamsArray a;
+    bool satisfy = false;
+    tbb::parallel_for( tbb::blocked_range<int>(0,int(file_read["optimizer_params"]["epoch"]),4),
+                       [&](const tbb::blocked_range<int> &r ){
+                           for(int i = r.begin();i!=r.end();++i) {
+                               if(satisfy == true){
 
-    
-    ParamsArray a = objOptimizer.run();
+                               break;
+                           }
+                               std::cout << "Epoch: " << i << std::endl;
+                               bool flag = false;
+                               ParamsArray temp = objOptimizer.run(i,flag);
+                               if(flag == true){
+                                satisfy == true;
+                                a = temp;
+                               }
+
+                           }
+
+    });
+
 
     
     nlohmann::json file_write;

@@ -35,6 +35,7 @@ struct Optimizer{
     vector point2_3;
     char vacuum;
     double l_b_multy, r_b_multy;
+    std::vector<double> look_at_start_vector;
 
 
     double energy_check;
@@ -171,7 +172,7 @@ struct Optimizer{
 
     double calculate_energy_params(std::vector<double>  &vec_in, bool flag = false);
 
-    ParamsArray run();   
+    ParamsArray run(int &, bool &);
 
     double optimizer_Huk_Jivs(ParamsArray &);
     

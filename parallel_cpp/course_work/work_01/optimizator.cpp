@@ -14,7 +14,7 @@
 const double  Main_constant =  1.602;
 const double alpha = 0.01;
 
-//#define Parallel false;
+#define comment true;
 
 
 
@@ -232,7 +232,7 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
                 X_1 = X_3;
 
 
-#ifndef  Parallel
+#ifndef  comment
                 std::cout.setf(std::ios::fixed);
                 std::cout.precision(80);
                 std::cout<<"Error function: "<<this->calculate_energy_params(X_3)<<std::endl;
@@ -335,7 +335,7 @@ void Optimizer::test(){
 }
 
 
-ParamsArray Optimizer::run(){
+ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
     
     this->features.convert_to_vector();
     ParamsArray final_set;
@@ -345,7 +345,7 @@ ParamsArray Optimizer::run(){
     bool satisfy = false;
     int ep_good = -1;
 
-#ifdef  Parallel
+/*
     tbb::parallel_for( tbb::blocked_range<int>(0,epoch,4),
             [&](const tbb::blocked_range<int> &r ){
                 for(int i = r.begin();i!=r.end();++i){
@@ -370,43 +370,54 @@ ParamsArray Optimizer::run(){
                         break;
                     }
                 }
-    });
+    });*/
 
-#else
-    for(int i = 0; i<epoch; ++i){
 
-        if(satisfy == true){
-            break;
-        }
-        std::cout<<"Epoch: "<<i<<std::endl;
+    //for(int i = 0; i<epoch; ++i){
+
+        //if(satisfy == true){
+          //  break;
+        //}
+
 
         init_set_rand = this->random_variation_search();
-        init_set_rand.convert_to_vector();
 
+        init_set_rand.convert_to_vector();
+        this->look_at_start_vector = init_set_rand.vec;
         //std::cout<<"SIZW "<<init_set_rand.vec.size()<<std::endl;
         loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
         //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
         //start optimizer function with init params
         std::cout<<"Loss: "<<loss_cur<<std::endl;
+
         if(loss_cur<=this->residual){
             final_set = init_set_rand;
             satisfy_loss_value = loss_cur;
             satisfy = true;
-            break;
+            ep_good = i_epoch;
         }
 
-    }
-#endif
+
+
+
+
     if(satisfy == false){
         std::cout<<"No solution found :("<<std::endl;
+        std::cout<<"Epoch "<<i_epoch<<" Loss: "<<loss_cur<<std::endl;
+        flag_check = false;
         return ParamsArray();
     }
 
     else{
         std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << "epoch: "<<ep_good<<std::endl;
+        std::cout<<"Init rand vector"<<std::endl;
+        flag_check = true;
+        for(auto i:this->look_at_start_vector)
+            std::cout<<i<<std::endl;
         return final_set;
     }
-    
+
+
 
 
     //check error function

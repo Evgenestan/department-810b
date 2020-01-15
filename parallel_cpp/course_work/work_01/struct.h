@@ -55,17 +55,9 @@ struct ParamsArray{
     ParamsArray(const ParamsArray & in){
         this->size = in.size;
         this->vec = in.vec;
-        //this->receive_from_vector();
-        if(in.size == 1) {
-            for (int i = 1; i <= in.size; ++i) {
-                this->arr[1][i] = in.arr[1][i];
-            }
-        }
-        else{
             this->arr[1][1] = in.arr[1][1];
             this->arr[1][2] = in.arr[1][2];
             this->arr[2][2] = in.arr[2][2];
-        }
     }
 
 
