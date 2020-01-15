@@ -18,10 +18,10 @@ const double alpha = 0.01;
 
 
 
-double random_par(double lower_bound, double upper_bound){
+double random_par(double lower_bound, double upper_bound,const int & epoch){
 
     std::uniform_real_distribution<double> unif(lower_bound,upper_bound);
-    std::mt19937_64 rng(time(0));
+    std::mt19937_64 rng(epoch*1000);
     double a_random_double = unif(rng);
     return a_random_double;
 }
@@ -288,14 +288,14 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
     
 }
 
-ParamsArray Optimizer::random_variation_search(){
+ParamsArray Optimizer::random_variation_search(const int & epoch){
     ParamsArray new_random;
     new_random.arr[A][A] = Params(
-        random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy),
-        random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy),
-        random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy),
-        random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy),
-        random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy)
+        random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,epoch),
+        random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,epoch),
+        random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,epoch),
+        random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,epoch),
+        random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,epoch)
     );
     new_random.arr[B][B] =  new_random.arr[A][A];
     new_random.arr[A][B] =  new_random.arr[A][A];
@@ -380,15 +380,17 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
         //}
 
 
-        init_set_rand = this->random_variation_search();
+        init_set_rand = this->random_variation_search(i_epoch);
 
         init_set_rand.convert_to_vector();
         this->look_at_start_vector = init_set_rand.vec;
+    //for(auto i:this->look_at_start_vector)
+      //  std::cout<<i<<std::endl;
         //std::cout<<"SIZW "<<init_set_rand.vec.size()<<std::endl;
         loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
         //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
         //start optimizer function with init params
-        std::cout<<"Loss: "<<loss_cur<<std::endl;
+        //std::cout<<"Loss: "<<loss_cur<<std::endl;
 
         if(loss_cur<=this->residual){
             final_set = init_set_rand;

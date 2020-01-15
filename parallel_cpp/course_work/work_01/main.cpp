@@ -221,8 +221,48 @@ int main(int argc, char * argv[]){
 
                                break;
                            }
-                               std::cout << "Epoch: " << i << std::endl;
+                               std::cout << "Start Epoch: " << i << std::endl;
                                bool flag = false;
+                               Optimizer objOptimizer (
+                                       file_read["initial_energy"]["E_c"],
+                                       (file_read["initial_energy"]["B"]),
+                                       (file_read["initial_energy"]["C11"]),
+                                       (file_read["initial_energy"]["C12"]),
+                                       (file_read["initial_energy"]["C44"]),
+                                       Pool,
+                                       feature,
+                                       Min_len,
+                                       multy,
+                                       file_read["initial_energy"]["e_sol"],
+                                       file_read["initial_energy"]["e_in_dim"],
+                                       file_read["initial_energy"]["e_on_dim"],
+                                       x_arrow,
+                                       y_arrow,
+                                       z_arrow,
+                                       file_read["optimizer_params"]["step"],
+                                       file_read["optimizer_params"]["epoch"],
+                                       file_read["optimizer_params"]["lambda"],
+                                       file_read["optimizer_params"]["residual"],
+                                       file_read["e_coh_B"], //add atom
+                                       file_read["optimizer_params"]["epsilon"],
+                                       file_read["optimizer_params"]["delta"],
+                                       atoi(argv[3]),
+                                       p1_x_2,
+                                       p1_y_2,
+                                       p1_z_2,
+                                       p2_x_2,
+                                       p2_y_2,
+                                       p2_z_2,
+                                       p1_x_3,
+                                       p1_y_3,
+                                       p1_z_3,
+                                       p2_x_3,
+                                       p2_y_3,
+                                       p2_z_3,
+                                       vacuum[0],
+                                       file_read["optimizer_params"]["l_b_multy"],
+                                       file_read["optimizer_params"]["r_b_multy"]
+                               );
                                ParamsArray temp = objOptimizer.run(i,flag);
                                if(flag == true){
                                 satisfy == true;

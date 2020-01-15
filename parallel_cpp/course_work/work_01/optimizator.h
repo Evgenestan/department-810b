@@ -176,7 +176,7 @@ struct Optimizer{
 
     double optimizer_Huk_Jivs(ParamsArray &);
     
-    ParamsArray random_variation_search();
+    ParamsArray random_variation_search(const int & );
 
    // std::vector<double> Params_to_vector (ParamsArray & obj);
 
@@ -247,7 +247,8 @@ bool operator == (
 
 double random_par(
     double lower_bound,
-    double upper_bound);
+    double upper_bound,
+    const int & );
 
 
 
