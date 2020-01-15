@@ -71,15 +71,25 @@ struct ParamsArray{
 
     void convert_to_vector(){
         
-        for(int i = 1; i<=this->size; ++i){
+        //for(int i = 1; i<=this->size; ++i){
 
-        this->vec.push_back(this->arr[1][i].A0);
-        this->vec.push_back(this->arr[1][i].A1);
-        this->vec.push_back(this->arr[1][i].p0);
-        this->vec.push_back(this->arr[1][i].q0);
-        this->vec.push_back(this->arr[1][i].qsi);
+        this->vec.push_back(this->arr[1][1].A0);
+        this->vec.push_back(this->arr[1][1].A1);
+        this->vec.push_back(this->arr[1][1].p0);
+        this->vec.push_back(this->arr[1][1].q0);
+        this->vec.push_back(this->arr[1][1].qsi);
+        this->vec.push_back(this->arr[1][2].A0);
+        this->vec.push_back(this->arr[1][2].A1);
+        this->vec.push_back(this->arr[1][2].p0);
+        this->vec.push_back(this->arr[1][2].q0);
+        this->vec.push_back(this->arr[1][2].qsi);
+        this->vec.push_back(this->arr[2][2].A0);
+        this->vec.push_back(this->arr[2][2].A1);
+        this->vec.push_back(this->arr[2][2].p0);
+        this->vec.push_back(this->arr[2][2].q0);
+        this->vec.push_back(this->arr[2][2].qsi);
 
-        }
+       // }
     }
 
     void receive_from_vector(){
@@ -98,7 +108,7 @@ struct ParamsArray{
                 this->vec[8],
                 this->vec[9]
                 );
-        if(this->size == 3){
+       // if(this->size == 3){
             this->arr[2][2] = Params(
                     this->vec[10],
                     this->vec[11],
@@ -106,7 +116,7 @@ struct ParamsArray{
                     this->vec[13],
                     this->vec[14]
                     );
-        }
+        //}
 
 
 

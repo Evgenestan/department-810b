@@ -172,7 +172,7 @@ struct Optimizer{
     
     ParamsArray random_variation_search();
 
-    std::vector<double> Params_to_vector (ParamsArray & obj);
+   // std::vector<double> Params_to_vector (ParamsArray & obj);
 
     //ParamsArray vector_to_param(std::vector<double> &vec);
 

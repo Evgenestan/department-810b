@@ -54,7 +54,7 @@ double random_par(double lower_bound, double upper_bound){
 
 
 
-std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
+/*std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
 
 
     std::vector<double> vec;
@@ -69,7 +69,7 @@ std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
     }
 
     return vec;
-}
+}*/
 
 std::vector<double> operator-(const std::vector<double> & lhs, const std::vector<double> & rhs){
     //auto result = vector();
@@ -289,11 +289,11 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 ParamsArray Optimizer::random_variation_search(){
     ParamsArray new_random;
     new_random.arr[A][A] = Params(
-        random_par(this->features.arr[A][A].A0/2,this->features.arr[A][A].A0*2),
-        random_par(this->features.arr[A][A].A1/2,this->features.arr[A][A].A1*2),
-        random_par(this->features.arr[A][A].p0/2,this->features.arr[A][A].p0*2),
-        random_par(this->features.arr[A][A].q0/2,this->features.arr[A][A].q0*2),
-        random_par(this->features.arr[A][A].qsi/2,this->features.arr[A][A].qsi*2)
+        random_par(this->features.arr[A][A].A0/4,this->features.arr[A][A].A0*4),
+        random_par(this->features.arr[A][A].A1/4,this->features.arr[A][A].A1*4),
+        random_par(this->features.arr[A][A].p0/4,this->features.arr[A][A].p0*4),
+        random_par(this->features.arr[A][A].q0/4,this->features.arr[A][A].q0*4),
+        random_par(this->features.arr[A][A].qsi/4,this->features.arr[A][A].qsi*4)
     );
     new_random.arr[B][B] =  new_random.arr[A][A];
     new_random.arr[A][B] =  new_random.arr[A][A];
@@ -342,14 +342,14 @@ ParamsArray Optimizer::run(){
     double loss_cur;
     bool satisfy = false;
     int ep_good = -1;
-    //tbb::task_scheduler_init init(4);
+
     tbb::parallel_for( tbb::blocked_range<int>(0,epoch,4),
             [&](const tbb::blocked_range<int> &r ){
                 for(int i = r.begin();i!=r.end();++i){
                     if(satisfy == true){
                         break;
                     }
-                    std::cout<<"Epoch: "<<i<<std::endl;
+                    std::cout<<"Epoch: "<<i<<" begins"<<std::endl;
 
                     init_set_rand = this->random_variation_search();
                     init_set_rand.convert_to_vector();
@@ -807,7 +807,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
     // calculation of error function
     //if(flag)
-    //std::cout<<"----params :"<<e_c<<" "<<B<<" "<<C_11<<" "<<C_12<<" "<<C_44<<std::endl;
+      //  std::cout<<"----params :"<<e_c<<" "<<B<<" "<<C_11<<" "<<C_12<<" "<<C_44<<std::endl;
     auto result = this->error_function(e_c,B,C_11,C_12,C_44,e_sol,e_in_dim,e_on_dim);
     //this->energy_check = e_target;
     //std::cout<<"Error function:   "<<rezult<<std::endl;
