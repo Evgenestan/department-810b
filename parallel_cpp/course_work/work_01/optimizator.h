@@ -34,6 +34,7 @@ struct Optimizer{
     vector point1_3;
     vector point2_3;
     char vacuum;
+    double l_b_multy, r_b_multy;
 
 
     double energy_check;
@@ -76,7 +77,9 @@ struct Optimizer{
               double p2x3,
               double p2y3,
               double p2z3,
-        char _vacuum):
+        char _vacuum,
+        double _l_b_multy,
+        double _r_b_multy):
         
     e_coh_i(_e_coh_i),
     B_i(_B_i),
@@ -101,7 +104,9 @@ struct Optimizer{
     e_sol(_e_sol),
     e_in_dim(_e_in_dim),
     e_on_dim(_e_on_dim),
-    vacuum(_vacuum)
+    vacuum(_vacuum),
+    l_b_multy(_l_b_multy),
+    r_b_multy(_r_b_multy)
     {
         //if(task_type == 2) {
             std::vector<Atom>::iterator it1;
@@ -217,7 +222,7 @@ double E_r(
     const ParamsArray& feature
     );
 
-double E_c(
+double E_f(
     std::vector <Atom> const &field,
     double const &min_len,
     const double *array_multy,

@@ -202,7 +202,9 @@ int main(int argc, char * argv[]){
         p2_x_3,
         p2_y_3,
         p2_z_3,
-        vacuum[0]
+        vacuum[0],
+        file_read["optimizer_params"]["l_b_multy"],
+        file_read["optimizer_params"]["r_b_multy"]
         );
 
         //std::cout<<objOptimizer.e_target_i<<std::endl<<objOptimizer.x_arrow<<objOptimizer.y_arrow<<objOptimizer.z_arrow<<std::endl<<objOptimizer.task_type;

@@ -52,12 +52,7 @@
     "C44":0.56,
     "e_sol": 0.497,
     "e_in_dim": 0.22 ,
-    "e_on_dim": -0.36 ,
-    "energy":{
-      "1":0.497,
-      "2":0.22,
-      "3": -0.36
-    }
+    "e_on_dim": -0.36
     
   },
 
@@ -67,7 +62,9 @@
     "lambda": 2,
     "residual":0.01,
     "epsilon": 1e-4,
-    "delta": 0.1
+    "delta": 0.1,
+    "l_b_multy": 0.25,
+    "r_b_multy": 1
 },
 
 
@@ -103,6 +100,7 @@
 "material_base": "Ag(001)",
 "material_impurity": "V",
 "e_coh_B": -5.31
+
 }
  
 
