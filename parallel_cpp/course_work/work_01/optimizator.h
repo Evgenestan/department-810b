@@ -29,7 +29,6 @@ struct Optimizer{
     ParamsArray features;
     double Min_len;
     double min_func;
-    int task_type;
     int id_1, id_2;
     vector point1_3;
     vector point2_3;
@@ -65,7 +64,6 @@ struct Optimizer{
         double _e_coh_B,
         double _epsilon,
         double _delta,
-        int _task_type,
         double p1x2,
         double p1y2,
         double p1z2,
@@ -101,7 +99,6 @@ struct Optimizer{
     e_coh_B(_e_coh_B),
     epsilon(_epsilon),
     delta(_delta),
-    task_type(_task_type),
     e_sol(_e_sol),
     e_in_dim(_e_in_dim),
     e_on_dim(_e_on_dim),
@@ -114,14 +111,6 @@ struct Optimizer{
             vector pont1_2(p1x2, p1y2, p1z2);
             vector pont2_2(p2x2, p2y2, p2z2);
 
-            /*it1 = find_if (Pool.begin(), Pool.end(), [point1,id_1] (const Atom& o) -> bool {
-                if(o.vec == point1){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            });*/
             id_1 = 0;
             id_2 = 0;
             int ptr;
@@ -145,17 +134,13 @@ struct Optimizer{
             if(id_1 == 0 && id_2 == 0){
                 std::cout<<"Not found"<<std::endl;
                 throw std::logic_error("There is no atoms with this coords");
-        //}
 
-
-            //if(task_type == 3){
-                point1_3 = {p1x3,p1y3,p1z3};
-                point2_3 = {p2x3,p2y3,p2z3};
-
-            //}
 
 
         }
+
+        point1_3 = {p1x3,p1y3,p1z3};
+        point2_3 = {p2x3,p2y3,p2z3};
 
     //make vector for 3 task from input variables
         
@@ -239,6 +224,7 @@ std::vector<Atom> generate_edge(
     const int &_x,
     const int & _y,
     const int & _z);
+
 
 bool operator == (
     const Atom & left,

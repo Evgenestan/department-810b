@@ -37,7 +37,7 @@ int main(int argc, char * argv[]){
     
     
     //extract atom data
-    double multy = file_read["initial_energy"]["a"];
+    double multy = file_read["a"];
     int x_arrow = file_read["size"]["x"]; 
     int y_arrow = file_read["size"]["y"];
     int z_arrow = file_read["size"]["z"];
@@ -115,19 +115,7 @@ int main(int argc, char * argv[]){
 
 
 
-    /*if(atoi(argv[3]) == 2 || atoi(argv[3]) == 3){
-        auto direction = file_read["direction_vacuum"];
-        if(direction == "x"){
-            x_arrow = x_arrow*2;
-        }
-        if(direction == "y"){
-            y_arrow = y_arrow*2;
-        }
-        if(direction == "z"){
-            z_arrow = z_arrow*2;
-        }
 
-    }*/
 
 
     double p1_x_2=0.0;
@@ -189,7 +177,6 @@ int main(int argc, char * argv[]){
         file_read["e_coh_B"], //add atom
         file_read["optimizer_params"]["epsilon"],
         file_read["optimizer_params"]["delta"],
-        atoi(argv[3]),
         p1_x_2,
         p1_y_2,
         p1_z_2,
@@ -246,7 +233,6 @@ int main(int argc, char * argv[]){
                                        file_read["e_coh_B"], //add atom
                                        file_read["optimizer_params"]["epsilon"],
                                        file_read["optimizer_params"]["delta"],
-                                       atoi(argv[3]),
                                        p1_x_2,
                                        p1_y_2,
                                        p1_z_2,

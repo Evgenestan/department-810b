@@ -21,7 +21,7 @@ const double alpha = 0.01;
 double random_par(double lower_bound, double upper_bound,const int & epoch){
 
     std::uniform_real_distribution<double> unif(lower_bound,upper_bound);
-    std::mt19937_64 rng(epoch*1000);
+    std::mt19937_64 rng((epoch+1)*1000);
     double a_random_double = unif(rng);
     return a_random_double;
 }
@@ -357,7 +357,7 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
     }
 
     else{
-        std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << "epoch: "<<ep_good<<std::endl;
+        std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << "  epoch: "<<ep_good<<std::endl;
         std::cout<<"Init rand vector"<<std::endl;
         flag_check = true;
         for(auto i:this->look_at_start_vector)
@@ -683,11 +683,11 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     auto C_44 = 1.0/(4*V_0)*(e_c_44_plus - 2*e_c + e_c_44_minus)/(alpha_p2)*Main_constant;
 
 
-        this->Pool[0].type = atom_kernel::B;
-        auto e_AB = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
-        auto e_sol = e_AB - e_c*this->Pool.size() - this->e_coh_B + e_c;
-        //std::cout<<"e_AB = "<<e_AB<<"e_c2 =  "<<e_c*this->Pool.size()<<"e_coh_B = "<<e_coh_B<<"e_c = "<<e_c<<std::endl;
-        this->Pool[0].type = atom_kernel::A;
+    this->Pool[0].type = atom_kernel::B;
+    auto e_AB = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+    auto e_sol = e_AB - e_c*this->Pool.size() - this->e_coh_B + e_c;
+    //std::cout<<"e_AB = "<<e_AB<<"e_c2 =  "<<e_c*this->Pool.size()<<"e_coh_B = "<<e_coh_B<<"e_c = "<<e_c<<std::endl;
+    this->Pool[0].type = atom_kernel::A;
 
     if(this->vacuum == 'x'){
         array_mr[0] *=2;
@@ -699,47 +699,44 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
         array_mr[2] *=2;
     }
 
-        auto e_surf = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+    auto e_surf_in = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
-        this->Pool[this->id_1].type = atom_kernel::B;
+    this->Pool[this->id_1].type = atom_kernel::B;
 
-        auto e_adatom =  E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
-
-        
-        this->Pool[this->id_2].type =atom_kernel::B;
-
-        //evaluate
+    auto e_adatom_in =  E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
         
-        auto e_dim_surf = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+    this->Pool[this->id_2].type =atom_kernel::B;
+
+    auto e_dim_surf_in = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
         
 
-        auto e_in_dim = (e_dim_surf*-e_surf)-2*(e_adatom - e_surf);
+    auto e_in_dim = (e_dim_surf_in*-e_surf_in)-2*(e_adatom_in - e_surf_in);
 
 
-        this->Pool[this->id_1].type = atom_kernel::A;
-        this->Pool[this->id_2].type = atom_kernel::A;
+    this->Pool[this->id_1].type = atom_kernel::A;
+    this->Pool[this->id_2].type = atom_kernel::A;
 
-         e_surf = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
-
-
-        this->Pool.push_back(Atom(this->point1_3,2));
-
-        //
-         e_adatom = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+    auto e_surf_on = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
 
 
-        this->Pool.push_back(Atom(this->point2_3,2));
+    this->Pool.push_back(Atom(this->point1_3,atom_kernel::B));
+
+
+    auto e_adatom_on = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+
+
+    this->Pool.push_back(Atom(this->point2_3,atom_kernel::B));
 
 
         
-         e_dim_surf = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
+    auto e_dim_surf_on = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
         
 
-        auto e_on_dim = (e_dim_surf*-e_surf)-2*(e_adatom - e_surf);
+    auto e_on_dim = (e_dim_surf_on*-e_surf_on)-2*(e_adatom_on - e_surf_on);
 
-        this->Pool.pop_back();
-        this->Pool.pop_back();
+    this->Pool.pop_back();
+    this->Pool.pop_back();
 
     if(flag)
         std::cout<<"----params :"<<e_c<<" "<<B<<" "<<C_11<<" "<<C_12<<" "<<C_44<<" "<<e_sol<<" "<<e_in_dim<<" "<<e_on_dim<<std::endl;

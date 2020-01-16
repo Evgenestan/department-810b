@@ -50,7 +50,7 @@ struct ParamsArray{
 
     std::vector<double> vec;
 
-    ParamsArray(){size = 2;}
+    ParamsArray(){size = 3;}
     ParamsArray(int _size){size = _size;}
     ParamsArray(const ParamsArray & in){
         this->size = in.size;
