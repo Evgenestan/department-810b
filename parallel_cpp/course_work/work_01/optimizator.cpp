@@ -353,8 +353,8 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
         std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << "  epoch: "<<ep_good<<std::endl;
         std::cout<<"Init rand vector"<<std::endl;
         flag_check = true;
-        //for(auto i:this->look_at_start_vector)
-          //  std::cout<<i<<std::endl;
+        for(auto i:this->look_at_start_vector)
+            std::cout<<i<<std::endl;
         return final_set;
     }
 
@@ -452,8 +452,7 @@ double E_b(
         }
          
     }
-    if(energy<0)
-    std::cout<<"energy: "<<sqrt(energy)<<std::endl;
+
 
     return -sqrt(energy);
 }

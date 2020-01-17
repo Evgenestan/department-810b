@@ -61,7 +61,7 @@
     "epoch": 100,
     "residual":0.04,
     "epsilon": 1e-4,
-    "delta": 0.1,
+    "delta": 0.2,
     "l_b_multy": 0.5,
     "r_b_multy": 2
 },
