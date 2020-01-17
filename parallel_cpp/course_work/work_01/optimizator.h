@@ -13,9 +13,9 @@
 #include "struct.h"
 #include "nlohmann/json.hpp"
 #include <random>
-#include <algorithm>
-#include <tbb/blocked_range.h>
-#include <tbb/parallel_for.h>
+//#include <algorithm>
+//
+//#include <tbb/parallel_for.h>
 //#include "optimizator.h"
 
 
@@ -59,7 +59,6 @@ struct Optimizer{
         int _z_arrow,
         int _step,
         int _epoch,
-        double _lambda,
         double _residual,
         double _e_coh_B,
         double _epsilon,
@@ -94,7 +93,6 @@ struct Optimizer{
     z_arrow(_z_arrow),
     step(_step),
     epoch(_epoch),
-    lambda(_lambda),
     residual(_residual),
     e_coh_B(_e_coh_B),
     epsilon(_epsilon),

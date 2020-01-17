@@ -21,55 +21,12 @@ const double alpha = 0.01;
 double random_par(double lower_bound, double upper_bound,const int & epoch){
 
     std::uniform_real_distribution<double> unif(lower_bound,upper_bound);
-    std::mt19937_64 rng((epoch+1)*1000);
+    std::mt19937_64 rng(epoch);
     double a_random_double = unif(rng);
     return a_random_double;
 }
    
 
-/*double optimizer_Huk_Jivs_beta(ParamsArray & init_pa, double & lambda, double & residual, int & step, double & epsilon, double & delta){
-
-    //calculate_energy_params();
-
-
-
-}*/
-
-
-/*ParamsArray  Optimizer::vector_to_param(std::vector<double> &vec){
-
-
-    ParamsArray pa{this->features.size};
-
-
-    for(int i = 1; i<=pa.size; ++i){
-
-        pa.arr[1][i] = Params(vec[0+5*(i-1)],vec[1+5*(i-1)],vec[2+5*(i-1)],vec[3+5*(i-1)],vec[4+5*(i-1)]);
-
-    }
-
-    return pa;
-}*/
-
-
-
-
-/*std::vector<double>  Optimizer::Params_to_vector(ParamsArray & obj){
-
-
-    std::vector<double> vec;
-    for(int i = 2; i<=obj.size; ++i){
-
-        vec.push_back(obj.arr[1][i-1].A0);
-        vec.push_back(obj.arr[1][i-1].A1);
-        vec.push_back(obj.arr[1][i-1].p0);
-        vec.push_back(obj.arr[1][i-1].q0);
-        vec.push_back(obj.arr[1][i-1].qsi);
-
-    }
-
-    return vec;
-}*/
 
 std::vector<double> operator-(const std::vector<double> & lhs, const std::vector<double> & rhs){
     //auto result = vector();
@@ -155,7 +112,7 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 
     //init delta vec
     std::vector<double> delta;
-    for(auto i: this->features.vec){
+    for(auto i: init.vec){
 
         if(abs(i)<1)
             delta.push_back(this->delta/10.0);
@@ -281,17 +238,29 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 
 ParamsArray Optimizer::random_variation_search(const int & epoch){
     ParamsArray new_random;
+    int i =0;
     new_random.arr[A][A] = Params(
-        random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,epoch),
-        random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,epoch),
-        random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,epoch),
-        random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,epoch),
-        random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,epoch)
+        random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,epoch+(++i)),
+        random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,epoch+(++i)),
+        random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,epoch+(++i)),
+        random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,epoch+(++i)),
+        random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,epoch+(++i))
     );
-    new_random.arr[B][B] =  new_random.arr[A][A];
-    new_random.arr[A][B] =  new_random.arr[A][A];
-    //std::cout<<"Params:   "<<new_random.arr[A][A].A0<<" "<<new_random.arr[A][A].A1<<" "<<new_random.arr[A][A].p0<<" "<<new_random.arr[A][A].q0<<" "<<new_random.arr[A][A].qsi<<std::endl;
-    //new_random.arr[A][B] =  new_random.arr[A][A];
+    new_random.arr[A][B] = Params(
+            random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,epoch+(++i)),
+            random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,epoch+(++i)),
+            random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,epoch+(++i)),
+            random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,epoch+(++i)),
+            random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,epoch+(++i))
+    );
+    new_random.arr[B][B] = Params(
+            random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,epoch+(++i)),
+            random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,epoch+(++i)),
+            random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,epoch+(++i)),
+            random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,epoch+(++i)),
+            random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,epoch+(++i))
+    );
+
     
 
     return new_random;
@@ -329,8 +298,13 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
 
 
         init_set_rand = this->random_variation_search(i_epoch);
-
         init_set_rand.convert_to_vector();
+
+        //for(auto i : init_set_rand.vec){
+          //  std::cout<<"Epoch "<<i_epoch<<" "<<i<<std::endl;
+
+        //}
+
         this->look_at_start_vector = init_set_rand.vec;
 
         loss_cur = this->optimizer_Huk_Jivs(init_set_rand);

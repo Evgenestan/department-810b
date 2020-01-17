@@ -9,13 +9,22 @@
 #include "struct.h"
 #include "optimizator.h"
 #include <cstdlib>
-//#include <tbb/parallel_for.h>
+#include <tbb/parallel_for.h>
+#include <tbb/blocked_range.h>
+#include <random>
 
-//#define Main_constant 1.602;
-//#define alpha 0.01;
 
-//#include "tbb/blocked_range.h"
-//#include <tbb/parallel_for.h>
+/*int main(int argc, char * argv[]){
+
+        for(int i = 0; i < 10; ++i){
+            std::mt19937 gen(i);
+            std::uniform_real_distribution<double> dist(i, i + 1);
+            std::cout << dist(gen) << std::endl;
+
+    }
+}*/
+
+
 
 int main(int argc, char * argv[]){
     //read input json 
@@ -67,24 +76,11 @@ int main(int argc, char * argv[]){
      y_arrow,
      z_arrow);    // edges are inside Field vector
 
-    //std::cout<<Main_constant<<std::endl;
-    //std::cout<<"Min len :  "<<Min_len<<std::endl;
-    //std::cout<<"Pool: "<<std::endl;
-    //--show Pool
-    /*int numb = 0;
-    for(auto i: Pool){
-        std::cout<<"Atom "<<numb<<" "<<i.vec.x/multy<<" "<<i.vec.y/multy<<" "<<i.vec.z/multy<<std::endl;
-        ++numb;
-    }*/
 
 
     ParamsArray feature;
     feature.size = 3;
-    /*if(atoi(argv[3]) == 3 || atoi(argv[3]) == 2){
-        feature.size = 3;
-    }
-    else
-        feature.size = 2;*/
+
 
 
 
@@ -172,7 +168,6 @@ int main(int argc, char * argv[]){
         z_arrow,
         file_read["optimizer_params"]["step"],
         file_read["optimizer_params"]["epoch"],
-        file_read["optimizer_params"]["lambda"],
         file_read["optimizer_params"]["residual"],
         file_read["e_coh_B"], //add atom
         file_read["optimizer_params"]["epsilon"],
@@ -228,7 +223,6 @@ int main(int argc, char * argv[]){
                                        z_arrow,
                                        file_read["optimizer_params"]["step"],
                                        file_read["optimizer_params"]["epoch"],
-                                       file_read["optimizer_params"]["lambda"],
                                        file_read["optimizer_params"]["residual"],
                                        file_read["e_coh_B"], //add atom
                                        file_read["optimizer_params"]["epsilon"],

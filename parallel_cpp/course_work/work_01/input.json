@@ -59,12 +59,11 @@
   "optimizer_params":{
     "step" : 1000,
     "epoch": 100,
-    "lambda": 2,
-    "residual":1e-2,
+    "residual":0.01,
     "epsilon": 1e-4,
     "delta": 0.1,
-    "l_b_multy": 0.5,
-    "r_b_multy": 2
+    "l_b_multy": 0.3,
+    "r_b_multy": 5
 },
 
 "a":4.085,
