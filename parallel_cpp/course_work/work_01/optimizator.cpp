@@ -240,25 +240,25 @@ ParamsArray Optimizer::random_variation_search(const int & epoch){
     ParamsArray new_random;
     int i =0;
     new_random.arr[A][A] = Params(
-        random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,epoch+(++i)),
-        random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,epoch+(++i)),
-        random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,epoch+(++i)),
-        random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,epoch+(++i)),
-        random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,epoch+(++i))
+        random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,(epoch+1)*1000+(++i)),
+        random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,(epoch+1)*1000+(++i)),
+        random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,(epoch+1)*1000+(++i)),
+        random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,(epoch+1)*1000+(++i)),
+        random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,(epoch+1)*1000+(++i))
     );
     new_random.arr[A][B] = Params(
-            random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,epoch+(++i)),
-            random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,epoch+(++i)),
-            random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,epoch+(++i)),
-            random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,epoch+(++i)),
-            random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,epoch+(++i))
+            random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,(epoch+1)*1000+(++i)),
+            random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,(epoch+1)*1000+(++i)),
+            random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,(epoch+1)*1000+(++i)),
+            random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,(epoch+1)*1000+(++i)),
+            random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,(epoch+1)*1000+(++i))
     );
     new_random.arr[B][B] = Params(
-            random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,epoch+(++i)),
-            random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,epoch+(++i)),
-            random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,epoch+(++i)),
-            random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,epoch+(++i)),
-            random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,epoch+(++i))
+            random_par(this->features.arr[A][A].A0*this->l_b_multy,this->features.arr[A][A].A0*this->r_b_multy,(epoch+1)*1000+(++i)),
+            random_par(this->features.arr[A][A].A1*this->l_b_multy,this->features.arr[A][A].A1*this->r_b_multy,(epoch+1)*1000+(++i)),
+            random_par(this->features.arr[A][A].p0*this->l_b_multy,this->features.arr[A][A].p0*this->r_b_multy,(epoch+1)*1000+(++i)),
+            random_par(this->features.arr[A][A].q0*this->l_b_multy,this->features.arr[A][A].q0*this->r_b_multy,(epoch+1)*1000+(++i)),
+            random_par(this->features.arr[A][A].qsi*this->l_b_multy,this->features.arr[A][A].qsi*this->r_b_multy,(epoch+1)*1000+(++i))
     );
 
     
@@ -300,10 +300,29 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
         init_set_rand = this->random_variation_search(i_epoch);
         init_set_rand.convert_to_vector();
 
-        //for(auto i : init_set_rand.vec){
-          //  std::cout<<"Epoch "<<i_epoch<<" "<<i<<std::endl;
+        std::cout<<"Epoch: "<<i_epoch<<std::endl;
+            std::cout<<"A-A"<<std::endl;
+            std::cout<<"A0: "<<init_set_rand.vec[0]<<std::endl;
+            std::cout<<"A1: "<<init_set_rand.vec[1]<<std::endl;
+            std::cout<<"qsi: "<<init_set_rand.vec[2]<<std::endl;
+            std::cout<<"p: "<<init_set_rand.vec[3]<<std::endl;
+            std::cout<<"q: "<<init_set_rand.vec[4]<<std::endl;
 
-        //}
+    std::cout<<"A-B"<<std::endl;
+    std::cout<<"A0: "<<init_set_rand.vec[5]<<std::endl;
+    std::cout<<"A1: "<<init_set_rand.vec[6]<<std::endl;
+    std::cout<<"qsi: "<<init_set_rand.vec[7]<<std::endl;
+    std::cout<<"p: "<<init_set_rand.vec[8]<<std::endl;
+    std::cout<<"q: "<<init_set_rand.vec[9]<<std::endl;
+
+    std::cout<<"B-B"<<std::endl;
+    std::cout<<"A0: "<<init_set_rand.vec[10]<<std::endl;
+    std::cout<<"A1: "<<init_set_rand.vec[11]<<std::endl;
+    std::cout<<"qsi: "<<init_set_rand.vec[12]<<std::endl;
+    std::cout<<"p: "<<init_set_rand.vec[13]<<std::endl;
+    std::cout<<"q: "<<init_set_rand.vec[14]<<std::endl;
+
+
 
         this->look_at_start_vector = init_set_rand.vec;
 
@@ -334,8 +353,8 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
         std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << "  epoch: "<<ep_good<<std::endl;
         std::cout<<"Init rand vector"<<std::endl;
         flag_check = true;
-        for(auto i:this->look_at_start_vector)
-            std::cout<<i<<std::endl;
+        //for(auto i:this->look_at_start_vector)
+          //  std::cout<<i<<std::endl;
         return final_set;
     }
 
@@ -546,6 +565,11 @@ std::vector<Atom> generate_edge(
         }
     }
 
+    /*Pool.push_back(Atom(vector(_a*0.5, _a*0.5, _a*3),
+                        file_read["type"]));
+
+    Pool.push_back(Atom(vector(0, 0, _a*3),
+                        file_read["type"]));*/
 
     std::cout<<"Nodes amount: "<<Pool.size()<<std::endl<<std::endl;
 
@@ -713,7 +737,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     this->Pool.pop_back();
 
     if(flag)
-        std::cout<<"----params :"<<e_c<<" "<<B<<" "<<C_11<<" "<<C_12<<" "<<C_44<<" "<<e_sol<<" "<<e_in_dim<<" "<<e_on_dim<<std::endl;
+        std::cout<<"----params :"<<"E_c: "<<e_c<<std::endl<<" B: "<<B<<std::endl<<" C_11: "<<C_11<<std::endl<<" C_12: "<<C_12<<std::endl<<" C_44: "<<C_44<<std::endl<<" E_sol: "<<e_sol<<std::endl<<" E_in_dim: "<<e_in_dim<<std::endl<<" E_on_dim: "<<e_on_dim<<std::endl;
     auto result = this->error_function(e_c,B,C_11,C_12,C_44,e_sol,e_in_dim,e_on_dim);
 
     return result;

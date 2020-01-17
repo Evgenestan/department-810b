@@ -29,7 +29,7 @@
 int main(int argc, char * argv[]){
     //read input json 
     
-    if(argc < 4){
+    if(argc < 3){
         throw std::logic_error("Error, need three params");
         }
 
@@ -51,7 +51,7 @@ int main(int argc, char * argv[]){
     int y_arrow = file_read["size"]["y"];
     int z_arrow = file_read["size"]["z"];
 
-    std::cout<<(argv[3])<<std::endl;
+
 
 
     //std::cout<<"SizeL: z="<<z_arrow<<" x = "<<x_arrow<<std::endl;
