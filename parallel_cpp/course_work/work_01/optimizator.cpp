@@ -218,16 +218,19 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
         init.vec = X_1;
         init.receive_from_vector();
         rez = er1;
+        std::cout<<std::endl<<"Final 1"<<std::endl;
     }
     else if(er2<=er1&&er2<=er3) {
         init.vec = X_2;
         init.receive_from_vector();
         rez = er2;
+        std::cout<<std::endl<<"Final 2"<<std::endl;
     }
     else {
         init.vec = X_3;
         init.receive_from_vector();
         rez = er3;
+        std::cout<<std::endl<<"Final 3"<<std::endl;
     }
 
     
@@ -304,23 +307,23 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
             std::cout<<"A-A"<<std::endl;
             std::cout<<"A0: "<<init_set_rand.vec[0]<<std::endl;
             std::cout<<"A1: "<<init_set_rand.vec[1]<<std::endl;
-            std::cout<<"qsi: "<<init_set_rand.vec[2]<<std::endl;
-            std::cout<<"p: "<<init_set_rand.vec[3]<<std::endl;
-            std::cout<<"q: "<<init_set_rand.vec[4]<<std::endl;
+            std::cout<<"p: "<<init_set_rand.vec[2]<<std::endl;
+            std::cout<<"q: "<<init_set_rand.vec[3]<<std::endl;
+            std::cout<<"qsi: "<<init_set_rand.vec[4]<<std::endl;
 
     std::cout<<"A-B"<<std::endl;
     std::cout<<"A0: "<<init_set_rand.vec[5]<<std::endl;
     std::cout<<"A1: "<<init_set_rand.vec[6]<<std::endl;
-    std::cout<<"qsi: "<<init_set_rand.vec[7]<<std::endl;
-    std::cout<<"p: "<<init_set_rand.vec[8]<<std::endl;
-    std::cout<<"q: "<<init_set_rand.vec[9]<<std::endl;
+    std::cout<<"p: "<<init_set_rand.vec[7]<<std::endl;
+    std::cout<<"q: "<<init_set_rand.vec[8]<<std::endl;
+    std::cout<<"qsi: "<<init_set_rand.vec[9]<<std::endl;
 
     std::cout<<"B-B"<<std::endl;
     std::cout<<"A0: "<<init_set_rand.vec[10]<<std::endl;
     std::cout<<"A1: "<<init_set_rand.vec[11]<<std::endl;
-    std::cout<<"qsi: "<<init_set_rand.vec[12]<<std::endl;
-    std::cout<<"p: "<<init_set_rand.vec[13]<<std::endl;
-    std::cout<<"q: "<<init_set_rand.vec[14]<<std::endl;
+    std::cout<<"p: "<<init_set_rand.vec[12]<<std::endl;
+    std::cout<<"q: "<<init_set_rand.vec[13]<<std::endl;
+    std::cout<<"qsi: "<<init_set_rand.vec[14]<<std::endl;
 
 
 
