@@ -3,7 +3,7 @@ build/
 out/
 target/
 .idea/
-/.vscode/
+.vscode/
 cmake-build-debug/
 
   
