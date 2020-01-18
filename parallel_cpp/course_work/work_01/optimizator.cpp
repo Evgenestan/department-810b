@@ -202,7 +202,7 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
         }
 
         ++count;
-    } while(vector_std_len(delta) > (this->epsilon ) && count != step);
+    } while(vector_std_len(delta) > (this->epsilon ) && count < step);
 
    //
    // std::cout<<"Energy found through computation = "<< this->energy_check<<std::endl;
@@ -353,8 +353,8 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
         std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << "  epoch: "<<ep_good<<std::endl;
         std::cout<<"Init rand vector"<<std::endl;
         flag_check = true;
-        for(auto i:this->look_at_start_vector)
-            std::cout<<i<<std::endl;
+        //for(auto i:this->look_at_start_vector)
+            //std::cout<<i<<std::endl;
         return final_set;
     }
 
@@ -370,34 +370,26 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
 
 double distance(const vector& lv,const vector& rv, const double * array_multy, const double * matrix, int size){
     double x_r, y_r,z_r;
-    double x_dif = lv.x-rv.x;
-    double y_dif = lv.y - rv.y;
-    double z_dif = lv.z - rv.z; 
+    double x_dif = abs(lv.x-rv.x);
+    double y_dif = abs(lv.y - rv.y);
+    double z_dif = abs(lv.z - rv.z);
     if(x_dif>array_multy[0]/2){
-        x_r =  (x_dif)-array_multy[0];
-    }
-    else if(x_dif<-array_multy[0]/2){
-    x_r = array_multy[0]+x_dif;
+        x_r =  abs((x_dif)-array_multy[0]);
     }
     else{
-        x_r = x_dif;
+    x_r = x_dif;
     }
 
+
     if(y_dif>array_multy[1]/2){
-        y_r =  (y_dif)-array_multy[1];
-    }
-    else if(y_dif<-array_multy[1]/2){
-        y_r = array_multy[1]+y_dif;
+        y_r =  abs((y_dif)-array_multy[1]);
     }
     else{
         y_r = y_dif;
     }
 
     if(z_dif>array_multy[2]/2){
-        z_r =  (z_dif) - array_multy[2] ;
-    }
-    else if(z_dif<-array_multy[2]/2){
-        z_r = array_multy[2]+z_dif;
+        z_r =  abs((z_dif) - array_multy[2]) ;
     }
     else{
         z_r = z_dif;
@@ -600,9 +592,9 @@ double Optimizer::error_function(double & e_coh,
     double & C44,
     double & e_sol,
     double & e_in_dim,
-    double & e_on_dim){
+    double & e_on_dim) {
 
-        return sqrt((
+    return sqrt((
         (B-this->B_i)*(B-this->B_i)/(this->B_i*this->B_i)+
         (C11-this->C11_i)*(C11-this->C11_i)/(this->C11_i*this->C11_i)+
         (C12-this->C12_i)*(C12-this->C12_i)/(this->C12_i*this->C12_i)+
@@ -611,10 +603,9 @@ double Optimizer::error_function(double & e_coh,
         (e_in_dim-this->e_in_dim)*(e_in_dim-this->e_in_dim)/(this->e_in_dim * this->e_in_dim)+
         (e_on_dim-this->e_on_dim)*(e_on_dim-this->e_on_dim)/(this->e_on_dim * this->e_on_dim)+
         (e_sol-this->e_sol)*(e_sol-this->e_sol)/(this->e_sol * this->e_sol))/8);
-        
 
-
-    }
+    //return sqrt((e_coh - this->e_coh_i) * (e_coh - this->e_coh_i) / (this->e_coh_i * this->e_coh_i));
+}
 
 
 double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool flag){
@@ -673,7 +664,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
 
 
     double matrix_c_44_plus[]= {1.0,alpha,alpha,1.0,1.0/(1-alpha_p2)};
-    double matrix_c_44_minus[]= {1.0,-alpha,-alpha,1.0,1.0/(1+alpha_p2)};
+    double matrix_c_44_minus[]= {1.0,-alpha,-alpha,1.0,1.0/(1-alpha_p2)};
 
     auto e_c_44_plus = E_f(this->Pool, this->Min_len,  array_mr,matrix_c_44_plus,5,temp_arr)/size;
     auto e_c_44_minus = E_f(this->Pool, this->Min_len,  array_mr,matrix_c_44_minus,5,temp_arr)/size;
@@ -736,7 +727,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     this->Pool.pop_back();
 
     if(flag)
-        std::cout<<"----params :"<<"E_c: "<<e_c<<std::endl<<" B: "<<B<<std::endl<<" C_11: "<<C_11<<std::endl<<" C_12: "<<C_12<<std::endl<<" C_44: "<<C_44<<std::endl<<" E_sol: "<<e_sol<<std::endl<<" E_in_dim: "<<e_in_dim<<std::endl<<" E_on_dim: "<<e_on_dim<<std::endl;
+        std::cout<<"----params :"<<"E_c: "<<e_c<<std::endl<<" B: "<<B<<std::endl<<" C_11: "<<C_11<<std::endl<<" C_12: "<<C_12<<std::endl<<" C_44: "<<C_44<<std::endl<<" E_sol: "<<e_sol<<" E_AB: "<<e_AB<<" E_coh_A:"<<e_c<<" E_AB: "<<e_c*this->Pool.size()<<" E_coh_B: "<<this->e_coh_B<<std::endl<<" E_in_dim: "<<e_in_dim<<" E_surf: "<<e_surf_in<<" E_adatom+surf: "<<e_adatom_in<<" E_dim_serv: "<<e_dim_surf_in <<std::endl<<" E_on_dim: "<<e_on_dim<<" E_surf: "<<e_surf_on<<" E_adatom: "<<e_adatom_on<<" E_dim_serf: "<<e_dim_surf_on<<std::endl;
     auto result = this->error_function(e_c,B,C_11,C_12,C_44,e_sol,e_in_dim,e_on_dim);
 
     return result;
