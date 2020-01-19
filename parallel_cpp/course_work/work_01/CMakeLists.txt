@@ -20,5 +20,5 @@ find_package(TBB REQUIRED)
 
 target_link_libraries(work_01 ${TBB_IMPORTED_TARGETS} nlohmann_json::nlohmann_json)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 

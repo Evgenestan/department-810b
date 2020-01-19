@@ -221,18 +221,28 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
         init.receive_from_vector();
         rez = er1;
         std::cout<<std::endl<<"Final 1"<<std::endl;
+
+        std::vector <double> NewVec;
+        NewVec.assign(this->energies.begin(), this->energies.begin() + 18);
+        this->energies = NewVec;
     }
     else if(er2<=er1&&er2<=er3) {
         init.vec = X_2;
         init.receive_from_vector();
         rez = er2;
         std::cout<<std::endl<<"Final 2"<<std::endl;
+        std::vector <double> NewVec;
+        NewVec.assign(this->energies.begin()+18, this->energies.begin() + 36);
+        this->energies = NewVec;
     }
     else {
         init.vec = X_3;
         init.receive_from_vector();
         rez = er3;
         std::cout<<std::endl<<"Final 3"<<std::endl;
+        std::vector <double> NewVec;
+        NewVec.assign(this->energies.begin()+36, this->energies.begin() + 54);
+        this->energies = NewVec;
     }
 
     
@@ -350,16 +360,25 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
     if(satisfy == false){
         //std::cout<<"No solution found at "<<std::endl;
         std::cout<<"No solution found at Epoch "<<i_epoch<<" Loss: "<<loss_cur<<std::endl;
-        flag_check = false;
+        //flag_check = false;
         return ParamsArray();
     }
 
+
+
     else{
+
+        /*if(atomic_check){
+            std::cout<<std::endl<<"Atomic_check error"<<std::endl;
+            flag_check = false;
+            return ParamsArray();
+
+        }*/
+
         std::cout<<"Solution found!!!"<<std::endl<<"Loss function = "<< satisfy_loss_value << "  epoch: "<<ep_good<<std::endl;
-        std::cout<<"Init rand vector"<<std::endl;
+        //std::cout<<"Init rand vector"<<std::endl;
         flag_check = true;
-        //for(auto i:this->look_at_start_vector)
-            //std::cout<<i<<std::endl;
+
         return final_set;
     }
 
@@ -378,6 +397,10 @@ double distance(const vector& lv,const vector& rv, const double * array_multy, c
     double x_dif = abs(lv.x-rv.x);
     double y_dif = abs(lv.y - rv.y);
     double z_dif = abs(lv.z - rv.z);
+    /*if(x_dif/4.085 == 2.5){
+        auto p = x_dif/4.085;
+        std::cout<<"dh"<<std::endl;
+    }*/
     if(x_dif>=array_multy[0]/2){
         x_r =  abs((x_dif)-array_multy[0]);
     }
@@ -563,11 +586,11 @@ std::vector<Atom> generate_edge(
         }
     }
 
-    /*Pool.push_back(Atom(vector(_a*0.5, _a*0.5, _a*3),
-                        file_read["type"]));
+    /*Pool.push_back(Atom(vector(_a*0.5, _a*0.0, _a*2.5),
+                        2);
 
-    Pool.push_back(Atom(vector(0, 0, _a*3),
-                        file_read["type"]));*/
+    Pool.push_back(Atom(vector(_a*0.0, _a*0.5, _a*2.5),
+                        2);*/
 
     std::cout<<"Nodes amount: "<<Pool.size()<<std::endl<<std::endl;
 
@@ -576,11 +599,16 @@ std::vector<Atom> generate_edge(
 
 
     std::ofstream fout(path_to,std::ios_base::out);
-
     fout<<Pool.size()<<std::endl<<std::endl;
+    //fout<<"Ag "<<_a*0.5<<" "<<_a*0.0<<" "<<_a*2.5<<std::endl;
+    //fout<<"Ag "<<_a*0.0<<" "<< _a*0.5<<" "<< _a*2.5<<std::endl;
+
+
     for(auto i:Pool){
         fout<<"V "<<i.vec[0]<<" "<<i.vec[1]<<" "<<i.vec[2]<<std::endl;
     }
+
+
     fout.close();
     return Pool;
 }
@@ -619,9 +647,9 @@ double Optimizer::error_function(double & e_coh,
                         (C44-this->C44_i)*(C44-this->C44_i)/(this->C44_i*this->C44_i)+
                         (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i * this->e_coh_i)
                         +(e_sol-this->e_sol)*(e_sol-this->e_sol)/(this->e_sol * this->e_sol)
-                        +(e_on_dim-this->e_on_dim)*(e_on_dim-this->e_on_dim)/(this->e_on_dim * this->e_on_dim)
+                        //+(e_in_dim-this->e_in_dim)*(e_in_dim-this->e_in_dim)/(this->e_in_dim * this->e_in_dim)
                         )
-                        /7);
+                        /6);
 
     //return sqrt((e_coh - this->e_coh_i) * (e_coh - this->e_coh_i) / (this->e_coh_i * this->e_coh_i));
 }
@@ -639,7 +667,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     auto size = this->Pool.size();
 
 
-    double array_mr[] = {this->x_arrow*this->multy,this->y_arrow*this->multy,this->z_arrow*this->multy };
+    double array_mr[] = {(this->x_arrow)*this->multy,(this->y_arrow)*this->multy,(this->z_arrow)*this->multy };
 
     auto e_c = E_f(this->Pool,this->Min_len,array_mr,matrix_E_0,3,temp_arr)/size;
     auto const alpha_p2 = alpha*alpha;
@@ -745,25 +773,48 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     this->Pool.pop_back();
     this->Pool.pop_back();
 
-    if(flag)
-        std::cout<<"----params :"<<"E_c: "<<e_c
-        <<std::endl<<" B: "<<B
-        <<std::endl<<" C_11: "<<C_11
-        <<std::endl<<" C_12: "<<C_12
-        <<std::endl<<" C_44: "<<C_44
-        <<std::endl<<" E_sol: "<<e_sol
-        <<" E_AB: "<<e_AB<<
-        " E_coh_A:"<<e_c<<
-        " E_A: "<<e_c*this->Pool.size()
-        <<" E_coh_B: "<<this->e_coh_B
-        <<std::endl<<" E_in_dim: "<<e_in_dim
-        <<" E_surf: "<<e_surf_in
-        <<" E_adatom+surf: "<<e_adatom_in
-        <<" E_dim_serv: "<<e_dim_surf_in
-        <<std::endl<<" E_on_dim: "<<e_on_dim
-        <<" E_surf: "<<e_surf_on
-        <<" E_adatom: "<<e_adatom_on
-        <<" E_dim_serf: "<<e_dim_surf_on<<std::endl;
+    if(flag){
+        this->energies.push_back(e_c);
+        this->energies.push_back(B);
+        this->energies.push_back(C_11);
+        this->energies.push_back(C_12);
+        this->energies.push_back(C_44);
+        this->energies.push_back(e_sol);
+        this->energies.push_back(e_AB);
+        this->energies.push_back(e_c);
+        this->energies.push_back(e_c*this->Pool.size());
+        this->energies.push_back(this->e_coh_B);
+        this->energies.push_back(e_in_dim);
+        this->energies.push_back(e_surf_in);
+        this->energies.push_back(e_adatom_in);
+        this->energies.push_back(e_dim_surf_in);
+        this->energies.push_back(e_on_dim);
+        this->energies.push_back(e_surf_on);
+        this->energies.push_back(e_adatom_on);
+        this->energies.push_back(e_dim_surf_on);
+
+
+
+        /*std::cout<<"----params :"<<"E_c: "<<e_c
+                 <<std::endl<<" B: "<<B
+                 <<std::endl<<" C_11: "<<C_11
+                 <<std::endl<<" C_12: "<<C_12
+                 <<std::endl<<" C_44: "<<C_44
+                 <<std::endl<<" E_sol: "<<e_sol
+                 <<" E_AB: "<<e_AB<<
+                 " E_coh_A:"<<e_c<<
+                 " E_A: "<<e_c*this->Pool.size()
+                 <<" E_coh_B: "<<this->e_coh_B
+                 <<std::endl<<" E_in_dim: "<<e_in_dim
+                 <<" E_surf: "<<e_surf_in
+                 <<" E_adatom+surf: "<<e_adatom_in
+                 <<" E_dim_serv: "<<e_dim_surf_in
+                 <<std::endl<<" E_on_dim: "<<e_on_dim
+                 <<" E_surf: "<<e_surf_on
+                 <<" E_adatom: "<<e_adatom_on
+                 <<" E_dim_serf: "<<e_dim_surf_on<<std::endl;*/
+
+    }
 
     auto result = this->error_function(e_c,B,C_11,C_12,C_44,e_sol,e_in_dim,e_on_dim);
 

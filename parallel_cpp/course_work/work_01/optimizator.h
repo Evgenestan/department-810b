@@ -13,6 +13,7 @@
 #include "struct.h"
 #include "nlohmann/json.hpp"
 #include <random>
+#include <algorithm>
 //#include <algorithm>
 //
 //#include <tbb/parallel_for.h>
@@ -34,6 +35,7 @@ struct Optimizer{
     vector point2_3;
     char vacuum;
     double l_b_multy, r_b_multy;
+    std::vector<double> energies;
     std::vector<double> look_at_start_vector;
 
 

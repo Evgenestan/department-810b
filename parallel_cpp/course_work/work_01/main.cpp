@@ -11,8 +11,10 @@
 #include <cstdlib>
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
+#include "tbb/task_scheduler_init.h"
+#include <tbb/spin_mutex.h>
 #include <random>
-
+#include <atomic>
 
 /*int main(int argc, char * argv[]){
 
@@ -194,18 +196,20 @@ int main(int argc, char * argv[]){
     //objOptimizer.test();
 
 
+    tbb::task_scheduler_init scheduler(4);
 
     ParamsArray a;
-    bool satisfy = false;
+    bool flag_satisfy = false;
+    tbb::spin_mutex mtx;
+    std::vector<double> write_to;
     tbb::parallel_for( tbb::blocked_range<int>(0,int(file_read["optimizer_params"]["epoch"]),1),
                        [&](const tbb::blocked_range<int> &r ){
                            for(int i = r.begin();i!=r.end();++i) {
-                               if(satisfy == true){
-
+                               if(flag_satisfy == true){
                                break;
                            }
                                std::cout << "Start Epoch: " << i << std::endl;
-                               bool flag = false;
+
                                Optimizer objOptimizer (
                                        file_read["initial_energy"]["E_c"],
                                        (file_read["initial_energy"]["B"]),
@@ -244,11 +248,17 @@ int main(int argc, char * argv[]){
                                        file_read["optimizer_params"]["l_b_multy"],
                                        file_read["optimizer_params"]["r_b_multy"]
                                );
-                               ParamsArray temp = objOptimizer.run(i,flag);
-                               if(flag == true){
-                                satisfy == true;
-                                a = temp;
+
+                               bool input = false;
+                               ParamsArray temp = objOptimizer.run(i,input);
+                               tbb::spin_mutex::scoped_lock lock(mtx);
+                               if(input==true && flag_satisfy!=true){
+                                   flag_satisfy = true;
+                                   a = temp;
+                                   write_to = objOptimizer.energies;
+                                   std::cout<<std::endl<<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
                                }
+
 
                            }
 
@@ -259,6 +269,28 @@ int main(int argc, char * argv[]){
     nlohmann::json file_write;
     //file_write["G"] = potential(Field);
     std::ofstream o(argv[2]);
+
+
+
+    file_write["final_energies"]["E_c"] = write_to[0];
+    file_write["final_energies"]["B"] = write_to[1];
+    file_write["final_energies"]["C_11"] = write_to[2];
+    file_write["final_energies"]["C_12"] = write_to[3];
+    file_write["final_energies"]["C_44"] = write_to[4];
+    file_write["final_energies"]["E_sol"] = write_to[5];
+    file_write["final_energies"]["E_AB"] = write_to[6];
+    file_write["final_energies"]["E_coh_A"] = write_to[7];
+    file_write["final_energies"]["E_A"] = write_to[8];
+    file_write["final_energies"]["E_coh_B"] = write_to[9];
+    file_write["final_energies"]["E_in_dim"] = write_to[10];
+    file_write["final_energies"]["E_surf_in"] = write_to[11];
+    file_write["final_energies"]["E_adatom+surf_in"] = write_to[12];
+    file_write["final_energies"]["E_dim_serf_in"] = write_to[13];
+    file_write["final_energies"]["E_on_dim"] = write_to[14];
+    file_write["final_energies"]["E_surf_on"] = write_to[15];
+    file_write["final_energies"]["E_adatom+surf_on"] = write_to[16];
+    file_write["final_energies"]["E_dim_serf_on"] = write_to[17];
+
     file_write["A-A"]["A0"] =a.arr[A][A].A0;
     file_write["A-A"]["A1"] = a.arr[A][A].A1;
     file_write["A-A"]["qsi"] = a.arr[A][A].qsi;
