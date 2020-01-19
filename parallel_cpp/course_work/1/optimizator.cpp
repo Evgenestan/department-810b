@@ -206,7 +206,9 @@ double Optimizer::optimizer_Huk_Jivs(ParamsArray  & init){
 
    //
    // std::cout<<"Energy found through computation = "<< this->energy_check<<std::endl;
-
+    if(count >=step){
+        std::cout<<std::endl<<"Algorithm has riched maximim steps"<<std::endl;
+    }
     //5 std::cout<<"Final step:  "<<vector_std_len(delta)<<std::endl;
     double rez;
     //std::vector<double> ret_val;
@@ -376,7 +378,7 @@ double distance(const vector& lv,const vector& rv, const double * array_multy, c
     double x_dif = abs(lv.x-rv.x);
     double y_dif = abs(lv.y - rv.y);
     double z_dif = abs(lv.z - rv.z);
-    if(x_dif>array_multy[0]/2){
+    if(x_dif>=array_multy[0]/2){
         x_r =  abs((x_dif)-array_multy[0]);
     }
     else{
@@ -384,14 +386,14 @@ double distance(const vector& lv,const vector& rv, const double * array_multy, c
     }
 
 
-    if(y_dif>array_multy[1]/2){
+    if(y_dif>=array_multy[1]/2){
         y_r =  abs((y_dif)-array_multy[1]);
     }
     else{
         y_r = y_dif;
     }
 
-    if(z_dif>array_multy[2]/2){
+    if(z_dif>=array_multy[2]/2){
         z_r =  abs((z_dif) - array_multy[2]) ;
     }
     else{
@@ -426,8 +428,10 @@ double E_b(
     for(auto i : field){
         if(elem == i)
             continue;
-            
         else{
+            /*if(i.type == elem.type){
+                std::cout<<"Debug"<<std::endl;
+            }*/
 
             atom1 = i.type;
             atom2 = elem.type;
@@ -597,7 +601,7 @@ double Optimizer::error_function(double & e_coh,
     double & e_in_dim,
     double & e_on_dim) {
 
-    return sqrt((
+    /*return sqrt((
         (B-this->B_i)*(B-this->B_i)/(this->B_i*this->B_i)+
         (C11-this->C11_i)*(C11-this->C11_i)/(this->C11_i*this->C11_i)+
         (C12-this->C12_i)*(C12-this->C12_i)/(this->C12_i*this->C12_i)+
@@ -605,7 +609,19 @@ double Optimizer::error_function(double & e_coh,
         (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i * this->e_coh_i)+
         (e_in_dim-this->e_in_dim)*(e_in_dim-this->e_in_dim)/(this->e_in_dim * this->e_in_dim)+
         (e_on_dim-this->e_on_dim)*(e_on_dim-this->e_on_dim)/(this->e_on_dim * this->e_on_dim)+
-        (e_sol-this->e_sol)*(e_sol-this->e_sol)/(this->e_sol * this->e_sol))/8);
+        (e_sol-this->e_sol)*(e_sol-this->e_sol)/(this->e_sol * this->e_sol))/8);*/
+
+
+    return sqrt((
+                        (B-this->B_i)*(B-this->B_i)/(this->B_i*this->B_i)+
+                        (C11-this->C11_i)*(C11-this->C11_i)/(this->C11_i*this->C11_i)+
+                        (C12-this->C12_i)*(C12-this->C12_i)/(this->C12_i*this->C12_i)+
+                        (C44-this->C44_i)*(C44-this->C44_i)/(this->C44_i*this->C44_i)+
+                        (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i * this->e_coh_i)
+                        +(e_sol-this->e_sol)*(e_sol-this->e_sol)/(this->e_sol * this->e_sol)
+                        +(e_on_dim-this->e_on_dim)*(e_on_dim-this->e_on_dim)/(this->e_on_dim * this->e_on_dim)
+                        )
+                        /7);
 
     //return sqrt((e_coh - this->e_coh_i) * (e_coh - this->e_coh_i) / (this->e_coh_i * this->e_coh_i));
 }
@@ -730,7 +746,25 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     this->Pool.pop_back();
 
     if(flag)
-        std::cout<<"----params :"<<"E_c: "<<e_c<<std::endl<<" B: "<<B<<std::endl<<" C_11: "<<C_11<<std::endl<<" C_12: "<<C_12<<std::endl<<" C_44: "<<C_44<<std::endl<<" E_sol: "<<e_sol<<" E_AB: "<<e_AB<<" E_coh_A:"<<e_c<<" E_AB: "<<e_c*this->Pool.size()<<" E_coh_B: "<<this->e_coh_B<<std::endl<<" E_in_dim: "<<e_in_dim<<" E_surf: "<<e_surf_in<<" E_adatom+surf: "<<e_adatom_in<<" E_dim_serv: "<<e_dim_surf_in <<std::endl<<" E_on_dim: "<<e_on_dim<<" E_surf: "<<e_surf_on<<" E_adatom: "<<e_adatom_on<<" E_dim_serf: "<<e_dim_surf_on<<std::endl;
+        std::cout<<"----params :"<<"E_c: "<<e_c
+        <<std::endl<<" B: "<<B
+        <<std::endl<<" C_11: "<<C_11
+        <<std::endl<<" C_12: "<<C_12
+        <<std::endl<<" C_44: "<<C_44
+        <<std::endl<<" E_sol: "<<e_sol
+        <<" E_AB: "<<e_AB<<
+        " E_coh_A:"<<e_c<<
+        " E_A: "<<e_c*this->Pool.size()
+        <<" E_coh_B: "<<this->e_coh_B
+        <<std::endl<<" E_in_dim: "<<e_in_dim
+        <<" E_surf: "<<e_surf_in
+        <<" E_adatom+surf: "<<e_adatom_in
+        <<" E_dim_serv: "<<e_dim_surf_in
+        <<std::endl<<" E_on_dim: "<<e_on_dim
+        <<" E_surf: "<<e_surf_on
+        <<" E_adatom: "<<e_adatom_on
+        <<" E_dim_serf: "<<e_dim_surf_on<<std::endl;
+
     auto result = this->error_function(e_c,B,C_11,C_12,C_44,e_sol,e_in_dim,e_on_dim);
 
     return result;

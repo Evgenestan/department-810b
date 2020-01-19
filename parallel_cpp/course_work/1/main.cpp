@@ -27,8 +27,7 @@
 
 
 int main(int argc, char * argv[]){
-    //read input json 
-    
+    //read input json
     if(argc < 3){
         throw std::logic_error("Error, need three params");
         }
@@ -194,9 +193,11 @@ int main(int argc, char * argv[]){
     
     //objOptimizer.test();
 
+
+
     ParamsArray a;
     bool satisfy = false;
-    tbb::parallel_for( tbb::blocked_range<int>(0,int(file_read["optimizer_params"]["epoch"]),4),
+    tbb::parallel_for( tbb::blocked_range<int>(0,int(file_read["optimizer_params"]["epoch"]),1),
                        [&](const tbb::blocked_range<int> &r ){
                            for(int i = r.begin();i!=r.end();++i) {
                                if(satisfy == true){

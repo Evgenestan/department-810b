@@ -34,10 +34,10 @@
     
   "initial_potential_features":{
   "A0":0.1028,
-  "A1":0.15,
+  "A1":0.05,
   "qsi":1.178,
   "p":10.928,
-  "q":3.139
+  "q": 3.139
   
   },
 
@@ -58,11 +58,11 @@
 
   "optimizer_params":{
     "step" : 1000,
-    "epoch": 30,
-    "residual":0.4,
+    "epoch": 1,
+    "residual":0.02,
     "epsilon": 1e-4,
     "delta": 0.1,
-    "l_b_multy": 0.5,
+    "l_b_multy": 0.1,
     "r_b_multy": 2.0
 },
 
