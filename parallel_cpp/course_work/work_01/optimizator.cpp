@@ -312,7 +312,32 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
 
 
 
-        init_set_rand = this->random_variation_search(i_epoch);
+    init_set_rand = this->random_variation_search(i_epoch);
+
+
+    /*init_set_rand.arr[B][B] = Params(
+            0.13930,
+            0.18135,
+            13.473,
+            2.3716,
+            1.2512
+    );
+    init_set_rand.arr[A][B] = Params(
+            0.19779,
+            -0.1130,
+            16.4157,
+            3.6679,
+            1.74646
+
+    );
+    init_set_rand.arr[A][A] = Params(
+            0.08835,
+            1.8465021169832516e-06,
+            16.77115,
+            3.04945,
+            1.49038
+    );*/
+
         init_set_rand.convert_to_vector();
 
         std::cout<<"Epoch: "<<i_epoch<<std::endl;
@@ -340,6 +365,8 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
 
 
         this->look_at_start_vector = init_set_rand.vec;
+
+       // calculate_energy_params(this->look_at_start_vector,true);
 
         loss_cur = this->optimizer_Huk_Jivs(init_set_rand);
         //loss_cur = optimizer_Huk_Jivs_beta(init_set_rand, this->lambda, this->residual, this->step, this->epsilon, this->delta);
@@ -394,15 +421,18 @@ ParamsArray Optimizer::run(int & i_epoch, bool & flag_check){
 
 double distance(const vector& lv,const vector& rv, const double * array_multy, const double * matrix, int size){
     double x_r, y_r,z_r;
-    double x_dif = abs(lv.x-rv.x);
-    double y_dif = abs(lv.y - rv.y);
-    double z_dif = abs(lv.z - rv.z);
+    double x_dif = (lv.x-rv.x);
+    double y_dif = (lv.y - rv.y);
+    double z_dif = (lv.z - rv.z);
     /*if(x_dif/4.085 == 2.5){
         auto p = x_dif/4.085;
         std::cout<<"dh"<<std::endl;
     }*/
     if(x_dif>=array_multy[0]/2){
-        x_r =  abs((x_dif)-array_multy[0]);
+        x_r =  ((x_dif)-array_multy[0]);
+    }
+    else if(x_dif<-array_multy[0]/2){
+        x_r = x_dif+array_multy[0];
     }
     else{
     x_r = x_dif;
@@ -410,14 +440,20 @@ double distance(const vector& lv,const vector& rv, const double * array_multy, c
 
 
     if(y_dif>=array_multy[1]/2){
-        y_r =  abs((y_dif)-array_multy[1]);
+        y_r =  ((y_dif)-array_multy[1]);
+    }
+    else if(y_dif<-array_multy[1]/2){
+        y_r = y_dif+array_multy[1];
     }
     else{
         y_r = y_dif;
     }
 
     if(z_dif>=array_multy[2]/2){
-        z_r =  abs((z_dif) - array_multy[2]) ;
+        z_r =  ((z_dif) - array_multy[2]) ;
+    }
+    else if(z_dif<-array_multy[2]/2){
+        z_r = z_dif+array_multy[2];
     }
     else{
         z_r = z_dif;
