@@ -647,9 +647,10 @@ double Optimizer::error_function(double & e_coh,
                         (C44-this->C44_i)*(C44-this->C44_i)/(this->C44_i*this->C44_i)+
                         (e_coh-this->e_coh_i)*(e_coh-this->e_coh_i)/(this->e_coh_i * this->e_coh_i)
                         +(e_sol-this->e_sol)*(e_sol-this->e_sol)/(this->e_sol * this->e_sol)
-                        //+(e_in_dim-this->e_in_dim)*(e_in_dim-this->e_in_dim)/(this->e_in_dim * this->e_in_dim)
+                        +(e_in_dim-this->e_in_dim)*(e_in_dim-this->e_in_dim)/(this->e_in_dim * this->e_in_dim)
+                        + (e_on_dim-this->e_on_dim)*(e_on_dim-this->e_on_dim)/(this->e_on_dim * this->e_on_dim)
                         )
-                        /6);
+                        /8);
 
     //return sqrt((e_coh - this->e_coh_i) * (e_coh - this->e_coh_i) / (this->e_coh_i * this->e_coh_i));
 }
@@ -746,7 +747,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     auto e_dim_surf_in = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
         
 
-    auto e_in_dim = (e_dim_surf_in*-e_surf_in)-2*(e_adatom_in - e_surf_in);
+    auto e_in_dim = (e_dim_surf_in-e_surf_in)-2*(e_adatom_in - e_surf_in);
 
 
     this->Pool[this->id_1].type = atom_kernel::A;
@@ -768,7 +769,7 @@ double Optimizer::calculate_energy_params(std::vector<double>  & vec_in, bool fl
     auto e_dim_surf_on = E_f(this->Pool, this->Min_len, array_mr, matrix_E_0, 3, temp_arr);
         
 
-    auto e_on_dim = (e_dim_surf_on*-e_surf_on)-2*(e_adatom_on - e_surf_on);
+    auto e_on_dim = (e_dim_surf_on-e_surf_on)-2*(e_adatom_on - e_surf_on);
 
     this->Pool.pop_back();
     this->Pool.pop_back();

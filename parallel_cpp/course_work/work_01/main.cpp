@@ -264,7 +264,10 @@ int main(int argc, char * argv[]){
 
     });
 
-
+    if(flag_satisfy == false){
+        std::cout<<"No solution found at all. Nothing to write to output"<<std::endl;
+        return 0;
+    }
     std::cout<<"End of evaluations"<<std::endl;
     nlohmann::json file_write;
     //file_write["G"] = potential(Field);
@@ -313,7 +316,7 @@ int main(int argc, char * argv[]){
     //}
 
 
-    o << file_write; 
+    o << file_write.dump(4);
     o.close();
 
     std::cout<<std::endl<<"evaluation finished"<<std::endl;
