@@ -195,8 +195,8 @@ int main(int argc, char * argv[]){
     
     //objOptimizer.test();
 
-
-    tbb::task_scheduler_init scheduler(4);
+    int threads = file_read["optimizer_params"]["cores"];
+    tbb::task_scheduler_init scheduler(threads);
 
     ParamsArray a;
     bool flag_satisfy = false;
@@ -271,6 +271,7 @@ int main(int argc, char * argv[]){
     std::ofstream o(argv[2]);
 
 
+    file_write["R_0"] = Min_len;
 
     file_write["final_energies"]["E_c"] = write_to[0];
     file_write["final_energies"]["B"] = write_to[1];
@@ -315,6 +316,8 @@ int main(int argc, char * argv[]){
     o << file_write; 
     o.close();
 
+    std::cout<<std::endl<<"evaluation finished"<<std::endl;
+    return 0;
 
 
 }
