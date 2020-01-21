@@ -11,9 +11,10 @@ if __name__ == '__main__':
 # путь до json
     path_to_json = '/home/aquafeet/work_01/output.json'
 #куда сохраняем
-    path_to_save_plot = '/home/aquafeet/enrgy_plot.png'
+    interaction = "B-B"
+    path_to_save_plot = '/home/aquafeet/work_01/images/enrgy_plot'+ interaction +'.png'
 # вид взаимодействия
-    interaction = "A-A"
+
 #н.у. для графика
     max_len = 20
     ones = 0.0005
@@ -48,11 +49,11 @@ if __name__ == '__main__':
     fig, ax = plt.subplots()
     ax.set_ylim(-10, 10)
     ax.plot(x, y)
-    ax.plot(x, (params["A1"]*(x-r0)+params["A0"])*np.exp(-params["p"]*(x/r0-1)))
-    ax.plot(x, -np.sqrt(params["qsi"]*params["qsi"]*np.exp(-2*params["q"]*(x/r0-1))))
+    #ax.plot(x, (params["A1"]*(x-r0)+params["A0"])*np.exp(-params["p"]*(x/r0-1)))
+    #ax.plot(x, -np.sqrt(params["qsi"]*params["qsi"]*np.exp(-2*params["q"]*(x/r0-1))))
     ax.set(xlabel = 'x', ylabel = 'Energy', title = "Energy "+interaction)
     ax.grid()
     plt.show()
-    #fig.savefig(path_to_save_plot)
+    fig.savefig(path_to_save_plot)
     #print(formula)
     print(data)
